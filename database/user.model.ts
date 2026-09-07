@@ -34,6 +34,12 @@ const userSchema = new Schema(
       default: "user",
     },
 
+    organizerRequestStatus: {
+      type: String,
+      enum: ["none", "pending", "approved", "rejected"],
+      default: "none",
+    },
+
     notificationPreferences: {
       type: [String],
       enum: [

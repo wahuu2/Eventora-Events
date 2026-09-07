@@ -138,6 +138,7 @@ export default async function HomePage() {
                 className="group inline-flex w-full items-center justify-center rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 sm:w-auto sm:px-7"
               >
                 Explore Events
+
                 <span className="ml-2 transition-transform duration-200 group-hover:translate-x-1">
                   →
                 </span>
@@ -213,7 +214,9 @@ export default async function HomePage() {
                   key={number}
                   className="rounded-xl border border-border bg-background p-4"
                 >
-                  <p className="text-xl font-bold sm:text-2xl">{number}</p>
+                  <p className="text-xl font-bold sm:text-2xl">
+                    {number}
+                  </p>
 
                   <p className="mt-1 text-xs text-foreground-muted">
                     {label}
@@ -266,71 +269,83 @@ export default async function HomePage() {
                 </p>
 
                 <h2 className="mt-4 max-w-2xl text-2xl font-bold leading-tight tracking-tight sm:text-3xl md:text-4xl">
-                  Build, manage, and understand your events.
+                  Turn your events into experiences people remember.
                 </h2>
 
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-foreground-secondary sm:text-base">
-                  Eventora gives organizers the tools to create events,
-                  manage bookings, monitor attendees, and track performance
-                  from one centralized dashboard.
+                  Want to host events on Eventora? Create your account,
+                  request organizer access, and wait for administrator
+                  approval. Once approved, you can create events, manage
+                  bookings, monitor attendees, and track performance from
+                  your organizer dashboard.
                 </p>
 
                 <Link
                   href="/sign-up"
-                  className="mt-7 inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-6 py-3.5 text-sm font-semibold transition-colors hover:bg-card sm:w-auto"
+                  className="mt-7 inline-flex w-full items-center justify-center rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-hover sm:w-auto"
                 >
-                  Become an Organizer
+                  Create an Account
                   <span className="ml-2">→</span>
                 </Link>
+
+                <p className="mt-3 text-xs text-foreground-muted">
+                  Organizer access requires administrator approval.
+                </p>
               </div>
 
               <div className="border-t border-border p-6 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
                 <div className="grid gap-3">
                   <div className="rounded-xl border border-border bg-background p-5">
                     <p className="text-xs text-foreground-muted">
-                      EVENT MANAGEMENT
+                      STEP 01
                     </p>
 
                     <p className="mt-2 text-lg font-semibold">
-                      Create & manage
-                    </p>
-
-                    <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-card">
-                      <div className="h-full w-3/4 rounded-full bg-accent" />
-                    </div>
-                  </div>
-
-                  <div className="rounded-xl border border-border bg-background p-5">
-                    <p className="text-xs text-foreground-muted">BOOKINGS</p>
-
-                    <p className="mt-2 text-lg font-semibold">
-                      Monitor attendees
+                      Create your account
                     </p>
 
                     <div className="mt-4 flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-accent" />
 
                       <span className="text-xs text-foreground-muted">
-                        Real-time visibility
+                        Join Eventora
                       </span>
                     </div>
                   </div>
 
                   <div className="rounded-xl border border-border bg-background p-5">
                     <p className="text-xs text-foreground-muted">
-                      ANALYTICS
+                      STEP 02
                     </p>
 
                     <p className="mt-2 text-lg font-semibold">
-                      Track performance
+                      Request organizer access
                     </p>
 
-                    <div className="mt-4 flex items-end gap-1">
-                      <span className="h-4 w-1.5 rounded-sm bg-accent/40" />
-                      <span className="h-7 w-1.5 rounded-sm bg-accent/60" />
-                      <span className="h-5 w-1.5 rounded-sm bg-accent/50" />
-                      <span className="h-10 w-1.5 rounded-sm bg-accent" />
-                      <span className="h-8 w-1.5 rounded-sm bg-accent/70" />
+                    <div className="mt-4 flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-accent" />
+
+                      <span className="text-xs text-foreground-muted">
+                        Submit your request
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl border border-border bg-background p-5">
+                    <p className="text-xs text-foreground-muted">
+                      STEP 03
+                    </p>
+
+                    <p className="mt-2 text-lg font-semibold">
+                      Get approved & start creating
+                    </p>
+
+                    <div className="mt-4 flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-accent" />
+
+                      <span className="text-xs text-foreground-muted">
+                        Organizer dashboard access
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -360,8 +375,8 @@ export default async function HomePage() {
                 </h2>
 
                 <p className="mt-4 text-sm leading-7 text-foreground-secondary sm:text-base">
-                  Discover upcoming events, reserve your place, and keep your
-                  digital tickets in one convenient place.
+                  Discover upcoming events, reserve your place, and keep
+                  your digital tickets in one convenient place.
                 </p>
               </div>
 
@@ -370,6 +385,7 @@ export default async function HomePage() {
                 className="inline-flex w-full shrink-0 items-center justify-center rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 sm:w-auto sm:px-7"
               >
                 Browse Events
+
                 <span className="ml-2">→</span>
               </Link>
             </div>

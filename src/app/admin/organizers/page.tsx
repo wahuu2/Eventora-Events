@@ -1,7 +1,7 @@
-import Link from "next/link";
-
 import { requireAdmin } from "@/lib/auth";
 import User from "@/database/user.model";
+
+import OrganizerRequestActions from "./OrganizerRequestActions";
 
 export default async function AdminOrganizersPage() {
   const result = await requireAdmin();
@@ -17,7 +17,16 @@ export default async function AdminOrganizersPage() {
     .sort({ createdAt: -1 })
     .lean();
 
+  const pendingRequests = await User.find({
+    role: "user",
+    organizerRequestStatus: "pending",
+  })
+    .select("-__v")
+    .sort({ createdAt: -1 })
+    .lean();
+
   const totalOrganizers = organizers.length;
+  const totalPendingRequests = pendingRequests.length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -28,9 +37,7 @@ export default async function AdminOrganizersPage() {
       <section className="border-b border-border">
         <div className="container-responsive py-8 sm:py-10">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            {/* Heading */}
             <div className="min-w-0">
-              
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-accent">
                 Platform Management
               </p>
@@ -40,20 +47,31 @@ export default async function AdminOrganizersPage() {
               </h1>
 
               <p className="mt-2 max-w-2xl text-sm leading-6 text-foreground-secondary">
-                Manage the people and organizations responsible
-                for creating events on Eventora.
+                Manage organizer applications and the people
+                responsible for creating events on Eventora.
               </p>
             </div>
 
-            {/* Total Organizers */}
-            <div className="w-full rounded-2xl border border-border bg-card px-5 py-4 sm:w-fit">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
-                Total Organizers
-              </p>
+            <div className="grid w-full grid-cols-2 gap-3 sm:w-fit">
+              <div className="rounded-2xl border border-border bg-card px-5 py-4">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                  Organizers
+                </p>
 
-              <p className="mt-1 text-2xl font-black">
-                {totalOrganizers}
-              </p>
+                <p className="mt-1 text-2xl font-black">
+                  {totalOrganizers}
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-accent/30 bg-accent/10 px-5 py-4">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                  Pending
+                </p>
+
+                <p className="mt-1 text-2xl font-black">
+                  {totalPendingRequests}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -73,26 +91,163 @@ export default async function AdminOrganizersPage() {
           />
 
           <SummaryCard
-            label="Platform Role"
-            value="Organizer"
-            description="Authorized to create events"
+            label="Pending Requests"
+            value={totalPendingRequests}
+            description="Applications awaiting review"
           />
 
           <SummaryCard
-            label="Management"
-            value="Active"
-            description="Organizer monitoring enabled"
+            label="Platform Role"
+            value="Organizer"
+            description="Authorized to create events"
           />
         </div>
       </section>
 
       {/* ===================================================== */}
-      {/* ORGANIZERS */}
+      {/* PENDING REQUESTS */}
+      {/* ===================================================== */}
+
+      <section className="container-responsive pb-6">
+        <div className="overflow-hidden rounded-2xl border border-border bg-card">
+          <div className="flex flex-col gap-3 border-b border-border px-4 py-5 sm:px-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <h2 className="text-base font-bold">
+                Organizer Requests
+              </h2>
+
+              <p className="mt-1 text-xs text-foreground-muted">
+                Review users requesting permission to create events.
+              </p>
+            </div>
+
+            <span className="w-fit rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground-secondary">
+              {totalPendingRequests} pending
+            </span>
+          </div>
+
+          {pendingRequests.length === 0 ? (
+            <div className="px-5 py-12 text-center sm:px-6">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-background text-lg text-foreground-muted">
+                ✓
+              </div>
+
+              <h3 className="mt-4 text-sm font-bold">
+                No pending requests
+              </h3>
+
+              <p className="mx-auto mt-1 max-w-md text-xs leading-5 text-foreground-muted">
+                There are currently no users waiting for organizer
+                approval.
+              </p>
+            </div>
+          ) : (
+            <div className="table-wrapper">
+              <table className="w-full min-w-[900px]">
+                <thead>
+                  <tr className="border-b border-border bg-background-secondary text-left">
+                    <th className="px-5 py-4 text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                      Applicant
+                    </th>
+
+                    <th className="px-5 py-4 text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                      Email
+                    </th>
+
+                    <th className="px-5 py-4 text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                      Request Status
+                    </th>
+
+                    <th className="px-5 py-4 text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                      Joined
+                    </th>
+
+                    <th className="px-5 py-4 text-right text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {pendingRequests.map((user) => {
+                    const fullName =
+                      `${user.firstName || ""} ${
+                        user.lastName || ""
+                      }`.trim() || "Unnamed User";
+
+                    return (
+                      <tr
+                        key={user._id.toString()}
+                        className="border-b border-border last:border-0 transition hover:bg-background-secondary/60"
+                      >
+                        {/* APPLICANT */}
+                        <td className="px-5 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-sm font-black text-accent">
+                              {getInitials(
+                                user.firstName,
+                                user.lastName
+                              )}
+                            </div>
+
+                            <div className="min-w-0">
+                              <p className="max-w-[220px] truncate text-sm font-bold">
+                                {fullName}
+                              </p>
+
+                              <p className="mt-0.5 text-[10px] text-foreground-muted">
+                                ID:{" "}
+                                {user._id
+                                  .toString()
+                                  .slice(-8)}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* EMAIL */}
+                        <td className="px-5 py-4">
+                          <span className="block max-w-[260px] truncate text-sm text-foreground-secondary">
+                            {user.email || "No email"}
+                          </span>
+                        </td>
+
+                        {/* STATUS */}
+                        <td className="px-5 py-4">
+                          <span className="inline-flex whitespace-nowrap rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-accent">
+                            Pending Review
+                          </span>
+                        </td>
+
+                        {/* DATE */}
+                        <td className="px-5 py-4">
+                          <span className="whitespace-nowrap text-xs text-foreground-secondary">
+                            {formatDate(user.createdAt)}
+                          </span>
+                        </td>
+
+                        {/* ACTIONS */}
+                        <td className="px-5 py-4">
+                          <OrganizerRequestActions
+                            userId={user._id.toString()}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ===================================================== */}
+      {/* EXISTING ORGANIZERS */}
       {/* ===================================================== */}
 
       <section className="container-responsive pb-10">
         <div className="overflow-hidden rounded-2xl border border-border bg-card">
-          {/* Table Header */}
           <div className="flex flex-col gap-3 border-b border-border px-4 py-5 sm:px-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
               <h2 className="text-base font-bold">
@@ -109,7 +264,6 @@ export default async function AdminOrganizersPage() {
             </span>
           </div>
 
-          {/* Empty State */}
           {organizers.length === 0 ? (
             <div className="px-5 py-16 text-center sm:px-6">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-background text-lg text-foreground-muted">
@@ -126,10 +280,6 @@ export default async function AdminOrganizersPage() {
               </p>
             </div>
           ) : (
-            /*
-             * The table remains readable on small screens.
-             * Only the table area scrolls horizontally.
-             */
             <div className="table-wrapper">
               <table className="w-full min-w-[780px]">
                 <thead>
@@ -168,7 +318,6 @@ export default async function AdminOrganizersPage() {
                         key={organizer._id.toString()}
                         className="border-b border-border last:border-0 transition hover:bg-background-secondary/60"
                       >
-                        {/* ORGANIZER */}
                         <td className="px-5 py-4">
                           <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-sm font-black text-accent">
@@ -193,28 +342,24 @@ export default async function AdminOrganizersPage() {
                           </div>
                         </td>
 
-                        {/* EMAIL */}
                         <td className="px-5 py-4">
                           <span className="block max-w-[260px] truncate text-sm text-foreground-secondary">
                             {organizer.email || "No email"}
                           </span>
                         </td>
 
-                        {/* ROLE */}
                         <td className="px-5 py-4">
                           <span className="inline-flex whitespace-nowrap rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-accent">
                             Organizer
                           </span>
                         </td>
 
-                        {/* DATE */}
                         <td className="px-5 py-4">
                           <span className="whitespace-nowrap text-xs text-foreground-secondary">
                             {formatDate(organizer.createdAt)}
                           </span>
                         </td>
 
-                        {/* ACCESS */}
                         <td className="px-5 py-4 text-right">
                           <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-foreground-secondary">
                             <span className="h-1.5 w-1.5 rounded-full bg-accent" />

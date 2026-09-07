@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import AdminTopBar from "./AdminTopBar";
 
 import { requireAdmin } from "@/lib/auth";
 
@@ -232,32 +233,23 @@ export default async function AdminLayout({
               </div>
 
               {/* Right Side */}
-              <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
-                {/* Admin Status */}
-                <div className="hidden items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 sm:flex">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+<div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+  {/* Admin Status */}
+  <div className="hidden items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 sm:flex">
+    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
 
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-secondary">
-                    Admin Mode
-                  </span>
-                </div>
+    <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-secondary">
+      Admin Mode
+    </span>
+  </div>
 
-                {/* User Dashboard */}
-                <Link
-                  href="/dashboard"
-                  className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold transition hover:border-border-hover hover:bg-background-secondary sm:px-4 sm:text-sm"
-                >
-                  <span className="sm:hidden">
-                    Dashboard
-                  </span>
 
-                  <span className="hidden sm:inline">
-                    User Dashboard
-                  </span>
-                </Link>
-              </div>
+  {/* Notifications + User */}
+  <AdminTopBar />
+</div>
             </div>
           </div>
+          
         </header>
 
         {/* ================================================= */}

@@ -8,6 +8,11 @@ type User = {
   firstName?: string;
   lastName?: string;
   role?: "user" | "organizer" | "admin";
+  organizerRequestStatus?:
+    | "none"
+    | "pending"
+    | "approved"
+    | "rejected";
 };
 
 type Stats = {
@@ -154,11 +159,14 @@ export default function DashboardPage() {
   }
 
   const isOrganizer = user?.role === "organizer";
+
+  const organizerRequestStatus =
+    user?.organizerRequestStatus || "none";
+
   const firstName = user?.firstName || "there";
 
   return (
     <div className="w-full">
-
       {/* =========================================================
           HERO / HEADER
       ========================================================= */}
@@ -226,7 +234,6 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-
           {/* Total */}
           <div className="group rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:border-border-hover hover:bg-card-hover">
             <div className="flex items-start justify-between gap-4">
@@ -346,9 +353,7 @@ export default function DashboardPage() {
               className="inline-flex w-fit items-center rounded-lg px-2 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent/10 hover:text-accent-hover"
             >
               View all
-              <span className="ml-1.5">
-                →
-              </span>
+              <span className="ml-1.5">→</span>
             </Link>
           )}
         </div>
@@ -406,7 +411,6 @@ export default function DashboardPage() {
                   className="group block transition-colors hover:bg-background-secondary"
                 >
                   <div className="flex flex-col gap-4 p-4 sm:p-5 md:flex-row md:items-center">
-
                     {/* Event image */}
                     <div className="flex shrink-0 items-center gap-3">
                       {booking.event?.image ? (
@@ -500,7 +504,6 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-
           {/* Explore */}
           <Link
             href="/events"
@@ -560,6 +563,78 @@ export default function DashboardPage() {
           </Link>
         </div>
       </section>
+
+      {/* =========================================================
+          BECOME AN ORGANIZER
+      ========================================================= */}
+      {!isOrganizer && (
+        <section className="mt-10 overflow-hidden rounded-2xl border border-accent/20 bg-accent/[0.035]">
+          <div className="relative p-6 sm:p-7 lg:p-8">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-accent/10 blur-3xl" />
+
+            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="min-w-0">
+                <span className="inline-flex rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
+                  Organizer access
+                </span>
+
+                {organizerRequestStatus === "pending" ? (
+                  <>
+                    <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
+                      Your request is under review
+                    </h2>
+
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-foreground-muted">
+                      Your request to become an Eventora organizer
+                      has been submitted. An administrator will review
+                      your request before organizer access is granted.
+                    </p>
+                  </>
+                ) : organizerRequestStatus === "rejected" ? (
+                  <>
+                    <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
+                      Organizer access
+                    </h2>
+
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-foreground-muted">
+                      Your previous organizer request was not approved.
+                      You can submit another request if you would like
+                      to apply again.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
+                      Want to create your own events?
+                    </h2>
+
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-foreground-muted">
+                      Become an Eventora organizer and create, manage,
+                      and monitor your own events. Organizer access
+                      requires administrator approval.
+                    </p>
+                  </>
+                )}
+              </div>
+
+              {organizerRequestStatus === "pending" ? (
+                <div className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl border border-yellow-500/20 bg-yellow-500/10 px-5 text-sm font-semibold text-yellow-400">
+                  Request Pending
+                </div>
+              ) : (
+                <Link
+                  href="/dashboard/organizer-request"
+                  className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl bg-accent px-5 text-center text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20"
+                >
+                  {organizerRequestStatus === "rejected"
+                    ? "Request Again"
+                    : "Become an Organizer"}
+                </Link>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* =========================================================
           ORGANIZER WORKSPACE
