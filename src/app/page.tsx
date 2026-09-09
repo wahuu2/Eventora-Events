@@ -175,7 +175,6 @@ export default async function HomePage() {
               </div>
 
               <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-foreground-muted">
-                <span>✓ M-Pesa payments</span>
                 <span>✓ Digital tickets</span>
                 <span>✓ Secure booking</span>
                 <span>✓ Kenyan events</span>

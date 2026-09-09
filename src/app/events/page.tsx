@@ -19,43 +19,77 @@ type Event = {
 };
 
 const categories = [
+  "Music",
+  "Sports",
+  "Technology",
+  "Business",
+  "Education",
+  "Entertainment",
+  "Food & Drink",
+  "Arts & Culture",
+  "Networking",
+  "Christian Events",
+];
+
+const categoryDetails: Record<
+  string,
   {
+    number: string;
+    description: string;
+    icon: string;
+  }
+> = {
+  Music: {
     number: "01",
-    title: "Music",
     description: "Concerts, live shows & festivals",
     icon: "♫",
   },
-  {
+  Sports: {
     number: "02",
-    title: "Sports",
     description: "Matches, tournaments & fitness",
     icon: "⚽",
   },
-  {
+  Technology: {
     number: "03",
-    title: "Technology",
     description: "Tech, innovation & digital events",
     icon: "⌘",
   },
-  {
+  Business: {
     number: "04",
-    title: "Business",
     description: "Networking, conferences & business",
     icon: "▣",
   },
-  {
+  Education: {
     number: "05",
-    title: "Education",
     description: "Workshops, training & learning",
     icon: "▤",
   },
-  {
+  Entertainment: {
     number: "06",
-    title: "Entertainment",
     description: "Comedy, lifestyle & experiences",
     icon: "✦",
   },
-];
+  "Food & Drink": {
+    number: "07",
+    description: "Food experiences, dining & tastings",
+    icon: "♨",
+  },
+  "Arts & Culture": {
+    number: "08",
+    description: "Art, culture, exhibitions & heritage",
+    icon: "◈",
+  },
+  Networking: {
+    number: "09",
+    description: "Meetups, communities & connections",
+    icon: "◎",
+  },
+  "Christian Events": {
+    number: "10",
+    description: "Worship, conferences & faith events",
+    icon: "✝",
+  },
+};
 
 const locations = ["All", "Juja", "Nairobi", "Thika", "Kiambu"];
 
@@ -85,6 +119,21 @@ export default function EventsPage() {
   const [fetchError, setFetchError] = useState("");
 
   const [search, setSearch] = useState("");
+
+  const [category, setCategory] = useState(() => {
+    if (typeof window === "undefined") {
+      return "All";
+    }
+
+    const urlCategory = new URLSearchParams(window.location.search).get(
+      "category"
+    );
+
+    return urlCategory && categories.includes(urlCategory)
+      ? urlCategory
+      : "All";
+  });
+
   const [location, setLocation] = useState("All");
   const [dateFilter, setDateFilter] = useState("All");
   const [priceFilter, setPriceFilter] = useState("All");
@@ -104,6 +153,10 @@ export default function EventsPage() {
 
         if (search.trim()) {
           params.set("search", search.trim());
+        }
+
+        if (category !== "All") {
+          params.set("category", category);
         }
 
         if (location !== "All") {
@@ -167,10 +220,18 @@ export default function EventsPage() {
     return () => {
       controller.abort();
     };
-  }, [search, location, dateFilter, priceFilter, sort]);
+  }, [
+    search,
+    category,
+    location,
+    dateFilter,
+    priceFilter,
+    sort,
+  ]);
 
   const hasActiveFilters =
     search.trim() !== "" ||
+    category !== "All" ||
     location !== "All" ||
     dateFilter !== "All" ||
     priceFilter !== "All" ||
@@ -181,10 +242,27 @@ export default function EventsPage() {
 
   function clearFilters() {
     setSearch("");
+    setCategory("All");
     setLocation("All");
     setDateFilter("All");
     setPriceFilter("All");
     setSort("soonest");
+  }
+
+  function selectCategory(selectedCategory: string) {
+    setCategory(selectedCategory);
+
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+
+      if (selectedCategory === "All") {
+        url.searchParams.delete("category");
+      } else {
+        url.searchParams.set("category", selectedCategory);
+      }
+
+      window.history.replaceState({}, "", url.toString());
+    }
   }
 
   function retryEvents() {
@@ -221,55 +299,139 @@ export default function EventsPage() {
         <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-accent/10 blur-3xl sm:h-96 sm:w-96" />
 
         <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* DISCOVER + CATEGORIES */}
+          {/* =====================================================
+              DISCOVER + CATEGORIES
+          ====================================================== */}
 
           <div className="border-b border-border py-12 sm:py-16 lg:py-20">
-            <div className="max-w-4xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background-secondary px-3.5 py-2 text-xs font-semibold text-foreground-secondary">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Discover events across Kenya
-              </div>
+            <div>
+              <div className="flex flex-col gap-4 border-b border-border pb-8 sm:flex-row sm:items-end sm:justify-between">
+                <div className="max-w-3xl">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background-secondary px-3.5 py-2 text-xs font-semibold text-foreground-secondary">
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                    Discover events across Kenya
+                  </div>
 
-              <div className="mt-8">
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
-                  Explore by category
-                </p>
-
-                <h1 className="mt-3 text-3xl font-black tracking-tight text-foreground sm:text-4xl">
-                  Find something worth experiencing.
-                </h1>
-
-                <p className="mt-3 max-w-xl text-sm leading-6 text-foreground-secondary sm:text-base">
-                  Explore different types of events and discover what is
-                  happening around Kenya.
-                </p>
-              </div>
-
-              <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
-                {categories.map((category) => (
-                  <Link
-                    key={category.number}
-                    href="/events"
-                    className="group rounded-2xl border border-border bg-card/70 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-card-hover"
-                  >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-lg text-accent transition-transform duration-300 group-hover:scale-105">
-                      {category.icon}
-                    </div>
-
-                    <p className="mt-5 text-sm font-bold text-foreground">
-                      {category.title}
+                  <div className="mt-7">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+                      Explore by category
                     </p>
 
-                    <p className="mt-1.5 text-[11px] leading-5 text-foreground-muted">
-                      {category.description}
+                    <h1 className="mt-2 text-3xl font-black leading-tight tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
+                      Find something worth experiencing.
+                    </h1>
+
+                    <p className="mt-4 max-w-xl text-sm leading-7 text-foreground-secondary sm:text-base">
+                      From live music and sports to technology, business,
+                      culture, and entertainment, discover experiences
+                      happening around Kenya.
                     </p>
-                  </Link>
-                ))}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => selectCategory("All")}
+                  className={`inline-flex w-fit shrink-0 items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-bold transition-all duration-200 ${
+                    category === "All"
+                      ? "border-accent/30 bg-accent/10 text-accent"
+                      : "border-border bg-card text-foreground-secondary hover:border-border-hover hover:bg-card-hover hover:text-foreground"
+                  }`}
+                >
+                  View all events
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+
+              {/* CATEGORY CARDS */}
+
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                {categories.map((categoryName) => {
+                  const details = categoryDetails[categoryName];
+                  const active = category === categoryName;
+
+                  return (
+                    <button
+                      key={categoryName}
+                      type="button"
+                      onClick={() => selectCategory(categoryName)}
+                      aria-pressed={active}
+                      className={`group relative flex min-h-[155px] min-w-0 flex-col overflow-hidden rounded-2xl border p-5 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 sm:min-h-[165px] ${
+                        active
+                          ? "border-accent/50 bg-accent/10 shadow-lg shadow-accent/5"
+                          : "border-border bg-card/70 hover:border-accent/40 hover:bg-card-hover"
+                      }`}
+                    >
+                      {/* NUMBER */}
+
+                      <span
+                        className={`absolute right-4 top-4 text-[10px] font-bold tracking-[0.16em] transition-colors duration-200 ${
+                          active
+                            ? "text-accent"
+                            : "text-foreground-muted group-hover:text-accent"
+                        }`}
+                      >
+                        {details.number}
+                      </span>
+
+                      {/* ICON */}
+
+                      <div
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-lg transition-all duration-300 group-hover:scale-105 ${
+                          active
+                            ? "border-accent/40 bg-accent/15 text-accent"
+                            : "border-accent/20 bg-accent/10 text-accent"
+                        }`}
+                      >
+                        {details.icon}
+                      </div>
+
+                      {/* CATEGORY NAME */}
+
+                      <p
+                        className={`mt-5 text-sm font-bold transition-colors duration-200 ${
+                          active
+                            ? "text-accent"
+                            : "text-foreground group-hover:text-accent"
+                        }`}
+                      >
+                        {categoryName}
+                      </p>
+
+                      {/* DESCRIPTION */}
+
+                      <p className="mt-1.5 line-clamp-2 text-[11px] leading-5 text-foreground-muted">
+                        {details.description}
+                      </p>
+
+                      {/* ACTIVE / EXPLORE */}
+
+                      <div
+                        className={`mt-auto flex items-center gap-1 pt-4 text-[10px] font-bold transition-colors duration-200 ${
+                          active
+                            ? "text-accent"
+                            : "text-foreground-secondary group-hover:text-accent"
+                        }`}
+                      >
+                        {active ? "Selected" : "Explore"}
+
+                        <span
+                          aria-hidden="true"
+                          className="transition-transform duration-200 group-hover:translate-x-1"
+                        >
+                          →
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          {/* SEARCH + FILTERS */}
+          {/* =====================================================
+              SEARCH + FILTERS
+          ====================================================== */}
 
           <div className="border-b border-border py-6 sm:py-8">
             <div className="rounded-2xl border border-border bg-background-secondary p-4 shadow-sm sm:p-5 lg:p-6">
@@ -432,6 +594,13 @@ export default function EventsPage() {
                       />
                     )}
 
+                    {category !== "All" && (
+                      <FilterTag
+                        label={category}
+                        onRemove={() => selectCategory("All")}
+                      />
+                    )}
+
                     {location !== "All" && (
                       <FilterTag
                         label={location}
@@ -500,12 +669,15 @@ export default function EventsPage() {
               </p>
 
               <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-                Upcoming Events
+                {category !== "All"
+                  ? `${category} Events`
+                  : "Upcoming Events"}
               </h2>
 
               <p className="mt-2 max-w-xl text-sm leading-6 text-foreground-muted">
-                Explore experiences happening soon and find
-                something worth attending.
+                {category !== "All"
+                  ? `Explore upcoming ${category.toLowerCase()} events and find something worth attending.`
+                  : "Explore experiences happening soon and find something worth attending."}
               </p>
             </div>
 
@@ -538,17 +710,22 @@ export default function EventsPage() {
 
                   <div className="space-y-4 p-5 sm:p-6">
                     <div className="h-3 w-20 animate-pulse rounded bg-border" />
+
                     <div className="h-5 w-4/5 animate-pulse rounded bg-border" />
+
                     <div className="h-3 w-full animate-pulse rounded bg-border" />
+
                     <div className="h-3 w-2/3 animate-pulse rounded bg-border" />
 
                     <div className="border-t border-border pt-4">
                       <div className="h-3 w-1/2 animate-pulse rounded bg-border" />
+
                       <div className="mt-3 h-3 w-2/5 animate-pulse rounded bg-border" />
                     </div>
 
                     <div className="flex items-center justify-between pt-2">
                       <div className="h-5 w-20 animate-pulse rounded bg-border" />
+
                       <div className="h-4 w-24 animate-pulse rounded bg-border" />
                     </div>
                   </div>
@@ -596,9 +773,9 @@ export default function EventsPage() {
               </h3>
 
               <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-foreground-secondary">
-                We couldn't find any events matching your
-                current search and filters. Try changing your
-                criteria or clearing the filters.
+                We couldn't find any events matching your current
+                search and filters. Try changing your criteria or
+                clearing the filters.
               </p>
 
               {hasActiveFilters && (
@@ -644,9 +821,11 @@ function EventCard({ event }: { event: Event }) {
       day: date.toLocaleDateString("en-KE", {
         day: "2-digit",
       }),
+
       month: date.toLocaleDateString("en-KE", {
         month: "short",
       }),
+
       full: date.toLocaleDateString("en-KE", {
         day: "numeric",
         month: "short",
