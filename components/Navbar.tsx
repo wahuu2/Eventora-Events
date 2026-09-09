@@ -3,7 +3,6 @@ import { UserButton } from "@clerk/nextjs";
 import {
   Bars3Icon,
   CalendarDaysIcon,
-  ChevronDownIcon,
   HomeIcon,
   PlusCircleIcon,
 } from "@heroicons/react/24/outline";
@@ -45,27 +44,11 @@ export default function Navbar() {
         {/* DESKTOP NAVIGATION */}
         <div className="hidden items-center gap-1 md:flex">
           <Link
-            href="/"
-            className="inline-flex items-center gap-2 rounded-lg px-3.5 py-2.5 text-sm font-medium text-foreground-secondary transition-all duration-200 hover:bg-card-hover hover:text-foreground"
-          >
-            <HomeIcon className="h-4 w-4" />
-            Home
-          </Link>
-
-          <Link
             href="/events"
             className="inline-flex items-center gap-2 rounded-lg px-3.5 py-2.5 text-sm font-medium text-foreground-secondary transition-all duration-200 hover:bg-card-hover hover:text-foreground"
           >
             <CalendarDaysIcon className="h-4 w-4" />
             Explore Events
-          </Link>
-
-          <Link
-            href="/events"
-            className="inline-flex items-center gap-1 rounded-lg px-3.5 py-2.5 text-sm font-medium text-foreground-secondary transition-all duration-200 hover:bg-card-hover hover:text-foreground"
-          >
-            Categories
-            <ChevronDownIcon className="h-3.5 w-3.5" />
           </Link>
 
           <Link
@@ -79,25 +62,12 @@ export default function Navbar() {
 
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-2">
-          <Link
-            href="/dashboard"
-            className="hidden rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground-secondary transition-all duration-200 hover:border-border-hover hover:bg-card-hover hover:text-foreground lg:inline-flex"
-          >
-            Dashboard
-          </Link>
-
+          
           <Link
             href="/sign-in"
             className="hidden px-3 py-2.5 text-sm font-semibold text-foreground-secondary transition-colors hover:text-foreground sm:inline-flex"
           >
             Sign In
-          </Link>
-
-          <Link
-            href="/sign-up"
-            className="hidden min-h-10 items-center justify-center rounded-lg bg-accent px-5 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/30 sm:inline-flex"
-          >
-            Get Started
           </Link>
 
           {/* THEME TOGGLE */}

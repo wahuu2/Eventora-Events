@@ -2,21 +2,14 @@ import Link from "next/link";
 
 const categories = [
   "Nightlife & Parties",
-  "Fashion & Pageants",
-  "Education",
   "Concerts & Live Music",
-  "Comedy",
   "Arts & Crafts",
-  "Community",
-  "Charity",
   "Family",
-  "Sports & Gaming",
   "Food & Drink",
   "Networking & Conferences",
   "Religion & Spirituality",
   "Film, Theatre & Performing Arts",
   "Travel & Outdoors",
-  "Health & Wellness",
 ];
 
 export default function Footer() {
@@ -72,18 +65,18 @@ export default function Footer() {
               </a>
 
               <a
-                href="tel:+254741492515"
+                href="tel:+254712345678"
                 className="flex items-center gap-3 text-foreground-secondary transition-colors hover:text-accent"
               >
                 <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-xs">
                   ☎
                 </span>
 
-                +254 741 492 515
+                +254 712345678
               </a>
 
               <a
-                href="https://wa.me/254741492515"
+                href="https://wa.me/2547406696404"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-foreground-secondary transition-colors hover:text-accent"
@@ -106,49 +99,6 @@ export default function Footer() {
                   Serving events across Kenya
                 </span>
               </div>
-            </div>
-
-            {/* Socials */}
-            <div className="mt-7 flex items-center gap-2">
-              <a
-                href="#"
-                aria-label="Eventora Instagram"
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-xs font-bold text-foreground-secondary transition-all hover:border-accent/40 hover:bg-accent-soft hover:text-accent"
-              >
-                IG
-              </a>
-
-              <a
-                href="#"
-                aria-label="Eventora X"
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-xs font-bold text-foreground-secondary transition-all hover:border-accent/40 hover:bg-accent-soft hover:text-accent"
-              >
-                X
-              </a>
-
-              <a
-                href="#"
-                aria-label="Eventora Facebook"
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-xs font-bold text-foreground-secondary transition-all hover:border-accent/40 hover:bg-accent-soft hover:text-accent"
-              >
-                f
-              </a>
-
-              <a
-                href="#"
-                aria-label="Eventora TikTok"
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-xs font-bold text-foreground-secondary transition-all hover:border-accent/40 hover:bg-accent-soft hover:text-accent"
-              >
-                TT
-              </a>
-
-              <a
-                href="#"
-                aria-label="Eventora YouTube"
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-xs font-bold text-foreground-secondary transition-all hover:border-accent/40 hover:bg-accent-soft hover:text-accent"
-              >
-                YT
-              </a>
             </div>
           </div>
 
@@ -191,7 +141,6 @@ export default function Footer() {
               <div className="mt-4 space-y-3 text-sm">
                 <p className="text-foreground-secondary">Event discovery</p>
                 <p className="text-foreground-secondary">Online booking</p>
-                <p className="text-foreground-secondary">M-Pesa payments</p>
                 <p className="text-foreground-secondary">Digital tickets</p>
                 <p className="text-foreground-secondary">Organizer tools</p>
               </div>
