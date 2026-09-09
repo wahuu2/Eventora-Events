@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNotifications } from "../../hooks/useNotifications";
 import Footer from "@/components/Footer";
+import ThemeToggle from "@/components/ThemeToggle";
 
 type Notification = {
   id: string;
@@ -126,11 +127,16 @@ export default function DashboardLayout({
     const notificationDate = new Date(date);
     const now = new Date();
 
-    const difference = now.getTime() - notificationDate.getTime();
+    const difference =
+      now.getTime() - notificationDate.getTime();
 
     const minutes = Math.floor(difference / (1000 * 60));
-    const hours = Math.floor(difference / (1000 * 60 * 60));
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      difference / (1000 * 60 * 60)
+    );
+    const days = Math.floor(
+      difference / (1000 * 60 * 60 * 24)
+    );
 
     if (minutes < 1) {
       return "Just now";
@@ -160,29 +166,37 @@ export default function DashboardLayout({
       {/* Dashboard Navbar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-xl">
         <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-          {/* Brand */}
-          <Link
-            href="/"
-            className="group flex min-w-0 shrink-0 items-center gap-2.5"
-            aria-label="Eventora home"
-          >
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition-all duration-200 group-hover:scale-105 group-hover:bg-accent-hover">
-              E
-            </div>
+          
+         {/* Brand */}
+<Link
+  href="/"
+  className="group flex min-w-0 shrink-0 items-center gap-2.5"
+  aria-label="Eventora home"
+>
+  <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl transition-transform duration-200 group-hover:scale-105">
+    <img
+      src="/og-eventora.png"
+      alt="Eventora"
+      width={25}
+      height={16}
+      className="h-4 w-[25px] object-contain"
+    />
+  </div>
 
-            <div className="min-w-0">
-              <p className="truncate text-base font-bold tracking-tight sm:text-lg">
-                Eventora
-              </p>
+  <div className="min-w-0">
+    <p className="truncate text-base font-bold tracking-tight sm:text-lg">
+      Eventora
+    </p>
 
-              <p className="hidden text-[10px] font-medium uppercase tracking-[0.16em] text-foreground-muted sm:block">
-                Events made simple
-              </p>
-            </div>
-          </Link>
+    <p className="hidden text-[10px] font-medium uppercase tracking-[0.16em] text-foreground-muted sm:block">
+      Events made simple
+    </p>
+  </div>
+</Link>
 
           {/* Navigation */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+            
             {/* Home */}
             <Link
               href="/"
@@ -301,9 +315,7 @@ export default function DashboardLayout({
 
                               <div className="min-w-0 flex-1 space-y-2">
                                 <div className="h-3 w-3/4 animate-pulse rounded bg-border" />
-
                                 <div className="h-3 w-full animate-pulse rounded bg-border" />
-
                                 <div className="h-2.5 w-1/4 animate-pulse rounded bg-border" />
                               </div>
                             </div>
@@ -438,6 +450,9 @@ export default function DashboardLayout({
                 </>
               )}
             </div>
+
+            {/* Theme Toggle */}
+            <ThemeToggle />
 
             {/* User */}
             <div className="ml-1 border-l border-border pl-2 sm:ml-2 sm:pl-3">
