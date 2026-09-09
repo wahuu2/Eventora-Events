@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ThemeToggle from "@/components/ThemeToggle";
 import { UserButton } from "@clerk/nextjs";
 import {
   Bars3Icon,
@@ -81,52 +82,48 @@ export default function Navbar() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex items-center gap-2">
+<div className="flex items-center gap-2">
+  <Link
+    href="/dashboard"
+    className="hidden rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-white/20 hover:bg-white/[0.08] hover:text-white lg:inline-flex"
+  >
+    Dashboard
+  </Link>
 
-          {/* Dashboard */}
-          <Link
-            href="/dashboard"
-            className="hidden rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-white/20 hover:bg-white/[0.08] hover:text-white lg:inline-flex"
-          >
-            Dashboard
-          </Link>
+  <Link
+    href="/sign-in"
+    className="hidden px-3 py-2.5 text-sm font-semibold text-white/70 transition-colors hover:text-white sm:inline-flex"
+  >
+    Sign In
+  </Link>
 
-          {/* Sign In */}
-          <Link
-            href="/sign-in"
-            className="hidden px-3 py-2.5 text-sm font-semibold text-white/70 transition-colors hover:text-white sm:inline-flex"
-          >
-            Sign In
-          </Link>
+  <Link
+    href="/sign-up"
+    className="hidden min-h-10 items-center justify-center rounded-lg bg-accent px-5 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/30 sm:inline-flex"
+  >
+    Get Started
+  </Link>
 
-          {/* Get Started */}
-          <Link
-            href="/sign-up"
-            className="hidden min-h-10 items-center justify-center rounded-lg bg-accent px-5 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/30 sm:inline-flex"
-          >
-            Get Started
-          </Link>
+  <ThemeToggle />
 
-          {/* User */}
-          <div className="ml-1 border-l border-white/10 pl-2 sm:ml-2 sm:pl-3">
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: "h-9 w-9 sm:h-10 sm:w-10",
-                },
-              }}
-            />
-          </div>
+  <div className="ml-1 border-l border-white/10 pl-2 sm:ml-2 sm:pl-3">
+    <UserButton
+      appearance={{
+        elements: {
+          avatarBox: "h-9 w-9 sm:h-10 sm:w-10",
+        },
+      }}
+    />
+  </div>
 
-          {/* Mobile menu button */}
-          <button
-            type="button"
-            aria-label="Open navigation menu"
-            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white/70 transition-all hover:bg-white/[0.08] hover:text-white md:hidden"
-          >
-            <Bars3Icon className="h-5 w-5" />
-          </button>
-        </div>
+  <button
+    type="button"
+    aria-label="Open navigation menu"
+    className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white/70 transition-all hover:bg-white/[0.08] hover:text-white md:hidden"
+  >
+    <Bars3Icon className="h-5 w-5" />
+  </button>
+</div>
       </div>
 
       {/* MOBILE NAVIGATION */}
