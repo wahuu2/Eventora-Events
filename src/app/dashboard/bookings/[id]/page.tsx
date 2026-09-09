@@ -3,6 +3,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import {
+  ArrowLeftIcon,
+  CalendarDaysIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  MapPinIcon,
+  TicketIcon,
+  WalletIcon,
+} from "@heroicons/react/24/outline";
 
 type Event = {
   _id: string;
@@ -156,7 +165,7 @@ export default function BookingDetailsPage() {
   if (error || !booking) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 text-center sm:p-8">
+        <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 text-center shadow-xl shadow-black/10 sm:p-8">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10 text-lg font-bold text-red-400">
             !
           </div>
@@ -172,8 +181,9 @@ export default function BookingDetailsPage() {
 
           <Link
             href="/dashboard/bookings"
-            className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-white transition-all hover:bg-accent-hover sm:w-auto"
+            className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 text-sm font-semibold text-white transition-all hover:bg-accent-hover sm:w-auto"
           >
+            <ArrowLeftIcon className="h-4 w-4" />
             Back to My Bookings
           </Link>
         </div>
@@ -202,51 +212,49 @@ export default function BookingDetailsPage() {
 
   return (
     <div className="w-full">
-      {/* Page Header */}
+      {/* Header */}
       <section className="relative overflow-hidden rounded-2xl border border-border bg-card">
         <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
 
         <div className="relative p-5 sm:p-7 lg:p-8">
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
-                Dashboard
-              </span>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
+              Dashboard
+            </span>
 
-              <span className="text-xs text-foreground-muted">
-                /
-              </span>
+            <span className="text-xs text-foreground-muted">
+              /
+            </span>
 
-              <Link
-                href="/dashboard/bookings"
-                className="text-xs font-medium text-foreground-muted transition hover:text-foreground"
-              >
-                Bookings
-              </Link>
+            <Link
+              href="/dashboard/bookings"
+              className="text-xs font-medium text-foreground-muted transition hover:text-foreground"
+            >
+              Bookings
+            </Link>
 
-              <span className="text-xs text-foreground-muted">
-                /
-              </span>
+            <span className="text-xs text-foreground-muted">
+              /
+            </span>
 
-              <span className="text-xs font-medium text-foreground-muted">
-                Details
-              </span>
+            <span className="text-xs font-medium text-foreground-muted">
+              Details
+            </span>
+          </div>
+
+          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="min-w-0">
+              <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+                Your Event Booking
+              </h1>
+
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-foreground-secondary sm:text-base">
+                Review your booking, payment status, and digital
+                ticket.
+              </p>
             </div>
 
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div className="min-w-0">
-                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-                  Your Event Booking
-                </h1>
-
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-foreground-secondary sm:text-base">
-                  Review your booking, payment status, and digital
-                  ticket.
-                </p>
-              </div>
-
-              <StatusBadge status={booking.status} />
-            </div>
+            <StatusBadge status={booking.status} />
           </div>
         </div>
       </section>
@@ -266,31 +274,40 @@ export default function BookingDetailsPage() {
             </div>
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
           <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7 lg:p-8">
-            <span className="inline-flex max-w-full rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md">
-              {booking.event.category}
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md">
+                {booking.event.category}
+              </span>
+
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-md">
+                <CheckCircleIcon className="h-3.5 w-3.5" />
+                {booking.status}
+              </span>
+            </div>
 
             <h2 className="mt-3 max-w-4xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
               {booking.event.title}
             </h2>
 
             <div className="mt-4 grid gap-2 text-sm text-gray-200 sm:grid-cols-2 sm:gap-x-8 sm:text-base">
-              <p className="min-w-0 truncate">
-                <span className="text-gray-400">Location:</span>{" "}
-                {booking.event.location}
+              <p className="flex min-w-0 items-center gap-2">
+                <MapPinIcon className="h-4 w-4 shrink-0 text-gray-400" />
+                <span className="truncate">
+                  {booking.event.location}
+                </span>
               </p>
 
-              <p>
-                <span className="text-gray-400">Date:</span>{" "}
-                {formattedDate}
+              <p className="flex items-center gap-2">
+                <CalendarDaysIcon className="h-4 w-4 shrink-0 text-gray-400" />
+                <span>{formattedDate}</span>
               </p>
 
-              <p>
-                <span className="text-gray-400">Time:</span>{" "}
-                {booking.event.time}
+              <p className="flex items-center gap-2">
+                <ClockIcon className="h-4 w-4 shrink-0 text-gray-400" />
+                <span>{booking.event.time}</span>
               </p>
             </div>
           </div>
@@ -312,8 +329,8 @@ export default function BookingDetailsPage() {
               </h2>
             </div>
 
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-sm font-bold text-accent">
-              B
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
+              <TicketIcon className="h-5 w-5" />
             </div>
           </div>
 
@@ -340,7 +357,7 @@ export default function BookingDetailsPage() {
               <div className="flex items-end justify-between gap-4">
                 <div>
                   <p className="text-xs text-foreground-muted">
-                    Total paid
+                    Total
                   </p>
 
                   <p className="mt-1 text-sm text-foreground-secondary">
@@ -377,7 +394,7 @@ export default function BookingDetailsPage() {
             </div>
 
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold ${
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
                 normalizedStatus === "confirmed"
                   ? "bg-green-500/10 text-green-400"
                   : normalizedStatus === "pending"
@@ -385,11 +402,13 @@ export default function BookingDetailsPage() {
                     : "bg-red-500/10 text-red-400"
               }`}
             >
-              {normalizedStatus === "confirmed"
-                ? "✓"
-                : normalizedStatus === "pending"
-                  ? "!"
-                  : "×"}
+              {normalizedStatus === "confirmed" ? (
+                <CheckCircleIcon className="h-5 w-5" />
+              ) : normalizedStatus === "pending" ? (
+                <ClockIcon className="h-5 w-5" />
+              ) : (
+                <span className="text-lg font-bold">×</span>
+              )}
             </div>
           </div>
 
@@ -403,7 +422,7 @@ export default function BookingDetailsPage() {
                 Booking Reference
               </p>
 
-              <p className="mt-2 break-all font-mono text-sm font-medium text-foreground-secondary">
+              <p className="mt-2 break-all rounded-lg border border-border bg-background-secondary/50 px-3 py-2 font-mono text-sm font-medium text-foreground-secondary">
                 {booking.bookingReference}
               </p>
             </div>
@@ -428,8 +447,8 @@ export default function BookingDetailsPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="min-w-0">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-sm font-bold text-accent">
-                    T
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                    <TicketIcon className="h-5 w-5" />
                   </div>
 
                   <div>
@@ -467,8 +486,8 @@ export default function BookingDetailsPage() {
 
             {!ticket ? (
               <div className="rounded-2xl border border-dashed border-border bg-background-secondary/40 p-6 text-center sm:p-8">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-card text-sm font-bold text-accent">
-                  E
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/20 bg-accent/10 text-accent">
+                  <TicketIcon className="h-6 w-6" />
                 </div>
 
                 <h3 className="mt-4 text-base font-bold">
@@ -484,18 +503,26 @@ export default function BookingDetailsPage() {
                   type="button"
                   onClick={generateTicket}
                   disabled={ticketLoading}
-                  className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                  className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
                 >
-                  {ticketLoading
-                    ? "Generating Ticket..."
-                    : "Generate Digital Ticket"}
+                  {ticketLoading ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      Generating Ticket...
+                    </>
+                  ) : (
+                    <>
+                      <TicketIcon className="h-4 w-4" />
+                      Generate Digital Ticket
+                    </>
+                  )}
                 </button>
               </div>
             ) : (
               <div className="rounded-2xl border border-green-500/20 bg-green-500/5 p-5 sm:p-6">
                 <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-500/15 text-base font-bold text-green-400">
-                    ✓
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-500/15 text-green-400">
+                    <CheckCircleIcon className="h-5 w-5" />
                   </div>
 
                   <div className="min-w-0 flex-1">
@@ -506,20 +533,19 @@ export default function BookingDetailsPage() {
                     </p>
 
                     <div className="mt-5 rounded-xl border border-border bg-background/60 p-4 sm:p-5">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
-                        Ticket Number
-                      </p>
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
+                            Ticket Number
+                          </p>
 
-                      <p className="mt-2 break-all font-mono text-lg font-bold tracking-wide sm:text-xl">
-                        {ticket.ticketNumber}
-                      </p>
+                          <p className="mt-2 break-all font-mono text-lg font-bold tracking-wide sm:text-xl">
+                            {ticket.ticketNumber}
+                          </p>
+                        </div>
 
-                      <div className="mt-4 flex flex-wrap items-center gap-2">
-                        <span className="text-xs text-foreground-muted">
-                          Status:
-                        </span>
-
-                        <span className="rounded-full border border-green-500/20 bg-green-500/10 px-2.5 py-1 text-xs font-semibold capitalize text-green-400">
+                        <span className="inline-flex w-fit items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1.5 text-xs font-semibold capitalize text-green-400">
+                          <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
                           {ticket.status}
                         </span>
                       </div>
@@ -527,8 +553,9 @@ export default function BookingDetailsPage() {
 
                     <Link
                       href={`/dashboard/bookings/${booking._id}/ticket`}
-                      className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-white transition-all hover:bg-accent-hover sm:w-auto"
+                      className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 text-sm font-semibold text-white transition-all hover:bg-accent-hover sm:w-auto"
                     >
+                      <TicketIcon className="h-4 w-4" />
                       View Digital Ticket
                     </Link>
                   </div>
@@ -556,8 +583,9 @@ export default function BookingDetailsPage() {
             booking.totalAmount > 0 && (
               <Link
                 href={`/dashboard/bookings/${booking._id}/payment`}
-                className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
               >
+                <WalletIcon className="h-4 w-4" />
                 Pay Now
               </Link>
             )}
@@ -565,23 +593,25 @@ export default function BookingDetailsPage() {
           {booking.status === "confirmed" && (
             <Link
               href={`/dashboard/bookings/${booking._id}/ticket`}
-              className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white transition-all hover:bg-accent-hover sm:w-auto"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 text-sm font-semibold text-white transition-all hover:bg-accent-hover sm:w-auto"
             >
+              <TicketIcon className="h-4 w-4" />
               View Ticket
             </Link>
           )}
 
           <Link
             href={`/events/${booking.event._id}`}
-            className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-border-hover px-6 text-sm font-semibold text-foreground transition-all hover:bg-card-hover sm:w-auto"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-6 text-sm font-semibold text-foreground transition-all hover:bg-card-hover sm:w-auto"
           >
             View Event
           </Link>
 
           <Link
             href="/dashboard/bookings"
-            className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-border-hover px-6 text-sm font-semibold text-foreground-secondary transition-all hover:bg-card-hover hover:text-foreground sm:w-auto"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-6 text-sm font-semibold text-foreground-secondary transition-all hover:bg-card-hover hover:text-foreground sm:w-auto"
           >
+            <ArrowLeftIcon className="h-4 w-4" />
             All My Bookings
           </Link>
         </div>
@@ -622,8 +652,9 @@ function StatusBadge({ status }: { status: string }) {
 
   return (
     <span
-      className={`inline-flex w-fit rounded-full border px-3 py-1.5 text-[10px] font-bold capitalize tracking-wide ${styles}`}
+      className={`inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-bold capitalize tracking-wide ${styles}`}
     >
+      <span className="h-1.5 w-1.5 rounded-full bg-current" />
       {status}
     </span>
   );
