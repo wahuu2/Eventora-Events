@@ -30,10 +30,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Eventora | Modern Event Management Platform",
     description:
-      "Create, manage, and promote events with ease using Eventora — your all‑in‑one event solution.",
+      "Create, manage, and promote events with ease using Eventora — your all-in-one event solution.",
     type: "website",
     locale: "en_KE",
     siteName: "Eventora",
+
     images: [
       {
         url: "/og-eventora.png",
@@ -58,9 +59,8 @@ export const metadata: Metadata = {
   },
 };
 
-
 export const viewport: Viewport = {
-  themeColor: "#0A66C2",
+  themeColor: "#0b1026",
 };
 
 export default function RootLayout({

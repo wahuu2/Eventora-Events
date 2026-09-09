@@ -1,34 +1,46 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
+import FeaturedEvents from "@/components/FeaturedEvents";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getCurrentUser } from "@/lib/auth";
 
-const features = [
+const categories = [
   {
     number: "01",
-    title: "Event Discovery",
-    description:
-      "Search and filter events by category, location, date, and price to find experiences that match what you are looking for.",
+    title: "Music",
+    description: "Concerts, live shows & nightlife",
+    icon: "♫",
   },
   {
     number: "02",
-    title: "Simple Booking",
-    description:
-      "Reserve your place through a clear and straightforward booking experience designed to keep everything simple.",
+    title: "Sports",
+    description: "Games, tournaments & fitness",
+    icon: "◈",
   },
   {
     number: "03",
-    title: "Digital Tickets",
-    description:
-      "Access unique digital tickets from your dashboard and keep your event information available whenever you need it.",
+    title: "Conferences",
+    description: "Business, tech & networking",
+    icon: "▦",
   },
   {
     number: "04",
-    title: "Organizer Tools",
-    description:
-      "Create events, manage bookings, monitor attendees, and understand event performance from one centralized dashboard.",
+    title: "Festivals",
+    description: "Culture, food & entertainment",
+    icon: "✦",
+  },
+  {
+    number: "05",
+    title: "Business",
+    description: "Workshops, expos & meetups",
+    icon: "◇",
+  },
+  {
+    number: "06",
+    title: "Lifestyle",
+    description: "Experiences, wellness & more",
+    icon: "○",
   },
 ];
 
@@ -50,130 +62,156 @@ const journey = [
   },
 ];
 
+const features = [
+  {
+    number: "01",
+    title: "Event Discovery",
+    description:
+      "Search and filter events by category, location, date, and price to find experiences that match what you are looking for.",
+  },
+  {
+    number: "02",
+    title: "Simple Booking",
+    description:
+      "Reserve your place through a clear and straightforward booking experience designed to keep everything simple.",
+  },
+  {
+    number: "03",
+    title: "Digital Tickets",
+    description:
+      "Access your unique digital ticket from your dashboard and keep your event information available whenever you need it.",
+  },
+  {
+    number: "04",
+    title: "Organizer Tools",
+    description:
+      "Create events, manage bookings, monitor attendees, and understand event performance from one centralized dashboard.",
+  },
+];
+
+const organizerSteps = [
+  ["STEP 01", "Create your account", "Join Eventora"],
+  ["STEP 02", "Request organizer access", "Submit your request"],
+  ["STEP 03", "Get approved & start creating", "Organizer dashboard access"],
+];
+
 export default async function HomePage() {
   const user = await getCurrentUser();
-
-  /*
-   * =========================================
-   * ROLE-BASED ROUTING
-   * =========================================
-   *
-   * Admin      → Admin system
-   * Organizer  → Organizer workspace
-   * User       → User dashboard
-   * Guest      → Public Eventora homepage
-   */
 
   if (user) {
     switch (user.role) {
       case "admin":
         redirect("/admin");
-
       case "organizer":
         redirect("/dashboard/organizer");
-
       case "user":
         redirect("/dashboard");
-
       default:
         break;
     }
   }
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <main className="min-h-screen overflow-x-hidden bg-[#0b1026] text-white">
       <Navbar />
 
-      {/* ========================================= */}
-      {/* HERO                                      */}
-      {/* ========================================= */}
-
-      <section className="relative overflow-hidden border-b border-border">
-        {/* Background grid */}
-        <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
-          <div
-            className="h-full w-full"
-            style={{
-              backgroundImage:
-                "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
-              backgroundSize: "64px 64px",
-            }}
+      {/* HERO */}
+      <section className="relative isolate overflow-hidden bg-[#0b1026]">
+        <div className="relative h-[650px] overflow-hidden sm:h-[700px] lg:h-[760px]">
+          <img
+            src="/banner.jpeg"
+            alt="Eventora event experience"
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
-        </div>
 
-        {/* Accent glow */}
-        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1026] via-[#0b1026]/55 to-[#0b1026]/10" />
 
-        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-28 lg:px-8 lg:py-32">
-          <div className="max-w-5xl">
-            {/* Eyebrow */}
-            <div className="mb-7 inline-flex max-w-full items-center gap-2.5 rounded-full border border-border bg-background-secondary/80 px-3.5 py-2 text-xs font-medium text-foreground-secondary backdrop-blur-sm sm:mb-8 sm:px-4 sm:text-sm">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-transparent to-purple-950/40" />
 
-              <span>One platform. Every event experience.</span>
-            </div>
+          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#0b1026] to-transparent" />
 
-            {/* Heading */}
-            <h1 className="max-w-5xl text-4xl font-bold leading-[1.02] tracking-[-0.04em] sm:text-5xl md:text-7xl lg:text-8xl">
-              Discover.
-              <br />
-              <span className="text-foreground-muted">Connect.</span>
-              <br />
-              Experience.
-            </h1>
-
-            {/* Description */}
-            <p className="mt-7 max-w-2xl text-base leading-7 text-foreground-secondary sm:mt-8 sm:text-lg sm:leading-8 md:text-xl">
-              Eventora brings event discovery, booking, digital tickets,
-              and event management together in one modern platform.
-            </p>
-
-            {/* CTA */}
-            <div className="mt-8 flex w-full flex-col gap-3 sm:mt-10 sm:w-auto sm:flex-row">
-              <Link
-                href="/events"
-                className="group inline-flex w-full items-center justify-center rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 sm:w-auto sm:px-7"
-              >
-                Explore Events
-
-                <span className="ml-2 transition-transform duration-200 group-hover:translate-x-1">
-                  →
+          <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6 pb-16 pt-16 lg:px-8">
+            <div className="w-full text-center">
+              <div className="mx-auto mb-7 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold tracking-wide text-white/90 shadow-xl backdrop-blur-md">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                  <span className="relative h-2 w-2 rounded-full bg-accent" />
                 </span>
-              </Link>
 
-              <Link
-                href="/sign-up"
-                className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover bg-background-secondary/40 px-6 py-3.5 text-sm font-semibold text-foreground transition-all duration-200 hover:bg-card sm:w-auto sm:px-7"
-              >
-                Create an Account
-              </Link>
+                One platform. Every event experience.
+              </div>
+
+              <h1 className="mx-auto max-w-5xl text-5xl font-black leading-[0.95] tracking-[-0.05em] sm:text-6xl md:text-7xl lg:text-8xl">
+                Discover.
+                <br />
+                <span className="text-accent">Connect.</span>
+                <br />
+                Experience.
+              </h1>
+
+              <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-white/75 sm:text-lg sm:leading-8">
+                Discover events happening around Kenya, book your spot,
+                and access your digital ticket — all in one place.
+              </p>
+
+              <div className="mx-auto mt-8 max-w-3xl">
+                <div className="flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/25 p-2 shadow-2xl backdrop-blur-xl sm:flex-row">
+                  <div className="flex min-h-12 flex-1 items-center gap-3 rounded-xl bg-white/[0.08] px-4 text-left">
+                    <span className="text-lg text-white/50">⌕</span>
+
+                    <p className="text-sm text-white/70">
+                      Search events, artists or venues
+                    </p>
+                  </div>
+
+                  <Link
+                    href="/events"
+                    className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-7 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30"
+                  >
+                    Search Events
+                    <span className="ml-2">→</span>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/50">
+                <span>✓ M-Pesa payments</span>
+                <span>✓ Digital tickets</span>
+                <span>✓ Secure booking</span>
+                <span>✓ Kenyan events</span>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Journey */}
-          <div className="mt-16 max-w-5xl border-t border-border pt-8 sm:mt-20 sm:pt-10">
-            <div className="grid grid-cols-1 divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-              {journey.map((item) => (
+        {/* JOURNEY */}
+        <div className="relative z-20 mx-auto -mt-1 max-w-6xl px-6 lg:px-8">
+          <div className="overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] shadow-2xl backdrop-blur-xl">
+            <div className="grid grid-cols-1 sm:grid-cols-3">
+              {journey.map((item, index) => (
                 <div
                   key={item.number}
-                  className="py-5 first:pt-0 last:pb-0 sm:px-6 sm:py-2 first:sm:pl-0 last:sm:pr-0"
+                  className={`relative px-6 py-7 ${
+                    index !== 0
+                      ? "border-t border-white/10 sm:border-l sm:border-t-0"
+                      : ""
+                  }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-semibold tracking-widest text-accent">
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/30 bg-accent/10 text-xs font-black text-accent">
                       {item.number}
                     </span>
 
-                    <h2 className="text-lg font-semibold sm:text-xl">
-                      {item.title}
-                    </h2>
-                  </div>
+                    <div>
+                      <h2 className="text-sm font-bold text-white">
+                        {item.title}
+                      </h2>
 
-                  <p className="mt-2 max-w-xs text-sm leading-6 text-foreground-muted">
-                    {item.description}
-                  </p>
+                      <p className="mt-1 text-xs leading-5 text-white/50">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -181,215 +219,264 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ========================================= */}
-      {/* FEATURES                                  */}
-      {/* ========================================= */}
+      {/* MAIN CONTENT */}
+      <section className="relative overflow-hidden bg-[#0b1026]">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#111936] via-[#15143a] to-[#0b1026]" />
 
-      <section className="border-b border-border bg-background-secondary/30">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-16">
-            <div className="max-w-xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent sm:text-sm">
-                The platform
-              </p>
+        <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" />
 
-              <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:mt-4 sm:text-3xl md:text-4xl">
-                Everything you need for the event experience.
-              </h2>
+        <div className="pointer-events-none absolute -right-40 top-[30%] h-[32rem] w-[32rem] rounded-full bg-purple-500/10 blur-3xl" />
 
-              <p className="mt-4 text-sm leading-7 text-foreground-secondary sm:text-base">
-                From the first search to the final ticket, Eventora keeps
-                every part of the journey organized and easy to manage.
-              </p>
-            </div>
+        <div className="pointer-events-none absolute left-1/3 bottom-0 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl" />
 
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {[
-                ["01", "Discovery"],
-                ["02", "Booking"],
-                ["03", "Payments"],
-                ["04", "Tickets"],
-              ].map(([number, label]) => (
-                <div
-                  key={number}
-                  className="rounded-xl border border-border bg-background p-4"
-                >
-                  <p className="text-xl font-bold sm:text-2xl">
-                    {number}
-                  </p>
-
-                  <p className="mt-1 text-xs text-foreground-muted">
-                    {label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2">
-            {features.map((feature) => (
-              <article
-                key={feature.number}
-                className="group min-w-0 rounded-2xl border border-border bg-background p-6 transition-all duration-200 hover:border-border-hover hover:bg-card sm:p-8"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border-hover bg-background-secondary text-xs font-semibold text-accent transition-colors group-hover:border-accent/40">
-                    {feature.number}
-                  </div>
-
-                  <span className="text-xl text-foreground-muted transition-transform duration-200 group-hover:translate-x-1">
-                    →
-                  </span>
-                </div>
-
-                <h3 className="mt-6 text-lg font-semibold sm:text-xl">
-                  {feature.title}
-                </h3>
-
-                <p className="mt-3 text-sm leading-7 text-foreground-secondary sm:text-base">
-                  {feature.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================= */}
-      {/* ORGANIZER SECTION                         */}
-      {/* ========================================= */}
-
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8">
-          <div className="overflow-hidden rounded-2xl border border-border bg-background-secondary">
-            <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
-              <div className="p-6 sm:p-8 md:p-12 lg:p-14">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent sm:text-sm">
-                  For organizers
+        <div className="relative">
+          {/* CATEGORIES */}
+          <section className="mx-auto max-w-7xl px-6 pt-20 lg:px-8 lg:pt-28">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                  Explore by category
                 </p>
 
-                <h2 className="mt-4 max-w-2xl text-2xl font-bold leading-tight tracking-tight sm:text-3xl md:text-4xl">
-                  Turn your events into experiences people remember.
+                <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+                  Find something worth experiencing.
                 </h2>
 
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-foreground-secondary sm:text-base">
-                  Want to host events on Eventora? Create your account,
-                  request organizer access, and wait for administrator
-                  approval. Once approved, you can create events, manage
-                  bookings, monitor attendees, and track performance from
-                  your organizer dashboard.
-                </p>
-
-                <Link
-                  href="/sign-up"
-                  className="mt-7 inline-flex w-full items-center justify-center rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-hover sm:w-auto"
-                >
-                  Create an Account
-                  <span className="ml-2">→</span>
-                </Link>
-
-                <p className="mt-3 text-xs text-foreground-muted">
-                  Organizer access requires administrator approval.
-                </p>
-              </div>
-
-              <div className="border-t border-border p-6 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
-                <div className="grid gap-3">
-                  <div className="rounded-xl border border-border bg-background p-5">
-                    <p className="text-xs text-foreground-muted">
-                      STEP 01
-                    </p>
-
-                    <p className="mt-2 text-lg font-semibold">
-                      Create your account
-                    </p>
-
-                    <div className="mt-4 flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-accent" />
-
-                      <span className="text-xs text-foreground-muted">
-                        Join Eventora
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="rounded-xl border border-border bg-background p-5">
-                    <p className="text-xs text-foreground-muted">
-                      STEP 02
-                    </p>
-
-                    <p className="mt-2 text-lg font-semibold">
-                      Request organizer access
-                    </p>
-
-                    <div className="mt-4 flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-accent" />
-
-                      <span className="text-xs text-foreground-muted">
-                        Submit your request
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="rounded-xl border border-border bg-background p-5">
-                    <p className="text-xs text-foreground-muted">
-                      STEP 03
-                    </p>
-
-                    <p className="mt-2 text-lg font-semibold">
-                      Get approved & start creating
-                    </p>
-
-                    <div className="mt-4 flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-accent" />
-
-                      <span className="text-xs text-foreground-muted">
-                        Organizer dashboard access
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================= */}
-      {/* FINAL CTA                                 */}
-      {/* ========================================= */}
-
-      <section>
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-background-secondary p-6 sm:p-10 md:p-12 lg:p-16">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
-
-            <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-              <div className="min-w-0 max-w-2xl">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent sm:text-sm">
-                  Start exploring
-                </p>
-
-                <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-3xl md:text-5xl">
-                  Your next experience is waiting.
-                </h2>
-
-                <p className="mt-4 text-sm leading-7 text-foreground-secondary sm:text-base">
-                  Discover upcoming events, reserve your place, and keep
-                  your digital tickets in one convenient place.
+                <p className="mt-3 max-w-xl text-sm leading-6 text-white/55 sm:text-base">
+                  Explore different types of events and discover what is
+                  happening around Kenya.
                 </p>
               </div>
 
               <Link
                 href="/events"
-                className="inline-flex w-full shrink-0 items-center justify-center rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 sm:w-auto sm:px-7"
+                className="inline-flex items-center text-sm font-bold text-accent transition-colors hover:text-white"
               >
-                Browse Events
-
+                View all events
                 <span className="ml-2">→</span>
               </Link>
             </div>
-          </div>
+
+            <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+              {categories.map((category) => (
+                <Link
+                  key={category.number}
+                  href="/events"
+                  className="group rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-white/[0.09]"
+                >
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-lg text-accent transition-transform duration-300 group-hover:scale-105">
+                    {category.icon}
+                  </div>
+
+                  <p className="mt-5 text-sm font-bold text-white">
+                    {category.title}
+                  </p>
+
+                  <p className="mt-1.5 text-[11px] leading-5 text-white/40">
+                    {category.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          {/* FEATURED EVENTS */}
+<section className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
+  <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+        Featured events
+      </p>
+
+      <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+        What&apos;s happening?
+      </h2>
+
+      <p className="mt-3 max-w-xl text-sm leading-6 text-white/55 sm:text-base">
+        Discover events you can book through Eventora.
+      </p>
+    </div>
+
+    <Link
+      href="/events"
+      className="inline-flex items-center text-sm font-bold text-accent transition-colors hover:text-white"
+    >
+      Browse all events
+      <span className="ml-2">→</span>
+    </Link>
+  </div>
+
+  <FeaturedEvents />
+</section>
+
+          {/* WHY EVENTORA */}
+          <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8 lg:pb-28">
+            <div className="border-t border-white/10 pt-20 lg:pt-28">
+              <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                    Why Eventora
+                  </p>
+
+                  <h2 className="mt-4 max-w-xl text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl">
+                    Everything you need for the event experience.
+                  </h2>
+
+                  <p className="mt-5 max-w-xl text-sm leading-7 text-white/60 sm:text-base">
+                    From discovering an event to receiving your ticket,
+                    Eventora keeps the entire experience simple and organized.
+                  </p>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {features.map((feature) => (
+                    <article
+                      key={feature.number}
+                      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] p-7 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:bg-white/[0.09]"
+                    >
+                      <div className="absolute left-0 top-0 h-full w-0.5 bg-accent/0 transition-all duration-300 group-hover:bg-accent" />
+
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-xs font-black text-accent">
+                        {feature.number}
+                      </div>
+
+                      <h3 className="mt-5 text-lg font-bold text-white">
+                        {feature.title}
+                      </h3>
+
+                      <p className="mt-3 text-sm leading-6 text-white/55">
+                        {feature.description}
+                      </p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ORGANIZER */}
+          <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8 lg:pb-28">
+            <div className="overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-r from-[#111936] via-[#15143a] to-[#111936] shadow-2xl backdrop-blur-xl">
+              <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
+                <div className="p-7 sm:p-10 lg:p-12">
+                  <div className="flex items-center gap-3">
+                    <span className="h-px w-8 bg-accent" />
+
+                    <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                      For organizers
+                    </p>
+                  </div>
+
+                  <h2 className="mt-5 max-w-2xl text-3xl font-black tracking-tight text-white sm:text-4xl">
+                    Turn your events into experiences people remember.
+                  </h2>
+
+                  <p className="mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
+                    Create your account, request organizer access, and wait
+                    for administrator approval. Once approved, you can create
+                    events, manage bookings, monitor attendees, and track
+                    performance from your organizer dashboard.
+                  </p>
+
+                  <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+                    <Link
+                      href="/sign-up"
+                      className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-6 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-[#0b1026]"
+                    >
+                      Become an Organizer
+                      <span className="ml-2">→</span>
+                    </Link>
+
+                    <p className="text-xs text-white/40">
+                      Organizer access requires administrator approval.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border-t border-white/10 bg-black/15 p-6 sm:p-8 lg:border-l lg:border-t-0">
+                  <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-white/40">
+                    Getting started
+                  </p>
+
+                  <div className="space-y-3">
+                    {organizerSteps.map(([step, title, subtitle], index) => (
+                      <div
+                        key={step}
+                        className="rounded-2xl border border-white/10 bg-white/[0.05] p-5 transition-all duration-200 hover:border-accent/30 hover:bg-white/[0.09]"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-[10px] font-black text-accent">
+                            {index + 1}
+                          </div>
+
+                          <div>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/30">
+                              {step}
+                            </p>
+
+                            <p className="mt-1.5 text-sm font-bold text-white">
+                              {title}
+                            </p>
+
+                            <p className="mt-1 text-xs text-white/40">
+                              {subtitle}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* FINAL CTA */}
+          <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8 lg:pb-28">
+            <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-r from-[#111936] via-[#15143a] to-[#111936] p-7 text-white shadow-2xl sm:p-10 lg:p-12">
+              <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
+
+              <div className="pointer-events-none absolute -bottom-20 left-1/3 h-64 w-64 rounded-full bg-purple-500/10 blur-3xl" />
+
+              <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-2xl">
+                  <div className="flex items-center gap-3">
+                    <span className="h-px w-8 bg-accent" />
+
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                      Your next experience starts here
+                    </p>
+                  </div>
+
+                  <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                    Find your next event.
+                  </h2>
+
+                  <p className="mt-4 max-w-xl text-sm leading-7 text-white/60 sm:text-base">
+                    Browse events, book your spot, pay securely, and keep your
+                    digital ticket ready for the day.
+                  </p>
+                </div>
+
+                <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/events"
+                    className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-7 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-[#0b1026]"
+                  >
+                    Explore Events
+                    <span className="ml-2">→</span>
+                  </Link>
+
+                  <Link
+                    href="/sign-up"
+                    className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/20 bg-white/10 px-7 text-sm font-bold text-white backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50"
+                  >
+                    Create Free Account
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
 
