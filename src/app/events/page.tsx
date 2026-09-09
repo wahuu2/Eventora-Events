@@ -19,17 +19,42 @@ type Event = {
 };
 
 const categories = [
-  "All",
-  "Music",
-  "Sports",
-  "Technology",
-  "Business",
-  "Education",
-  "Entertainment",
-  "Food & Drink",
-  "Arts & Culture",
-  "Networking",
-  "Christian Events",
+  {
+    number: "01",
+    title: "Music",
+    description: "Concerts, live shows & festivals",
+    icon: "♫",
+  },
+  {
+    number: "02",
+    title: "Sports",
+    description: "Matches, tournaments & fitness",
+    icon: "⚽",
+  },
+  {
+    number: "03",
+    title: "Technology",
+    description: "Tech, innovation & digital events",
+    icon: "⌘",
+  },
+  {
+    number: "04",
+    title: "Business",
+    description: "Networking, conferences & business",
+    icon: "▣",
+  },
+  {
+    number: "05",
+    title: "Education",
+    description: "Workshops, training & learning",
+    icon: "▤",
+  },
+  {
+    number: "06",
+    title: "Entertainment",
+    description: "Comedy, lifestyle & experiences",
+    icon: "✦",
+  },
 ];
 
 const locations = ["All", "Juja", "Nairobi", "Thika", "Kiambu"];
@@ -60,11 +85,12 @@ export default function EventsPage() {
   const [fetchError, setFetchError] = useState("");
 
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
   const [location, setLocation] = useState("All");
   const [dateFilter, setDateFilter] = useState("All");
   const [priceFilter, setPriceFilter] = useState("All");
   const [sort, setSort] = useState("soonest");
+
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -78,10 +104,6 @@ export default function EventsPage() {
 
         if (search.trim()) {
           params.set("search", search.trim());
-        }
-
-        if (category !== "All") {
-          params.set("category", category);
         }
 
         if (location !== "All") {
@@ -112,14 +134,15 @@ export default function EventsPage() {
         const data = await response.json();
 
         if (!response.ok || !data.success) {
-          throw new Error(
-            data.message || "Failed to load events."
-          );
+          throw new Error(data.message || "Failed to load events.");
         }
 
         setEvents(Array.isArray(data.events) ? data.events : []);
       } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") {
+        if (
+          error instanceof DOMException &&
+          error.name === "AbortError"
+        ) {
           return;
         }
 
@@ -144,26 +167,20 @@ export default function EventsPage() {
     return () => {
       controller.abort();
     };
-  }, [
-    search,
-    category,
-    location,
-    dateFilter,
-    priceFilter,
-    sort,
-  ]);
+  }, [search, location, dateFilter, priceFilter, sort]);
 
   const hasActiveFilters =
     search.trim() !== "" ||
-    category !== "All" ||
     location !== "All" ||
     dateFilter !== "All" ||
     priceFilter !== "All" ||
     sort !== "soonest";
 
+  const hasSecondaryFilters =
+    priceFilter !== "All" || sort !== "soonest";
+
   function clearFilters() {
     setSearch("");
-    setCategory("All");
     setLocation("All");
     setDateFilter("All");
     setPriceFilter("All");
@@ -174,12 +191,8 @@ export default function EventsPage() {
     setFetchError("");
     setLoading(true);
 
-    /*
-     * Changing the search value triggers the existing effect.
-     * When there is no search term, briefly changing it ensures
-     * the request can be retriggered without adding another API.
-     */
     setSearch((current) => `${current} `);
+
     setTimeout(() => {
       setSearch((current) => current.trim());
     }, 0);
@@ -189,11 +202,11 @@ export default function EventsPage() {
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <Navbar />
 
-      {/* =========================================================
-          PAGE HERO
-      ========================================================== */}
+      {/* =====================================================
+          DISCOVER + CATEGORIES + SEARCH + FILTERS
+      ====================================================== */}
 
-      <section className="relative overflow-hidden border-b border-border">
+      <section className="relative overflow-hidden bg-background">
         <div className="pointer-events-none absolute inset-0 opacity-[0.025]">
           <div
             className="h-full w-full"
@@ -207,229 +220,282 @@ export default function EventsPage() {
 
         <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-accent/10 blur-3xl sm:h-96 sm:w-96" />
 
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 sm:py-20 md:py-24 lg:px-8 lg:py-28">
-          <div className="max-w-4xl">
-           
-            <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-[1.02] tracking-[-0.04em] sm:text-5xl md:text-6xl lg:text-7xl">
-              Find something
-              <br />
-              <span className="text-foreground-muted">
-                worth experiencing.
-              </span>
-            </h1>
+        <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* DISCOVER + CATEGORIES */}
 
-            <p className="mt-6 max-w-2xl text-sm leading-7 text-foreground-secondary sm:mt-7 sm:text-base sm:leading-8 md:text-lg">
-              Discover events by category, location, date, and price.
-              Find your next experience and book your place through
-              Eventora.
-            </p>
+          <div className="border-b border-border py-12 sm:py-16 lg:py-20">
+            <div className="max-w-4xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background-secondary px-3.5 py-2 text-xs font-semibold text-foreground-secondary">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                Discover events across Kenya
+              </div>
 
-            <div className="mt-8 flex flex-wrap gap-3 text-xs font-medium text-foreground-muted sm:mt-10 sm:text-sm">
-              {["Discover", "Book", "Experience"].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-lg border border-border bg-background-secondary px-3 py-2"
-                >
-                  {item}
-                </span>
-              ))}
+              <div className="mt-8">
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                  Explore by category
+                </p>
+
+                <h1 className="mt-3 text-3xl font-black tracking-tight text-foreground sm:text-4xl">
+                  Find something worth experiencing.
+                </h1>
+
+                <p className="mt-3 max-w-xl text-sm leading-6 text-foreground-secondary sm:text-base">
+                  Explore different types of events and discover what is
+                  happening around Kenya.
+                </p>
+              </div>
+
+              <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+                {categories.map((category) => (
+                  <Link
+                    key={category.number}
+                    href="/events"
+                    className="group rounded-2xl border border-border bg-card/70 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-card-hover"
+                  >
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-lg text-accent transition-transform duration-300 group-hover:scale-105">
+                      {category.icon}
+                    </div>
+
+                    <p className="mt-5 text-sm font-bold text-foreground">
+                      {category.title}
+                    </p>
+
+                    <p className="mt-1.5 text-[11px] leading-5 text-foreground-muted">
+                      {category.description}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* SEARCH + FILTERS */}
+
+          <div className="border-b border-border py-6 sm:py-8">
+            <div className="rounded-2xl border border-border bg-background-secondary p-4 shadow-sm sm:p-5 lg:p-6">
+              {/* SEARCH */}
+
+              <div className="relative">
+                <div className="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center text-foreground-muted">
+                  <SearchIcon className="h-5 w-5" />
+                </div>
+
+                <label htmlFor="event-search" className="sr-only">
+                  Search events
+                </label>
+
+                <input
+                  id="event-search"
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search events, locations, or descriptions..."
+                  autoComplete="off"
+                  className="h-12 w-full rounded-xl border border-border bg-card pl-12 pr-12 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:h-14 sm:text-base"
+                />
+
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => setSearch("")}
+                    className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-foreground-muted transition-colors hover:bg-background-secondary hover:text-foreground"
+                    aria-label="Clear search"
+                  >
+                    <span className="text-lg leading-none">×</span>
+                  </button>
+                )}
+              </div>
+
+              {/* LOCATION + DATE + MORE FILTERS */}
+
+              <div className="mt-5">
+                <div className="grid gap-5 sm:grid-cols-3">
+                  <FilterSelectGroup
+                    title="Location"
+                    value={location}
+                    options={locations}
+                    onChange={setLocation}
+                  />
+
+                  <FilterSelectGroup
+                    title="Date"
+                    value={
+                      dateFilters.find(
+                        (item) => item.value === dateFilter
+                      )?.label ?? "All Dates"
+                    }
+                    options={dateFilters.map((item) => item.label)}
+                    onChange={(label) => {
+                      const selected = dateFilters.find(
+                        (item) => item.label === label
+                      );
+
+                      if (selected) {
+                        setDateFilter(selected.value);
+                      }
+                    }}
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setShowMoreFilters((current) => !current)
+                    }
+                    className={`flex min-h-11 items-center justify-between rounded-xl border px-4 py-3 text-left transition-all ${
+                      showMoreFilters || hasSecondaryFilters
+                        ? "border-accent/40 bg-accent/10"
+                        : "border-border bg-card hover:border-border-hover hover:bg-card-hover"
+                    }`}
+                  >
+                    <span>
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                        More Filters
+                      </span>
+
+                      <span className="mt-0.5 block text-sm font-semibold text-foreground">
+                        {hasSecondaryFilters
+                          ? "Filters applied"
+                          : "Price & sorting"}
+                      </span>
+                    </span>
+
+                    <span
+                      className={`flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background text-foreground-secondary transition-transform duration-200 ${
+                        showMoreFilters ? "rotate-180" : ""
+                      }`}
+                    >
+                      <ChevronDownIcon />
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* MORE FILTERS */}
+
+              {showMoreFilters && (
+                <div className="mt-5 grid gap-6 border-t border-border pt-5 sm:grid-cols-2">
+                  <FilterGroup title="Price">
+                    <FilterButtons
+                      items={priceFilters.map((item) => item.label)}
+                      activeValue={
+                        priceFilters.find(
+                          (item) => item.value === priceFilter
+                        )?.label ?? "All Prices"
+                      }
+                      onSelect={(label) => {
+                        const selected = priceFilters.find(
+                          (item) => item.label === label
+                        );
+
+                        if (selected) {
+                          setPriceFilter(selected.value);
+                        }
+                      }}
+                    />
+                  </FilterGroup>
+
+                  <FilterGroup title="Sort by">
+                    <FilterButtons
+                      items={sortOptions.map((item) => item.label)}
+                      activeValue={
+                        sortOptions.find(
+                          (item) => item.value === sort
+                        )?.label ?? "Soonest"
+                      }
+                      onSelect={(label) => {
+                        const selected = sortOptions.find(
+                          (item) => item.label === label
+                        );
+
+                        if (selected) {
+                          setSort(selected.value);
+                        }
+                      }}
+                    />
+                  </FilterGroup>
+                </div>
+              )}
+
+              {/* ACTIVE FILTERS */}
+
+              {hasActiveFilters && (
+                <div className="mt-5 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-semibold text-foreground-muted">
+                      Active:
+                    </span>
+
+                    {search.trim() && (
+                      <FilterTag
+                        label={`"${search.trim()}"`}
+                        onRemove={() => setSearch("")}
+                      />
+                    )}
+
+                    {location !== "All" && (
+                      <FilterTag
+                        label={location}
+                        onRemove={() => setLocation("All")}
+                      />
+                    )}
+
+                    {dateFilter !== "All" && (
+                      <FilterTag
+                        label={
+                          dateFilters.find(
+                            (item) => item.value === dateFilter
+                          )?.label ?? dateFilter
+                        }
+                        onRemove={() => setDateFilter("All")}
+                      />
+                    )}
+
+                    {priceFilter !== "All" && (
+                      <FilterTag
+                        label={
+                          priceFilters.find(
+                            (item) => item.value === priceFilter
+                          )?.label ?? priceFilter
+                        }
+                        onRemove={() => setPriceFilter("All")}
+                      />
+                    )}
+
+                    {sort !== "soonest" && (
+                      <FilterTag
+                        label={
+                          sortOptions.find(
+                            (item) => item.value === sort
+                          )?.label ?? sort
+                        }
+                        onRemove={() => setSort("soonest")}
+                      />
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={clearFilters}
+                    className="shrink-0 text-xs font-bold text-accent transition-colors hover:text-foreground"
+                  >
+                    Clear all
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* =========================================================
-          SEARCH + FILTERS
-      ========================================================== */}
-
-      <section className="border-b border-border bg-background-secondary/60">
-        <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-          {/* Search */}
-          <div className="rounded-2xl border border-border bg-background p-4 sm:p-5">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
-                  Search
-                </p>
-
-                <h2 className="mt-1 text-sm font-semibold sm:text-base">
-                  Find your next event
-                </h2>
-              </div>
-
-              {hasActiveFilters && (
-                <span className="hidden rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-medium text-accent sm:inline-flex">
-                  Filters active
-                </span>
-              )}
-            </div>
-
-            <div className="relative">
-              <div className="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center text-foreground-muted">
-                <SearchIcon className="h-5 w-5" />
-              </div>
-
-              <label htmlFor="event-search" className="sr-only">
-                Search events
-              </label>
-
-              <input
-                id="event-search"
-                type="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search events, locations, or descriptions..."
-                autoComplete="off"
-                className="h-12 w-full rounded-xl border border-border bg-card pl-12 pr-12 text-sm text-foreground transition-all placeholder:text-foreground-muted hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:h-14 sm:text-base"
-              />
-
-              {search && (
-                <button
-                  type="button"
-                  onClick={() => setSearch("")}
-                  className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-foreground-muted transition-colors hover:bg-background-secondary hover:text-foreground"
-                  aria-label="Clear search"
-                >
-                  <span className="text-lg leading-none">×</span>
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="mt-4 rounded-2xl border border-border bg-background p-4 sm:p-5 lg:p-6">
-            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
-                  Refine results
-                </p>
-
-                <h2 className="mt-1 text-base font-semibold sm:text-lg">
-                  Filter events
-                </h2>
-              </div>
-
-              {hasActiveFilters && (
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="self-start rounded-lg border border-border-hover px-3.5 py-2 text-xs font-semibold text-foreground-secondary transition-all hover:bg-card hover:text-foreground sm:self-auto"
-                >
-                  Clear all filters
-                </button>
-              )}
-            </div>
-
-            <FilterGroup title="Category">
-              <FilterButtons
-                items={categories}
-                activeValue={category}
-                onSelect={setCategory}
-              />
-            </FilterGroup>
-
-            <div className="mt-7 border-t border-border pt-7">
-              <FilterGroup title="Location">
-                <FilterButtons
-                  items={locations}
-                  activeValue={location}
-                  onSelect={setLocation}
-                />
-              </FilterGroup>
-            </div>
-
-            <div className="mt-7 grid gap-7 border-t border-border pt-7 md:grid-cols-2 lg:grid-cols-3">
-              <FilterGroup title="Date">
-                <FilterButtons
-                  items={dateFilters.map((item) => item.label)}
-                  activeValue={
-                    dateFilters.find(
-                      (item) => item.value === dateFilter
-                    )?.label ?? "All Dates"
-                  }
-                  onSelect={(label) => {
-                    const selected = dateFilters.find(
-                      (item) => item.label === label
-                    );
-
-                    if (selected) {
-                      setDateFilter(selected.value);
-                    }
-                  }}
-                />
-              </FilterGroup>
-
-              <FilterGroup title="Price">
-                <FilterButtons
-                  items={priceFilters.map((item) => item.label)}
-                  activeValue={
-                    priceFilters.find(
-                      (item) => item.value === priceFilter
-                    )?.label ?? "All Prices"
-                  }
-                  onSelect={(label) => {
-                    const selected = priceFilters.find(
-                      (item) => item.label === label
-                    );
-
-                    if (selected) {
-                      setPriceFilter(selected.value);
-                    }
-                  }}
-                />
-              </FilterGroup>
-
-              <FilterGroup title="Sort by">
-                <FilterButtons
-                  items={sortOptions.map((item) => item.label)}
-                  activeValue={
-                    sortOptions.find(
-                      (item) => item.value === sort
-                    )?.label ?? "Soonest"
-                  }
-                  onSelect={(label) => {
-                    const selected = sortOptions.find(
-                      (item) => item.label === label
-                    );
-
-                    if (selected) {
-                      setSort(selected.value);
-                    }
-                  }}
-                />
-              </FilterGroup>
-            </div>
-
-            <div className="mt-7 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xs leading-5 text-foreground-muted sm:text-sm">
-                {hasActiveFilters
-                  ? "Your results have been refined using the selected filters."
-                  : "Showing all available events."}
-              </p>
-
-              {hasActiveFilters && (
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="inline-flex w-full items-center justify-center rounded-lg border border-border-hover px-4 py-2.5 text-xs font-semibold text-foreground-secondary transition-all hover:bg-card hover:text-foreground sm:w-auto"
-                >
-                  Reset search
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================
+      {/* =====================================================
           EVENTS
-      ========================================================== */}
+      ====================================================== */}
 
       <section className="bg-background">
         <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <div className="mb-8 flex flex-col gap-4 border-b border-border pb-6 sm:mb-10 sm:flex-row sm:items-end sm:justify-between sm:pb-7">
+          <div className="mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
                 Discover
               </p>
 
@@ -438,23 +504,29 @@ export default function EventsPage() {
               </h2>
 
               <p className="mt-2 max-w-xl text-sm leading-6 text-foreground-muted">
-                Explore experiences happening soon and find something
-                that matches your interests.
+                Explore experiences happening soon and find
+                something worth attending.
               </p>
             </div>
 
             {!loading && !fetchError && (
-              <div className="inline-flex w-fit items-center rounded-xl border border-border bg-background-secondary px-4 py-2.5 text-sm font-medium text-foreground-secondary">
-                <span className="mr-2 font-bold text-foreground">
-                  {events.length}
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-foreground-muted">
+                  {events.length}{" "}
+                  {events.length === 1 ? "event" : "events"}
                 </span>
 
-                {events.length === 1 ? "event" : "events"} found
+                {hasActiveFilters && (
+                  <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent">
+                    Filtered
+                  </span>
+                )}
               </div>
             )}
           </div>
 
-          {/* Loading */}
+          {/* LOADING */}
+
           {loading ? (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
               {[1, 2, 3, 4, 5, 6].map((item) => (
@@ -462,7 +534,7 @@ export default function EventsPage() {
                   key={item}
                   className="overflow-hidden rounded-2xl border border-border bg-card"
                 >
-                  <div className="h-52 animate-pulse bg-background-secondary sm:h-56" />
+                  <div className="aspect-[16/10] animate-pulse bg-background-secondary" />
 
                   <div className="space-y-4 p-5 sm:p-6">
                     <div className="h-3 w-20 animate-pulse rounded bg-border" />
@@ -484,13 +556,12 @@ export default function EventsPage() {
               ))}
             </div>
           ) : fetchError ? (
-            /* Error */
             <div className="rounded-2xl border border-danger/30 bg-card px-5 py-16 text-center sm:px-8 sm:py-20">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-danger/20 bg-danger/10 text-danger">
                 <span className="text-xl font-bold">!</span>
               </div>
 
-              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-danger">
+              <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-danger">
                 Something went wrong
               </p>
 
@@ -511,13 +582,12 @@ export default function EventsPage() {
               </button>
             </div>
           ) : events.length === 0 ? (
-            /* Empty */
             <div className="rounded-2xl border border-border bg-card px-5 py-16 text-center sm:px-8 sm:py-20">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-border-hover bg-background-secondary text-accent">
                 <SearchIcon className="h-6 w-6" />
               </div>
 
-              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+              <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-accent">
                 No results
               </p>
 
@@ -526,9 +596,9 @@ export default function EventsPage() {
               </h3>
 
               <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-foreground-secondary">
-                We couldn't find any events matching your current
-                search and filters. Try changing your criteria or
-                reset the filters.
+                We couldn't find any events matching your
+                current search and filters. Try changing your
+                criteria or clearing the filters.
               </p>
 
               {hasActiveFilters && (
@@ -542,7 +612,6 @@ export default function EventsPage() {
               )}
             </div>
           ) : (
-            /* Event Grid */
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
               {events.map((event) => (
                 <EventCard key={event._id} event={event} />
@@ -557,33 +626,40 @@ export default function EventsPage() {
   );
 }
 
-/* =============================================================
-   EVENT CARD
-============================================================= */
-
 function EventCard({ event }: { event: Event }) {
   const [imageError, setImageError] = useState(false);
 
-  const formattedDate = (() => {
+  const dateParts = (() => {
     const date = new Date(event.date);
 
     if (Number.isNaN(date.getTime())) {
-      return "Date unavailable";
+      return {
+        day: "--",
+        month: "---",
+        full: "Date unavailable",
+      };
     }
 
-    return date.toLocaleDateString("en-KE", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+    return {
+      day: date.toLocaleDateString("en-KE", {
+        day: "2-digit",
+      }),
+      month: date.toLocaleDateString("en-KE", {
+        month: "short",
+      }),
+      full: date.toLocaleDateString("en-KE", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+    };
   })();
 
   return (
     <Link
       href={`/events/${event._id}`}
-      className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-border-hover hover:shadow-2xl focus-visible:-translate-y-1"
+      className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-border-hover hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
-      {/* Image */}
       <div className="relative aspect-[16/10] overflow-hidden bg-background-secondary">
         {!imageError && event.image ? (
           <img
@@ -607,16 +683,26 @@ function EventCard({ event }: { event: Event }) {
           </div>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
 
-        {/* Category */}
-        <div className="absolute left-4 top-4 max-w-[calc(100%-2rem)]">
-          <span className="inline-flex max-w-full truncate rounded-lg border border-white/10 bg-black/65 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur-md">
+        <div className="absolute left-4 top-4 overflow-hidden rounded-xl border border-white/15 bg-black/70 text-center backdrop-blur-md">
+          <div className="min-w-[52px] px-2.5 py-2">
+            <p className="text-lg font-bold leading-none text-white">
+              {dateParts.day}
+            </p>
+
+            <p className="mt-1 text-[9px] font-bold uppercase tracking-wider text-accent">
+              {dateParts.month}
+            </p>
+          </div>
+        </div>
+
+        <div className="absolute right-4 top-4 max-w-[55%]">
+          <span className="inline-flex max-w-full truncate rounded-lg border border-white/10 bg-black/65 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur-md">
             {event.category}
           </span>
         </div>
 
-        {/* Price */}
         <div className="absolute bottom-4 right-4">
           <span className="rounded-lg border border-white/10 bg-black/70 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-md">
             {event.price === 0
@@ -626,7 +712,6 @@ function EventCard({ event }: { event: Event }) {
         </div>
       </div>
 
-      {/* Information */}
       <div className="flex flex-1 flex-col p-5 sm:p-6">
         <h3 className="line-clamp-2 text-lg font-bold leading-tight tracking-tight transition-colors group-hover:text-accent sm:text-xl">
           {event.title}
@@ -636,8 +721,7 @@ function EventCard({ event }: { event: Event }) {
           {event.description}
         </p>
 
-        {/* Metadata */}
-        <div className="mt-5 space-y-3 border-t border-border pt-5">
+        <div className="mt-5 space-y-3">
           <EventMeta
             icon={<LocationIcon />}
             label="Location"
@@ -645,22 +729,25 @@ function EventCard({ event }: { event: Event }) {
             truncate
           />
 
-          <EventMeta
-            icon={<CalendarIcon />}
-            label="Date"
-            value={formattedDate}
-          />
-
-          {event.time && (
+          <div className="grid grid-cols-2 gap-3">
             <EventMeta
-              icon={<ClockIcon />}
-              label="Time"
-              value={event.time}
+              icon={<CalendarIcon />}
+              label="Date"
+              value={dateParts.full}
             />
-          )}
+
+            {event.time ? (
+              <EventMeta
+                icon={<ClockIcon />}
+                label="Time"
+                value={event.time}
+              />
+            ) : (
+              <div />
+            )}
+          </div>
         </div>
 
-        {/* Footer */}
         <div className="mt-6 flex items-center justify-between gap-3 border-t border-border pt-5">
           <div className="min-w-0">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground-muted">
@@ -674,19 +761,21 @@ function EventCard({ event }: { event: Event }) {
             </p>
           </div>
 
-          <span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-accent transition-all group-hover:gap-2 group-hover:text-foreground sm:text-sm">
+          <span className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-border bg-background-secondary px-3 py-2 text-xs font-bold text-accent transition-all group-hover:border-accent/30 group-hover:bg-accent group-hover:text-white sm:text-sm">
             View Event
-            <span aria-hidden="true">→</span>
+
+            <span
+              aria-hidden="true"
+              className="transition-transform group-hover:translate-x-0.5"
+            >
+              →
+            </span>
           </span>
         </div>
       </div>
     </Link>
   );
 }
-
-/* =============================================================
-   EVENT META
-============================================================= */
 
 function EventMeta({
   icon,
@@ -722,10 +811,6 @@ function EventMeta({
   );
 }
 
-/* =============================================================
-   FILTER GROUP
-============================================================= */
-
 function FilterGroup({
   title,
   children,
@@ -743,10 +828,6 @@ function FilterGroup({
     </div>
   );
 }
-
-/* =============================================================
-   FILTER BUTTONS
-============================================================= */
 
 function FilterButtons({
   items,
@@ -784,11 +865,74 @@ function FilterButtons({
   );
 }
 
-/* =============================================================
-   ICONS
-============================================================= */
+function FilterSelectGroup({
+  title,
+  value,
+  options,
+  onChange,
+}: {
+  title: string;
+  value: string;
+  options: string[];
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div>
+      <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+        {title}
+      </label>
 
-function SearchIcon({ className = "h-5 w-5" }: { className?: string }) {
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-11 w-full appearance-none rounded-xl border border-border bg-card px-4 pr-10 text-sm font-semibold text-foreground outline-none transition-all hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10"
+        >
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+
+        <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-foreground-muted">
+          <ChevronDownIcon />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FilterTag({
+  label,
+  onRemove,
+}: {
+  label: string;
+  onRemove: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onRemove}
+      className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent transition-colors hover:border-accent/40 hover:bg-accent/15"
+    >
+      <span className="max-w-[180px] truncate">{label}</span>
+
+      <span
+        aria-hidden="true"
+        className="text-sm leading-none"
+      >
+        ×
+      </span>
+    </button>
+  );
+}
+
+function SearchIcon({
+  className = "h-5 w-5",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -800,6 +944,21 @@ function SearchIcon({ className = "h-5 w-5" }: { className?: string }) {
     >
       <circle cx="11" cy="11" r="7" />
       <path d="m20 20-4-4" />
+    </svg>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      className="h-4 w-4"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6" />
     </svg>
   );
 }
@@ -830,7 +989,13 @@ function CalendarIcon() {
       className="h-4 w-4"
       aria-hidden="true"
     >
-      <rect x="3" y="4" width="18" height="17" rx="2" />
+      <rect
+        x="3"
+        y="4"
+        width="18"
+        height="17"
+        rx="2"
+      />
       <path d="M16 2v4M8 2v4M3 9h18" />
     </svg>
   );
