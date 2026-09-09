@@ -2,6 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import {
+  CalendarDaysIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  MapPinIcon,
+  TicketIcon,
+  XCircleIcon,
+  ArrowRightIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 
 type Event = {
   _id: string;
@@ -39,9 +49,7 @@ export default function MyBookingsPage() {
         const data = await response.json();
 
         if (!response.ok || !data.success) {
-          throw new Error(
-            data.message || "Failed to fetch bookings"
-          );
+          throw new Error(data.message || "Failed to fetch bookings");
         }
 
         setBookings(data.bookings);
@@ -70,20 +78,44 @@ export default function MyBookingsPage() {
     });
   }
 
+  function isUpcoming(date: string) {
+    return new Date(date).getTime() >= new Date().setHours(0, 0, 0, 0);
+  }
+
   if (loading) {
     return (
       <div className="w-full">
         <div className="animate-pulse space-y-7">
-          {/* Header skeleton */}
-          <div className="rounded-2xl border border-border bg-card p-6 sm:p-8">
-            <div className="h-3 w-24 rounded bg-background" />
+          <section className="rounded-2xl border border-border bg-card p-6 sm:p-8">
+            <div className="h-3 w-24 rounded bg-background-secondary" />
 
-            <div className="mt-4 h-9 w-52 rounded bg-background" />
+            <div className="mt-5 h-9 w-56 rounded-lg bg-background-secondary" />
 
-            <div className="mt-3 h-4 w-full max-w-md rounded bg-background" />
+            <div className="mt-3 h-4 w-full max-w-md rounded bg-background-secondary" />
+
+            <div className="mt-7 h-11 w-40 rounded-xl bg-background-secondary" />
+          </section>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map((item) => (
+              <div
+                key={item}
+                className="rounded-2xl border border-border bg-card p-5"
+              >
+                <div className="flex justify-between">
+                  <div>
+                    <div className="h-3 w-24 rounded bg-background-secondary" />
+                    <div className="mt-4 h-8 w-12 rounded bg-background-secondary" />
+                  </div>
+
+                  <div className="h-10 w-10 rounded-xl bg-background-secondary" />
+                </div>
+
+                <div className="mt-4 h-3 w-32 rounded bg-background-secondary" />
+              </div>
+            ))}
           </div>
 
-          {/* Card skeletons */}
           <div className="grid gap-5 md:grid-cols-2">
             {[1, 2, 3, 4].map((item) => (
               <div
@@ -95,10 +127,10 @@ export default function MyBookingsPage() {
                 <div className="space-y-4 p-5 sm:p-6">
                   <div className="h-5 w-2/3 rounded bg-background-secondary" />
 
-                  <div className="space-y-2">
-                    <div className="h-3 w-full rounded bg-background-secondary" />
-                    <div className="h-3 w-5/6 rounded bg-background-secondary" />
-                    <div className="h-3 w-2/3 rounded bg-background-secondary" />
+                  <div className="space-y-3">
+                    <div className="h-4 w-full rounded bg-background-secondary" />
+                    <div className="h-4 w-5/6 rounded bg-background-secondary" />
+                    <div className="h-4 w-2/3 rounded bg-background-secondary" />
                   </div>
 
                   <div className="h-20 rounded-xl bg-background-secondary" />
@@ -115,10 +147,10 @@ export default function MyBookingsPage() {
 
   if (error) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 text-center sm:p-8">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10 text-lg font-bold text-red-400">
-            !
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-red-400/20 bg-red-500/10">
+            <XCircleIcon className="h-7 w-7 text-red-400" />
           </div>
 
           <h1 className="mt-5 text-xl font-bold sm:text-2xl">
@@ -147,37 +179,37 @@ export default function MyBookingsPage() {
   );
 
   const confirmedBookings = bookings.filter(
-    (booking) =>
-      booking.status.toLowerCase() === "confirmed"
+    (booking) => booking.status.toLowerCase() === "confirmed"
   ).length;
 
   const pendingBookings = bookings.filter(
-    (booking) =>
-      booking.status.toLowerCase() === "pending"
+    (booking) => booking.status.toLowerCase() === "pending"
+  ).length;
+
+  const upcomingBookings = bookings.filter((booking) =>
+    isUpcoming(booking.event.date)
   ).length;
 
   return (
     <div className="w-full">
       {/* =========================================================
-          HEADER
+          PAGE HEADER
       ========================================================= */}
       <section className="relative overflow-hidden rounded-2xl border border-border bg-card">
-        <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
 
         <div className="relative p-5 sm:p-7 lg:p-8">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2.5">
                 <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
                   Dashboard
                 </span>
 
-                <span className="text-xs text-foreground-muted">
-                  /
-                </span>
+                <span className="text-xs text-foreground-muted">/</span>
 
                 <span className="text-xs font-medium text-foreground-muted">
-                  Bookings
+                  My Bookings
                 </span>
               </div>
 
@@ -186,14 +218,16 @@ export default function MyBookingsPage() {
               </h1>
 
               <p className="mt-3 max-w-2xl text-sm leading-6 text-foreground-secondary sm:text-base">
-                View and manage the events you have booked.
+                Keep track of your event bookings, tickets, and upcoming
+                experiences in one place.
               </p>
             </div>
 
             <Link
               href="/events"
-              className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
             >
+              <MagnifyingGlassIcon className="h-4 w-4" />
               Discover Events
             </Link>
           </div>
@@ -210,29 +244,35 @@ export default function MyBookingsPage() {
               label="Total Bookings"
               value={bookings.length.toString()}
               description="Events you've booked"
-              icon="B"
+              icon={<TicketIcon className="h-5 w-5" />}
             />
 
             <SummaryCard
               label="Tickets"
               value={totalTickets.toString()}
               description="Tickets across bookings"
-              icon="T"
+              icon={<CalendarDaysIcon className="h-5 w-5" />}
             />
 
             <SummaryCard
               label="Confirmed"
               value={confirmedBookings.toString()}
               description="Confirmed bookings"
-              icon="✓"
+              icon={<CheckCircleIcon className="h-5 w-5" />}
               iconClass="bg-green-500/10 text-green-400"
             />
 
             <SummaryCard
-              label="Pending"
-              value={pendingBookings.toString()}
-              description="Awaiting confirmation"
-              icon="!"
+              label="Upcoming"
+              value={upcomingBookings.toString()}
+              description={
+                pendingBookings > 0
+                  ? `${pendingBookings} pending booking${
+                      pendingBookings === 1 ? "" : "s"
+                    }`
+                  : "Upcoming experiences"
+              }
+              icon={<ClockIcon className="h-5 w-5" />}
               iconClass="bg-yellow-500/10 text-yellow-400"
             />
           </div>
@@ -244,9 +284,9 @@ export default function MyBookingsPage() {
       ========================================================= */}
       <section className="mt-9">
         {bookings.length === 0 ? (
-          <div className="rounded-2xl border border-border bg-card px-5 py-14 text-center sm:px-8">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-background text-sm font-bold text-accent">
-              E
+          <div className="rounded-2xl border border-border bg-card px-5 py-16 text-center sm:px-8">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-background">
+              <TicketIcon className="h-7 w-7 text-accent" />
             </div>
 
             <h2 className="mt-5 text-xl font-bold tracking-tight sm:text-2xl">
@@ -254,15 +294,16 @@ export default function MyBookingsPage() {
             </h2>
 
             <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-foreground-secondary">
-              You haven't booked any events yet. Explore upcoming
-              events and find something worth experiencing.
+              You haven't booked any events yet. Explore upcoming events and
+              find something worth experiencing.
             </p>
 
             <Link
               href="/events"
-              className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white transition hover:bg-accent-hover"
+              className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-accent px-6 text-sm font-semibold text-white transition hover:bg-accent-hover"
             >
-              Discover Events
+              Explore Events
+              <ArrowRightIcon className="h-4 w-4" />
             </Link>
           </div>
         ) : (
@@ -278,7 +319,7 @@ export default function MyBookingsPage() {
                 </h2>
               </div>
 
-              <span className="shrink-0 text-xs text-foreground-muted">
+              <span className="shrink-0 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground-secondary">
                 {bookings.length}{" "}
                 {bookings.length === 1 ? "booking" : "bookings"}
               </span>
@@ -286,18 +327,14 @@ export default function MyBookingsPage() {
 
             <div className="grid gap-5 md:grid-cols-2">
               {bookings.map((booking) => {
-                const eventDate = formatEventDate(
-                  booking.event.date
-                );
+                const eventDate = formatEventDate(booking.event.date);
 
                 return (
                   <article
                     key={booking._id}
                     className="group overflow-hidden rounded-2xl border border-border bg-card transition-all duration-200 hover:-translate-y-0.5 hover:border-border-hover hover:bg-card-hover"
                   >
-                    {/* =================================================
-                        EVENT IMAGE
-                    ================================================= */}
+                    {/* EVENT IMAGE */}
                     <div className="relative h-52 overflow-hidden sm:h-56">
                       {booking.event.image ? (
                         <img
@@ -311,43 +348,44 @@ export default function MyBookingsPage() {
                         </div>
                       )}
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
 
                       {/* Category */}
-                      <span className="absolute left-4 top-4 max-w-[70%] truncate rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[10px] font-bold text-white backdrop-blur-md">
+                      <span className="absolute left-4 top-4 max-w-[65%] truncate rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-white backdrop-blur-md">
                         {booking.event.category}
                       </span>
 
                       {/* Status */}
-                      <div className="absolute bottom-4 right-4">
+                      <div className="absolute right-4 top-4">
                         <StatusBadge status={booking.status} />
                       </div>
 
                       {/* Event title */}
-                      <div className="absolute bottom-4 left-4 min-w-0 max-w-[70%]">
-                        <p className="truncate text-lg font-bold text-white sm:text-xl">
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <p className="line-clamp-2 text-lg font-bold leading-tight text-white sm:text-xl">
                           {booking.event.title}
                         </p>
                       </div>
                     </div>
 
-                    {/* =================================================
-                        CONTENT
-                    ================================================= */}
+                    {/* CONTENT */}
                     <div className="p-5 sm:p-6">
                       {/* Event details */}
-                      <div className="space-y-3">
+                      <div className="space-y-3.5">
                         <InfoRow
+                          icon={<MapPinIcon className="h-4 w-4" />}
                           label="Location"
                           value={booking.event.location}
                         />
 
                         <InfoRow
+                          icon={<CalendarDaysIcon className="h-4 w-4" />}
                           label="Date"
                           value={eventDate}
                         />
 
                         <InfoRow
+                          icon={<ClockIcon className="h-4 w-4" />}
                           label="Time"
                           value={booking.event.time}
                         />
@@ -355,18 +393,24 @@ export default function MyBookingsPage() {
 
                       {/* Booking summary */}
                       <div className="mt-5 rounded-xl border border-border bg-background-secondary/50 p-4">
-                        <div className="flex items-center justify-between gap-4">
-                          <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
-                              Tickets
-                            </p>
+                        <div className="flex items-center justify-between gap-5">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                              <TicketIcon className="h-4 w-4" />
+                            </div>
 
-                            <p className="mt-1 text-sm font-semibold">
-                              {booking.quantity}{" "}
-                              {booking.quantity === 1
-                                ? "ticket"
-                                : "tickets"}
-                            </p>
+                            <div>
+                              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
+                                Tickets
+                              </p>
+
+                              <p className="mt-1 text-sm font-semibold">
+                                {booking.quantity}{" "}
+                                {booking.quantity === 1
+                                  ? "ticket"
+                                  : "tickets"}
+                              </p>
+                            </div>
                           </div>
 
                           <div className="text-right">
@@ -385,15 +429,21 @@ export default function MyBookingsPage() {
                         </div>
                       </div>
 
-                      {/* Reference */}
-                      <div className="mt-5">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
-                          Booking Reference
-                        </p>
+                      {/* Booking reference */}
+                      <div className="mt-5 flex items-center justify-between gap-4">
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
+                            Booking Reference
+                          </p>
 
-                        <p className="mt-1 truncate font-mono text-xs font-medium text-foreground-secondary">
-                          {booking.bookingReference}
-                        </p>
+                          <p className="mt-1 truncate font-mono text-xs font-medium text-foreground-secondary">
+                            {booking.bookingReference}
+                          </p>
+                        </div>
+
+                        <span className="shrink-0 text-[10px] font-medium uppercase tracking-wide text-foreground-muted">
+                          Eventora
+                        </span>
                       </div>
 
                       {/* Action */}
@@ -402,9 +452,7 @@ export default function MyBookingsPage() {
                         className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-hover"
                       >
                         View Booking
-                        <span className="transition-transform duration-200 group-hover:translate-x-0.5">
-                          →
-                        </span>
+                        <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                       </Link>
                     </div>
                   </article>
@@ -432,7 +480,7 @@ function SummaryCard({
   label: string;
   value: string;
   description: string;
-  icon: string;
+  icon: React.ReactNode;
   iconClass?: string;
 }) {
   return (
@@ -449,7 +497,7 @@ function SummaryCard({
         </div>
 
         <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold ${iconClass}`}
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${iconClass}`}
         >
           {icon}
         </div>
@@ -467,19 +515,25 @@ function SummaryCard({
 ========================================================= */
 
 function InfoRow({
+  icon,
   label,
   value,
 }: {
+  icon: React.ReactNode;
   label: string;
   value: string;
 }) {
   return (
-    <div className="flex items-start justify-between gap-5 text-sm">
-      <span className="shrink-0 text-foreground-muted">
+    <div className="flex items-center gap-3 text-sm">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-foreground-muted">
+        {icon}
+      </div>
+
+      <span className="w-16 shrink-0 text-foreground-muted">
         {label}
       </span>
 
-      <span className="min-w-0 truncate text-right text-foreground-secondary">
+      <span className="min-w-0 flex-1 truncate text-right font-medium text-foreground-secondary">
         {value}
       </span>
     </div>
@@ -493,17 +547,28 @@ function InfoRow({
 function StatusBadge({ status }: { status: string }) {
   const normalizedStatus = status.toLowerCase();
 
-  const styles =
-    normalizedStatus === "confirmed"
-      ? "border-green-400/20 bg-green-500/15 text-green-300"
-      : normalizedStatus === "pending"
-        ? "border-yellow-400/20 bg-yellow-500/15 text-yellow-300"
-        : "border-red-400/20 bg-red-500/15 text-red-300";
+  const isConfirmed = normalizedStatus === "confirmed";
+  const isPending = normalizedStatus === "pending";
+
+  const styles = isConfirmed
+    ? "border-green-400/20 bg-green-500/15 text-green-300"
+    : isPending
+      ? "border-yellow-400/20 bg-yellow-500/15 text-yellow-300"
+      : "border-red-400/20 bg-red-500/15 text-red-300";
+
+  const icon = isConfirmed ? (
+    <CheckCircleIcon className="h-3.5 w-3.5" />
+  ) : isPending ? (
+    <ClockIcon className="h-3.5 w-3.5" />
+  ) : (
+    <XCircleIcon className="h-3.5 w-3.5" />
+  );
 
   return (
     <span
-      className={`inline-flex rounded-full border px-3 py-1.5 text-[10px] font-bold capitalize backdrop-blur-md ${styles}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-bold capitalize backdrop-blur-md ${styles}`}
     >
+      {icon}
       {status}
     </span>
   );

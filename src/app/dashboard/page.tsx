@@ -3,6 +3,15 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  ArrowRightIcon,
+  CalendarDaysIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  MagnifyingGlassIcon,
+  TicketIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
 
 type User = {
   firstName?: string;
@@ -77,8 +86,6 @@ export default function DashboardPage() {
 
         /*
          * ROLE-BASED DASHBOARD ROUTING
-         *
-         * Admins should use the dedicated admin dashboard.
          */
         if (
           userResponse.ok &&
@@ -138,40 +145,106 @@ export default function DashboardPage() {
     }
   }
 
+  function getStatusIcon(status: Booking["status"]) {
+    switch (status) {
+      case "confirmed":
+        return <CheckCircleIcon className="h-3.5 w-3.5" />;
+
+      case "pending":
+        return <ClockIcon className="h-3.5 w-3.5" />;
+
+      case "cancelled":
+        return <XCircleIcon className="h-3.5 w-3.5" />;
+
+      default:
+        return null;
+    }
+  }
+
   if (loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="w-full max-w-sm px-6 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-card">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-border border-t-accent" />
-          </div>
+      <div className="w-full">
+        <div className="animate-pulse space-y-7">
+          <section className="rounded-2xl border border-border bg-card p-6 sm:p-8 lg:p-9">
+            <div className="h-3 w-24 rounded bg-background-secondary" />
 
-          <p className="mt-4 text-sm font-medium text-foreground">
-            Loading your dashboard
-          </p>
+            <div className="mt-5 h-10 w-64 rounded-lg bg-background-secondary" />
 
-          <p className="mt-1 text-xs text-foreground-muted">
-            Preparing your latest activity...
-          </p>
+            <div className="mt-3 h-4 w-full max-w-2xl rounded bg-background-secondary" />
+
+            <div className="mt-7 flex gap-3">
+              <div className="h-11 w-36 rounded-xl bg-background-secondary" />
+              <div className="h-11 w-32 rounded-xl bg-background-secondary" />
+            </div>
+          </section>
+
+          <section>
+            <div className="mb-4">
+              <div className="h-3 w-20 rounded bg-background-secondary" />
+              <div className="mt-2 h-7 w-40 rounded bg-background-secondary" />
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {[1, 2, 3, 4].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-border bg-card p-5"
+                >
+                  <div className="flex justify-between">
+                    <div>
+                      <div className="h-3 w-24 rounded bg-background-secondary" />
+                      <div className="mt-4 h-8 w-12 rounded bg-background-secondary" />
+                    </div>
+
+                    <div className="h-10 w-10 rounded-xl bg-background-secondary" />
+                  </div>
+
+                  <div className="mt-4 h-3 w-32 rounded bg-background-secondary" />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <div className="mb-5">
+              <div className="h-3 w-20 rounded bg-background-secondary" />
+              <div className="mt-2 h-7 w-44 rounded bg-background-secondary" />
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-border bg-card">
+              {[1, 2, 3].map((item) => (
+                <div
+                  key={item}
+                  className="flex gap-4 border-b border-border p-4 last:border-b-0 sm:p-5"
+                >
+                  <div className="h-14 w-14 shrink-0 rounded-xl bg-background-secondary" />
+
+                  <div className="flex-1">
+                    <div className="h-4 w-2/3 rounded bg-background-secondary" />
+                    <div className="mt-2 h-3 w-1/2 rounded bg-background-secondary" />
+                    <div className="mt-3 h-3 w-1/3 rounded bg-background-secondary" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
       </div>
     );
   }
 
   const isOrganizer = user?.role === "organizer";
-
   const organizerRequestStatus =
     user?.organizerRequestStatus || "none";
-
   const firstName = user?.firstName || "there";
 
   return (
     <div className="w-full">
       {/* =========================================================
-          HERO / HEADER
+          HERO
       ========================================================= */}
       <section className="relative overflow-hidden rounded-2xl border border-border bg-card">
-        <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
 
         <div className="relative p-5 sm:p-7 lg:p-9">
           <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
@@ -203,15 +276,17 @@ export default function DashboardPage() {
             <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row">
               <Link
                 href="/events"
-                className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 sm:w-auto"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 sm:w-auto"
               >
+                <MagnifyingGlassIcon className="h-4 w-4" />
                 Explore Events
               </Link>
 
               <Link
                 href="/dashboard/bookings"
-                className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-border-hover bg-background px-5 text-sm font-semibold text-foreground transition-all duration-200 hover:bg-background-secondary sm:w-auto"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-border-hover bg-background px-5 text-sm font-semibold text-foreground transition-all duration-200 hover:bg-background-secondary sm:w-auto"
               >
+                <TicketIcon className="h-4 w-4" />
                 My Bookings
               </Link>
             </div>
@@ -222,8 +297,8 @@ export default function DashboardPage() {
       {/* =========================================================
           STATS
       ========================================================= */}
-      <section className="mt-7">
-        <div className="mb-4">
+      <section className="mt-9">
+        <div className="mb-5">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-muted">
             Overview
           </p>
@@ -234,97 +309,39 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Total */}
-          <div className="group rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:border-border-hover hover:bg-card-hover">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium text-foreground-muted">
-                  Total bookings
-                </p>
+          <DashboardStat
+            label="Total bookings"
+            value={statsLoading ? "—" : stats.total.toString()}
+            description="All your event bookings"
+            icon={<TicketIcon className="h-5 w-5" />}
+          />
 
-                <p className="mt-3 text-3xl font-bold tracking-tight">
-                  {statsLoading ? "—" : stats.total}
-                </p>
-              </div>
+          <DashboardStat
+            label="Confirmed"
+            value={statsLoading ? "—" : stats.confirmed.toString()}
+            description="Ready to attend"
+            icon={<CheckCircleIcon className="h-5 w-5" />}
+            iconClass="bg-green-500/10 text-green-400"
+            hoverClass="hover:border-green-500/20"
+          />
 
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-sm font-bold text-accent">
-                B
-              </div>
-            </div>
+          <DashboardStat
+            label="Pending"
+            value={statsLoading ? "—" : stats.pending.toString()}
+            description="Awaiting confirmation"
+            icon={<ClockIcon className="h-5 w-5" />}
+            iconClass="bg-yellow-500/10 text-yellow-400"
+            hoverClass="hover:border-yellow-500/20"
+          />
 
-            <p className="mt-4 text-xs text-foreground-muted">
-              All your event bookings
-            </p>
-          </div>
-
-          {/* Confirmed */}
-          <div className="group rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:border-green-500/20 hover:bg-card-hover">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium text-foreground-muted">
-                  Confirmed
-                </p>
-
-                <p className="mt-3 text-3xl font-bold tracking-tight">
-                  {statsLoading ? "—" : stats.confirmed}
-                </p>
-              </div>
-
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-500/10 text-sm font-bold text-green-400">
-                ✓
-              </div>
-            </div>
-
-            <p className="mt-4 text-xs text-foreground-muted">
-              Ready to attend
-            </p>
-          </div>
-
-          {/* Pending */}
-          <div className="group rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:border-yellow-500/20 hover:bg-card-hover">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium text-foreground-muted">
-                  Pending
-                </p>
-
-                <p className="mt-3 text-3xl font-bold tracking-tight">
-                  {statsLoading ? "—" : stats.pending}
-                </p>
-              </div>
-
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-yellow-500/10 text-sm font-bold text-yellow-400">
-                !
-              </div>
-            </div>
-
-            <p className="mt-4 text-xs text-foreground-muted">
-              Awaiting confirmation
-            </p>
-          </div>
-
-          {/* Cancelled */}
-          <div className="group rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:border-red-500/20 hover:bg-card-hover">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium text-foreground-muted">
-                  Cancelled
-                </p>
-
-                <p className="mt-3 text-3xl font-bold tracking-tight">
-                  {statsLoading ? "—" : stats.cancelled}
-                </p>
-              </div>
-
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-sm font-bold text-red-400">
-                ×
-              </div>
-            </div>
-
-            <p className="mt-4 text-xs text-foreground-muted">
-              Cancelled bookings
-            </p>
-          </div>
+          <DashboardStat
+            label="Cancelled"
+            value={statsLoading ? "—" : stats.cancelled.toString()}
+            description="Cancelled bookings"
+            icon={<XCircleIcon className="h-5 w-5" />}
+            iconClass="bg-red-500/10 text-red-400"
+            hoverClass="hover:border-red-500/20"
+          />
         </div>
       </section>
 
@@ -350,10 +367,10 @@ export default function DashboardPage() {
           {bookings.length > 0 && (
             <Link
               href="/dashboard/bookings"
-              className="inline-flex w-fit items-center rounded-lg px-2 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent/10 hover:text-accent-hover"
+              className="inline-flex w-fit items-center gap-1.5 rounded-lg px-2 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent/10 hover:text-accent-hover"
             >
               View all
-              <span className="ml-1.5">→</span>
+              <ArrowRightIcon className="h-4 w-4" />
             </Link>
           )}
         </div>
@@ -375,18 +392,16 @@ export default function DashboardPage() {
 
                     <div className="mt-3 h-3 w-1/3 animate-pulse rounded bg-background" />
                   </div>
-
-                  <div className="hidden h-6 w-20 animate-pulse rounded-full bg-background sm:block" />
                 </div>
               ))}
             </div>
           ) : bookings.length === 0 ? (
-            <div className="px-5 py-14 text-center sm:px-8">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-background text-sm font-bold text-foreground-muted">
-                B
+            <div className="px-5 py-16 text-center sm:px-8">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-background">
+                <TicketIcon className="h-7 w-7 text-accent" />
               </div>
 
-              <h3 className="mt-5 text-base font-bold">
+              <h3 className="mt-5 text-lg font-bold">
                 No bookings yet
               </h3>
 
@@ -397,9 +412,10 @@ export default function DashboardPage() {
 
               <Link
                 href="/events"
-                className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-white transition hover:bg-accent-hover"
+                className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-accent px-5 text-sm font-semibold text-white transition hover:bg-accent-hover"
               >
                 Explore Events
+                <ArrowRightIcon className="h-4 w-4" />
               </Link>
             </div>
           ) : (
@@ -412,46 +428,39 @@ export default function DashboardPage() {
                 >
                   <div className="flex flex-col gap-4 p-4 sm:p-5 md:flex-row md:items-center">
                     {/* Event image */}
-                    <div className="flex shrink-0 items-center gap-3">
-                      {booking.event?.image ? (
-                        <img
-                          src={booking.event.image}
-                          alt={booking.event.title || "Event"}
-                          className="h-14 w-14 rounded-xl object-cover ring-1 ring-border"
-                        />
-                      ) : (
-                        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-background text-sm font-bold text-foreground-muted ring-1 ring-border">
-                          E
-                        </div>
-                      )}
-                    </div>
+                    {booking.event?.image ? (
+                      <img
+                        src={booking.event.image}
+                        alt={booking.event.title || "Event"}
+                        className="h-16 w-16 shrink-0 rounded-xl object-cover ring-1 ring-border sm:h-[68px] sm:w-[68px]"
+                      />
+                    ) : (
+                      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-background text-sm font-bold text-foreground-muted ring-1 ring-border sm:h-[68px] sm:w-[68px]">
+                        E
+                      </div>
+                    )}
 
                     {/* Booking details */}
                     <div className="min-w-0 flex-1">
-                      <h3 className="min-w-0 truncate text-sm font-semibold text-foreground transition-colors group-hover:text-accent">
-                        {booking.event?.title || "Event unavailable"}
-                      </h3>
+                      <div className="flex min-w-0 items-center gap-2">
+                        <h3 className="min-w-0 truncate text-sm font-semibold text-foreground transition-colors group-hover:text-accent">
+                          {booking.event?.title || "Event unavailable"}
+                        </h3>
+                      </div>
 
-                      <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
-                        <span>
-                          {formatDate(booking.event?.date)}
-                        </span>
-
-                        {booking.event?.location && (
-                          <>
-                            <span className="text-border-hover">
-                              •
-                            </span>
-
-                            <span className="max-w-[220px] truncate">
-                              {booking.event.location}
-                            </span>
-                          </>
+                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-foreground-muted">
+                        {booking.event?.date && (
+                          <span className="flex items-center gap-1.5">
+                            <CalendarDaysIcon className="h-3.5 w-3.5" />
+                            {formatDate(booking.event.date)}
+                          </span>
                         )}
 
-                        <span className="text-border-hover">
-                          •
-                        </span>
+                        {booking.event?.location && (
+                          <span className="max-w-[220px] truncate">
+                            {booking.event.location}
+                          </span>
+                        )}
 
                         <span>
                           {booking.quantity}{" "}
@@ -461,26 +470,32 @@ export default function DashboardPage() {
                         </span>
                       </div>
 
-                      <p className="mt-2 truncate text-[10px] font-medium text-foreground-muted">
-                        Ref: {booking.bookingReference}
+                      <p className="mt-2 truncate font-mono text-[10px] font-medium text-foreground-muted">
+                        {booking.bookingReference}
                       </p>
                     </div>
 
                     {/* Status + amount */}
-                    <div className="flex items-center justify-between gap-4 md:flex-col md:items-end">
+                    <div className="flex items-center justify-between gap-4 md:min-w-[130px] md:flex-col md:items-end">
                       <span
-                        className={`rounded-full border px-2.5 py-1 text-[10px] font-bold capitalize ${getStatusClasses(
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-bold capitalize ${getStatusClasses(
                           booking.status
                         )}`}
                       >
+                        {getStatusIcon(booking.status)}
                         {booking.status}
                       </span>
 
                       <p className="text-sm font-bold text-foreground">
-                        KSh{" "}
-                        {booking.totalAmount.toLocaleString("en-KE")}
+                        {booking.totalAmount === 0
+                          ? "Free"
+                          : `KSh ${booking.totalAmount.toLocaleString(
+                              "en-KE"
+                            )}`}
                       </p>
                     </div>
+
+                    <ArrowRightIcon className="hidden h-4 w-4 shrink-0 text-foreground-muted transition-transform group-hover:translate-x-0.5 group-hover:text-accent md:block" />
                   </div>
                 </Link>
               ))}
@@ -504,7 +519,6 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          {/* Explore */}
           <Link
             href="/events"
             className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/30 hover:bg-card-hover sm:p-7"
@@ -512,8 +526,8 @@ export default function DashboardPage() {
             <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-accent/5 blur-2xl" />
 
             <div className="relative">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-sm font-bold text-accent">
-                E
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                <MagnifyingGlassIcon className="h-5 w-5" />
               </div>
 
               <h3 className="mt-5 text-lg font-bold tracking-tight">
@@ -527,21 +541,18 @@ export default function DashboardPage() {
 
               <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-accent">
                 Browse events
-                <span className="transition-transform duration-200 group-hover:translate-x-1">
-                  →
-                </span>
+                <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </div>
             </div>
           </Link>
 
-          {/* Bookings */}
           <Link
             href="/dashboard/bookings"
             className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-hover hover:bg-card-hover sm:p-7"
           >
             <div className="relative">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-background text-sm font-bold text-foreground-secondary ring-1 ring-border">
-                B
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-background text-foreground-secondary ring-1 ring-border">
+                <TicketIcon className="h-5 w-5" />
               </div>
 
               <h3 className="mt-5 text-lg font-bold tracking-tight">
@@ -555,9 +566,7 @@ export default function DashboardPage() {
 
               <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-foreground-secondary">
                 View bookings
-                <span className="transition-transform duration-200 group-hover:translate-x-1">
-                  →
-                </span>
+                <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </div>
             </div>
           </Link>
@@ -565,7 +574,7 @@ export default function DashboardPage() {
       </section>
 
       {/* =========================================================
-          BECOME AN ORGANIZER
+          ORGANIZER SECTION
       ========================================================= */}
       {!isOrganizer && (
         <section className="mt-10 overflow-hidden rounded-2xl border border-accent/20 bg-accent/[0.035]">
@@ -618,17 +627,19 @@ export default function DashboardPage() {
               </div>
 
               {organizerRequestStatus === "pending" ? (
-                <div className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl border border-yellow-500/20 bg-yellow-500/10 px-5 text-sm font-semibold text-yellow-400">
+                <div className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-yellow-500/20 bg-yellow-500/10 px-5 text-sm font-semibold text-yellow-400">
+                  <ClockIcon className="h-4 w-4" />
                   Request Pending
                 </div>
               ) : (
                 <Link
                   href="/dashboard/organizer-request"
-                  className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl bg-accent px-5 text-center text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20"
+                  className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-5 text-center text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20"
                 >
                   {organizerRequestStatus === "rejected"
                     ? "Request Again"
                     : "Become an Organizer"}
+                  <ArrowRightIcon className="h-4 w-4" />
                 </Link>
               )}
             </div>
@@ -662,14 +673,63 @@ export default function DashboardPage() {
 
               <Link
                 href="/dashboard/organizer"
-                className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl bg-accent px-5 text-center text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20"
+                className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-5 text-center text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20"
               >
                 Open Organizer Dashboard
+                <ArrowRightIcon className="h-4 w-4" />
               </Link>
             </div>
           </div>
         </section>
       )}
+    </div>
+  );
+}
+
+/* =========================================================
+   DASHBOARD STAT
+========================================================= */
+
+function DashboardStat({
+  label,
+  value,
+  description,
+  icon,
+  iconClass = "bg-accent/10 text-accent",
+  hoverClass = "hover:border-border-hover",
+}: {
+  label: string;
+  value: string;
+  description: string;
+  icon: React.ReactNode;
+  iconClass?: string;
+  hoverClass?: string;
+}) {
+  return (
+    <div
+      className={`group rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:bg-card-hover ${hoverClass}`}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-xs font-medium text-foreground-muted">
+            {label}
+          </p>
+
+          <p className="mt-3 text-3xl font-bold tracking-tight">
+            {value}
+          </p>
+        </div>
+
+        <div
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${iconClass}`}
+        >
+          {icon}
+        </div>
+      </div>
+
+      <p className="mt-4 text-xs text-foreground-muted">
+        {description}
+      </p>
     </div>
   );
 }
