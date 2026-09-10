@@ -2,6 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  ArrowRightIcon,
+  CalendarDaysIcon,
+  ChartBarIcon,
+  CheckCircleIcon,
+  CurrencyDollarIcon,
+  PlusIcon,
+  TicketIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/outline";
 
 type Stats = {
   totalEvents: number;
@@ -15,32 +25,32 @@ const statCards = [
     label: "My Events",
     description: "Events created by you",
     key: "totalEvents",
-    icon: "E",
+    icon: CalendarDaysIcon,
   },
   {
     label: "Total Bookings",
     description: "Registrations across your events",
     key: "totalBookings",
-    icon: "B",
+    icon: UserGroupIcon,
   },
   {
     label: "Tickets Sold",
     description: "Tickets across your events",
     key: "ticketsSold",
-    icon: "T",
+    icon: TicketIcon,
   },
   {
     label: "Total Revenue",
     description: "Revenue from confirmed bookings",
     key: "totalRevenue",
-    icon: "K",
+    icon: CurrencyDollarIcon,
   },
 ] as const;
 
 const organizerTools = [
   {
     href: "/dashboard/events",
-    icon: "E",
+    icon: CalendarDaysIcon,
     eyebrow: "EVENT MANAGEMENT",
     title: "Manage Events",
     description:
@@ -48,7 +58,7 @@ const organizerTools = [
   },
   {
     href: "/dashboard/organizer/bookings",
-    icon: "B",
+    icon: UserGroupIcon,
     eyebrow: "ATTENDEES",
     title: "View Bookings",
     description:
@@ -56,7 +66,7 @@ const organizerTools = [
   },
   {
     href: "/dashboard/organizer/tickets",
-    icon: "✓",
+    icon: CheckCircleIcon,
     eyebrow: "EVENT CHECK-IN",
     title: "Ticket Check-In",
     description:
@@ -130,7 +140,8 @@ export default function OrganizerDashboardPage() {
         ========================================================= */}
         <section>
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card">
-            <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
+            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-32 -left-20 h-56 w-56 rounded-full bg-accent/5 blur-3xl" />
 
             <div className="relative p-6 sm:p-8 lg:p-10">
               <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -157,16 +168,17 @@ export default function OrganizerDashboardPage() {
                 <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
                   <Link
                     href="/dashboard/events"
-                    className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/50 hover:bg-background-secondary sm:w-auto"
+                    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-border-hover bg-background px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/50 hover:bg-background-secondary sm:w-auto"
                   >
+                    <CalendarDaysIcon className="h-4 w-4" />
                     Manage Events
                   </Link>
 
                   <Link
                     href="/dashboard/events/create"
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 sm:w-auto"
+                    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 sm:w-auto"
                   >
-                    <span className="mr-2 text-lg leading-none">+</span>
+                    <PlusIcon className="h-4 w-4" />
                     Create Event
                   </Link>
                 </div>
@@ -211,51 +223,61 @@ export default function OrganizerDashboardPage() {
             STATISTICS
         ========================================================= */}
         <section className="mt-8 sm:mt-10">
-          <div className="mb-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-foreground-muted">
-              Performance Overview
-            </p>
+          <div className="mb-5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <ChartBarIcon className="h-4 w-4 text-accent" />
 
-            <h2 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
-              Your numbers at a glance
-            </h2>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-foreground-muted">
+                  Performance Overview
+                </p>
+              </div>
 
-            <p className="mt-1 text-sm leading-6 text-foreground-secondary">
-              A quick overview of your event activity and performance.
-            </p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
+                Your numbers at a glance
+              </h2>
+
+              <p className="mt-1 text-sm leading-6 text-foreground-secondary">
+                A quick overview of your event activity and performance.
+              </p>
+            </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {statCards.map((card) => (
-              <div
-                key={card.key}
-                className="group min-w-0 rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-hover sm:p-6"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-sm font-bold text-accent">
-                    {card.icon}
+            {statCards.map((card) => {
+              const Icon = card.icon;
+
+              return (
+                <div
+                  key={card.key}
+                  className="group min-w-0 rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-hover hover:bg-card-hover sm:p-6"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent transition-transform duration-200 group-hover:scale-105">
+                      <Icon className="h-5 w-5" />
+                    </div>
+
+                    <span className="rounded-full border border-border bg-background px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-foreground-muted">
+                      {loading ? "Loading" : "Current"}
+                    </span>
                   </div>
 
-                  <span className="text-xs font-medium text-foreground-muted">
-                    {loading ? "Loading" : "Current"}
-                  </span>
+                  <div className="mt-6 min-w-0">
+                    <p className="text-sm font-medium text-foreground-secondary">
+                      {card.label}
+                    </p>
+
+                    <p className="mt-2 break-words text-2xl font-bold tracking-tight sm:text-3xl">
+                      {formatStatValue(card.key)}
+                    </p>
+
+                    <p className="mt-2 text-xs leading-5 text-foreground-muted sm:text-sm">
+                      {card.description}
+                    </p>
+                  </div>
                 </div>
-
-                <div className="mt-6 min-w-0">
-                  <p className="text-sm font-medium text-foreground-secondary">
-                    {card.label}
-                  </p>
-
-                  <p className="mt-2 break-words text-2xl font-bold tracking-tight sm:text-3xl">
-                    {formatStatValue(card.key)}
-                  </p>
-
-                  <p className="mt-2 text-xs leading-5 text-foreground-muted sm:text-sm">
-                    {card.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
@@ -279,43 +301,48 @@ export default function OrganizerDashboardPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {organizerTools.map((tool) => (
-              <Link
-                key={tool.href}
-                href={tool.href}
-                className="group min-w-0 rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-1 hover:border-border-hover hover:bg-card-hover sm:p-6"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-sm font-bold text-accent transition-transform duration-200 group-hover:scale-105">
-                    {tool.icon}
+            {organizerTools.map((tool) => {
+              const Icon = tool.icon;
+
+              return (
+                <Link
+                  key={tool.href}
+                  href={tool.href}
+                  className="group relative min-w-0 overflow-hidden rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-1 hover:border-border-hover hover:bg-card-hover sm:p-6"
+                >
+                  <div className="absolute -right-12 -top-12 h-28 w-28 rounded-full bg-accent/5 blur-2xl transition-opacity duration-200 group-hover:bg-accent/10" />
+
+                  <div className="relative">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent transition-transform duration-200 group-hover:scale-105">
+                        <Icon className="h-5 w-5" />
+                      </div>
+
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-foreground-muted transition-all duration-200 group-hover:border-accent/30 group-hover:text-accent">
+                        <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                      </div>
+                    </div>
+
+                    <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
+                      {tool.eyebrow}
+                    </p>
+
+                    <h3 className="mt-2 text-lg font-semibold tracking-tight">
+                      {tool.title}
+                    </h3>
+
+                    <p className="mt-2 text-sm leading-6 text-foreground-secondary">
+                      {tool.description}
+                    </p>
+
+                    <div className="mt-5 inline-flex items-center text-sm font-medium text-foreground-secondary transition-colors group-hover:text-foreground">
+                      Open workspace
+                      <ArrowRightIcon className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                    </div>
                   </div>
-
-                  <span className="text-xl text-foreground-muted transition-all duration-200 group-hover:translate-x-1 group-hover:text-foreground">
-                    →
-                  </span>
-                </div>
-
-                <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
-                  {tool.eyebrow}
-                </p>
-
-                <h3 className="mt-2 text-lg font-semibold tracking-tight">
-                  {tool.title}
-                </h3>
-
-                <p className="mt-2 text-sm leading-6 text-foreground-secondary">
-                  {tool.description}
-                </p>
-
-                <div className="mt-5 flex items-center text-sm font-medium text-foreground-secondary transition-colors group-hover:text-foreground">
-                  Open workspace
-
-                  <span className="ml-2 transition-transform duration-200 group-hover:translate-x-1">
-                    →
-                  </span>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </section>
 
@@ -324,13 +351,13 @@ export default function OrganizerDashboardPage() {
         ========================================================= */}
         <section className="mt-10 sm:mt-12">
           <div className="relative overflow-hidden rounded-2xl border border-border bg-background-secondary p-6 sm:p-8 lg:p-10">
-            <div className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-accent/10 blur-3xl" />
+            <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-accent/10 blur-3xl" />
 
             <div className="relative flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
               <div className="min-w-0">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-sm font-bold text-accent">
-                    E
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
+                    <CalendarDaysIcon className="h-4 w-4" />
                   </div>
 
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent">
@@ -352,18 +379,18 @@ export default function OrganizerDashboardPage() {
               <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
                 <Link
                   href="/dashboard/events"
-                  className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/50 hover:bg-card sm:w-auto"
+                  className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/50 hover:bg-card sm:w-auto"
                 >
                   View Events
-                  <span className="ml-2">→</span>
+                  <ArrowRightIcon className="h-4 w-4" />
                 </Link>
 
                 <Link
                   href="/dashboard/events/create"
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover sm:w-auto"
+                  className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover sm:w-auto"
                 >
                   Create Event
-                  <span className="ml-2">→</span>
+                  <PlusIcon className="h-4 w-4" />
                 </Link>
               </div>
             </div>
@@ -378,8 +405,8 @@ export default function OrganizerDashboardPage() {
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-sm font-bold text-accent">
-                    ↗
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-accent/20 bg-accent/10 text-accent">
+                    <ArrowRightIcon className="h-4 w-4" />
                   </span>
 
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
@@ -399,10 +426,10 @@ export default function OrganizerDashboardPage() {
 
               <Link
                 href="/events"
-                className="inline-flex w-full shrink-0 items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/50 hover:bg-background-secondary sm:w-auto"
+                className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/50 hover:bg-background-secondary sm:w-auto"
               >
                 Browse Events
-                <span className="ml-2">→</span>
+                <ArrowRightIcon className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -413,7 +440,7 @@ export default function OrganizerDashboardPage() {
         ========================================================= */}
         <section className="mt-6 sm:mt-8">
           <div className="relative overflow-hidden rounded-2xl border border-accent/20 bg-accent/5 p-6 sm:p-8 lg:p-10">
-            <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/10 blur-3xl" />
+            <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/10 blur-3xl" />
 
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="min-w-0">
@@ -433,10 +460,10 @@ export default function OrganizerDashboardPage() {
 
               <Link
                 href="/dashboard/events/create"
-                className="inline-flex w-full shrink-0 items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover sm:w-auto"
+                className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover sm:w-auto"
               >
                 Create New Event
-                <span className="ml-2">→</span>
+                <PlusIcon className="h-4 w-4" />
               </Link>
             </div>
           </div>
