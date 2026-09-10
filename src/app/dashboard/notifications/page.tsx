@@ -6,6 +6,12 @@ import {
   CheckIcon,
   TrashIcon,
   ArrowPathIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  TicketIcon,
+  CreditCardIcon,
+  CalendarDaysIcon,
+  XCircleIcon,
 } from "@heroicons/react/24/outline";
 
 type Notification = {
@@ -20,51 +26,45 @@ type Notification = {
 function NotificationIcon({ type }: { type: string }) {
   switch (type) {
     case "booking_confirmed":
+    case "registration_confirmed":
       return (
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-green-500/20 bg-green-500/10 text-green-400">
-          <CheckIcon className="h-5 w-5" />
+          <CheckCircleIcon className="h-5 w-5" />
         </div>
       );
 
     case "payment_successful":
       return (
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-500/20 bg-blue-500/10 text-sm font-bold text-blue-400">
-          KES
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-500/20 bg-blue-500/10 text-blue-400">
+          <CreditCardIcon className="h-5 w-5" />
         </div>
       );
 
     case "ticket_generated":
       return (
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-purple-500/20 bg-purple-500/10 text-sm font-bold text-purple-400">
-          T
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-purple-500/20 bg-purple-500/10 text-purple-400">
+          <TicketIcon className="h-5 w-5" />
         </div>
       );
 
     case "new_booking":
       return (
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-yellow-500/20 bg-yellow-500/10 text-lg font-bold text-yellow-400">
-          +
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-yellow-500/20 bg-yellow-500/10 text-yellow-400">
+          <CalendarDaysIcon className="h-5 w-5" />
         </div>
       );
 
     case "event_updated":
       return (
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-500/20 bg-cyan-500/10 text-lg font-bold text-cyan-400">
-          ↻
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-500/20 bg-cyan-500/10 text-cyan-400">
+          <ArrowPathIcon className="h-5 w-5" />
         </div>
       );
 
     case "event_cancelled":
       return (
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-lg font-bold text-red-400">
-          !
-        </div>
-      );
-
-    case "registration_confirmed":
-      return (
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
-          <CheckIcon className="h-5 w-5" />
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
+          <XCircleIcon className="h-5 w-5" />
         </div>
       );
 
@@ -81,20 +81,19 @@ function formatDate(date: string) {
   const notificationDate = new Date(date);
   const now = new Date();
 
-  const difference =
-    now.getTime() - notificationDate.getTime();
+  const difference = now.getTime() - notificationDate.getTime();
 
-  const minutes = Math.floor(
-    difference / (1000 * 60)
-  );
+  if (difference < 0) {
+    return notificationDate.toLocaleDateString("en-KE", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  }
 
-  const hours = Math.floor(
-    difference / (1000 * 60 * 60)
-  );
-
-  const days = Math.floor(
-    difference / (1000 * 60 * 60 * 24)
-  );
+  const minutes = Math.floor(difference / (1000 * 60));
+  const hours = Math.floor(difference / (1000 * 60 * 60));
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
 
   if (minutes < 1) {
     return "Just now";
@@ -119,10 +118,16 @@ function formatDate(date: string) {
   });
 }
 
+function formatNotificationType(type: string) {
+  return type
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState<
-    Notification[]
-  >([]);
+  const [notifications, setNotifications] = useState<Notification[]>(
+    []
+  );
 
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -171,8 +176,15 @@ export default function NotificationsPage() {
     id: string,
     read: boolean
   ) {
+    const currentNotification = notifications.find(
+      (notification) => notification.id === id
+    );
+
+    if (!currentNotification) return;
+
     try {
       setProcessingId(id);
+      setError("");
 
       const response = await fetch(
         `/api/notifications/${id}`,
@@ -207,13 +219,13 @@ export default function NotificationsPage() {
         )
       );
 
-      setUnreadCount((current) => {
-        if (read) {
-          return Math.max(0, current - 1);
-        }
-
-        return current + 1;
-      });
+      if (currentNotification.read !== read) {
+        setUnreadCount((current) =>
+          read
+            ? Math.max(0, current - 1)
+            : current + 1
+        );
+      }
     } catch (error) {
       console.error(
         "Failed to update notification:",
@@ -233,6 +245,7 @@ export default function NotificationsPage() {
   async function deleteNotification(id: string) {
     try {
       setProcessingId(id);
+      setError("");
 
       const response = await fetch(
         `/api/notifications/${id}`,
@@ -288,13 +301,14 @@ export default function NotificationsPage() {
     <div className="w-full">
       {/* Header */}
       <section className="relative overflow-hidden rounded-2xl border border-border bg-card">
-        <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-20 h-56 w-56 rounded-full bg-accent/5 blur-3xl" />
 
         <div className="relative p-5 sm:p-7 lg:p-8">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10">
                   <BellIcon className="h-5 w-5 text-accent" />
                 </div>
 
@@ -319,7 +333,7 @@ export default function NotificationsPage() {
               type="button"
               onClick={fetchNotifications}
               disabled={loading}
-              className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-xl border border-border-hover px-4 text-sm font-semibold text-foreground-secondary transition-all hover:bg-card-hover hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-xl border border-border-hover bg-background-secondary/40 px-4 text-sm font-semibold text-foreground-secondary transition-all hover:bg-card-hover hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
             >
               <ArrowPathIcon
                 className={`h-4 w-4 ${
@@ -348,12 +362,16 @@ export default function NotificationsPage() {
           description={
             unreadCount === 0
               ? "You're all caught up"
-              : "Updates waiting for you"
+              : `${unreadCount} update${
+                  unreadCount === 1 ? "" : "s"
+                } waiting for you`
           }
           icon={
-            <span className="text-sm font-bold">
-              {unreadCount}
-            </span>
+            unreadCount > 0 ? (
+              <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+            ) : (
+              <CheckIcon className="h-5 w-5" />
+            )
           }
           accent={unreadCount > 0}
         />
@@ -365,15 +383,23 @@ export default function NotificationsPage() {
           role="alert"
           className="mt-6 rounded-2xl border border-red-500/20 bg-red-500/10 p-4 sm:p-5"
         >
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm leading-6 text-red-400">
-              {error}
-            </p>
+          <div className="flex items-start gap-3">
+            <ExclamationTriangleIcon className="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
+
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-red-400">
+                Something went wrong
+              </p>
+
+              <p className="mt-1 text-sm leading-6 text-red-400/80">
+                {error}
+              </p>
+            </div>
 
             <button
               type="button"
               onClick={fetchNotifications}
-              className="shrink-0 text-left text-sm font-semibold text-foreground-secondary underline transition hover:text-foreground sm:text-right"
+              className="shrink-0 text-sm font-semibold text-foreground-secondary underline transition hover:text-foreground"
             >
               Try again
             </button>
@@ -383,7 +409,7 @@ export default function NotificationsPage() {
 
       {/* Notifications */}
       <section className="mt-6 overflow-hidden rounded-2xl border border-border bg-card">
-        <div className="flex flex-col gap-2 border-b border-border p-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-5">
+        <div className="flex flex-col gap-3 border-b border-border p-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-5">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
               Recent Activity
@@ -395,18 +421,26 @@ export default function NotificationsPage() {
           </div>
 
           {!loading && notifications.length > 0 && (
-            <p className="text-xs text-foreground-muted">
-              {notifications.length}{" "}
-              {notifications.length === 1
-                ? "notification"
-                : "notifications"}
-            </p>
+            <div className="flex items-center gap-2">
+              {unreadCount > 0 && (
+                <span className="rounded-full border border-accent/20 bg-accent/10 px-2.5 py-1 text-[10px] font-bold text-accent">
+                  {unreadCount} unread
+                </span>
+              )}
+
+              <p className="text-xs text-foreground-muted">
+                {notifications.length}{" "}
+                {notifications.length === 1
+                  ? "notification"
+                  : "notifications"}
+              </p>
+            </div>
           )}
         </div>
 
         {loading ? (
           <div className="divide-y divide-border">
-            {[1, 2, 3].map((item) => (
+            {[1, 2, 3, 4].map((item) => (
               <div
                 key={item}
                 className="flex gap-4 p-5 sm:p-6"
@@ -415,23 +449,30 @@ export default function NotificationsPage() {
 
                 <div className="min-w-0 flex-1">
                   <div className="h-4 w-2/3 animate-pulse rounded bg-background-secondary" />
+
                   <div className="mt-3 h-3 w-full animate-pulse rounded bg-background-secondary" />
+
                   <div className="mt-2 h-3 w-1/2 animate-pulse rounded bg-background-secondary" />
-                  <div className="mt-3 h-3 w-16 animate-pulse rounded bg-background-secondary" />
+
+                  <div className="mt-3 h-3 w-20 animate-pulse rounded bg-background-secondary" />
                 </div>
 
-                <div className="hidden h-9 w-16 animate-pulse rounded-lg bg-background-secondary sm:block" />
+                <div className="hidden h-9 w-24 animate-pulse rounded-lg bg-background-secondary sm:block" />
               </div>
             ))}
           </div>
         ) : notifications.length === 0 ? (
           <div className="px-5 py-16 text-center sm:px-6 sm:py-20">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-background-secondary">
-              <BellIcon className="h-6 w-6 text-foreground-muted" />
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-background-secondary">
+              <BellIcon className="h-7 w-7 text-foreground-muted" />
             </div>
 
-            <h3 className="mt-5 text-lg font-bold text-foreground">
-              You're all caught up
+            <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
+              All caught up
+            </p>
+
+            <h3 className="mt-2 text-xl font-bold tracking-tight text-foreground">
+              No notifications yet
             </h3>
 
             <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-foreground-muted">
@@ -442,8 +483,9 @@ export default function NotificationsPage() {
             <button
               type="button"
               onClick={fetchNotifications}
-              className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl border border-border-hover px-5 text-sm font-semibold text-foreground transition hover:bg-card-hover"
+              className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-border-hover bg-card px-5 text-sm font-semibold text-foreground transition hover:bg-card-hover"
             >
+              <ArrowPathIcon className="h-4 w-4" />
               Refresh Notifications
             </button>
           </div>
@@ -490,7 +532,7 @@ function NotificationRow({
       className={`relative p-4 transition-colors sm:p-6 ${
         notification.read
           ? "bg-card hover:bg-card-hover"
-          : "bg-background-secondary/70 hover:bg-background-secondary"
+          : "bg-accent/[0.035] hover:bg-accent/[0.055]"
       }`}
     >
       {!notification.read && (
@@ -527,15 +569,25 @@ function NotificationRow({
               </p>
 
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-foreground-muted">
+                <span className="text-xs font-medium text-foreground-muted">
                   {formatDate(notification.createdAt)}
                 </span>
 
                 <span className="h-1 w-1 rounded-full bg-border-hover" />
 
-                <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground-muted">
-                  {notification.type.replaceAll("_", " ")}
+                <span className="rounded-full border border-border bg-background-secondary/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-foreground-muted">
+                  {formatNotificationType(notification.type)}
                 </span>
+
+                {!notification.read && (
+                  <>
+                    <span className="h-1 w-1 rounded-full bg-border-hover" />
+
+                    <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-accent">
+                      New
+                    </span>
+                  </>
+                )}
               </div>
             </div>
 
@@ -554,9 +606,13 @@ function NotificationRow({
                     ? "Mark as unread"
                     : "Mark as read"
                 }
-                className="inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-lg border border-border-hover px-3 text-xs font-semibold text-foreground-secondary transition hover:bg-card hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none"
+                className="inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-lg border border-border-hover px-3 text-xs font-semibold text-foreground-secondary transition hover:bg-card-hover hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none"
               >
-                <CheckIcon className="h-4 w-4" />
+                {processing ? (
+                  <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                ) : (
+                  <CheckIcon className="h-4 w-4" />
+                )}
 
                 <span className="sm:hidden">
                   {notification.read
@@ -579,7 +635,11 @@ function NotificationRow({
                 title="Delete notification"
                 className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border border-border-hover text-foreground-muted transition hover:border-red-500/20 hover:bg-red-500/10 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <TrashIcon className="h-4 w-4" />
+                {processing ? (
+                  <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                ) : (
+                  <TrashIcon className="h-4 w-4" />
+                )}
               </button>
             </div>
           </div>
@@ -603,7 +663,7 @@ function StatCard({
   accent?: boolean;
 }) {
   return (
-    <div className="min-w-0 rounded-2xl border border-border bg-card p-5 transition-all hover:border-border-hover sm:p-6">
+    <div className="group min-w-0 rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:border-border-hover hover:bg-card-hover sm:p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
@@ -614,16 +674,16 @@ function StatCard({
             {value}
           </p>
 
-          <p className="mt-2 text-xs text-foreground-muted">
+          <p className="mt-2 text-xs leading-5 text-foreground-muted">
             {description}
           </p>
         </div>
 
         <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors ${
             accent
               ? "bg-accent/10 text-accent"
-              : "bg-background-secondary text-foreground-muted"
+              : "bg-background-secondary text-foreground-muted group-hover:text-foreground-secondary"
           }`}
         >
           {icon}
