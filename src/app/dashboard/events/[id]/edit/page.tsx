@@ -3,6 +3,21 @@
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeftIcon,
+  ArrowPathIcon,
+  CalendarDaysIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  InformationCircleIcon,
+  MapPinIcon,
+  PencilSquareIcon,
+  PhotoIcon,
+  TagIcon,
+  TicketIcon,
+  UserGroupIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
 
 type Event = {
   _id: string;
@@ -238,29 +253,25 @@ export default function EditEventPage() {
     }
   }
 
-  /* ---------------------------------
-     LOADING STATE
-  ---------------------------------- */
-
   if (loading) {
     return (
       <main className="w-full bg-background text-foreground">
-        <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
-          <div className="animate-pulse space-y-6">
-            <div className="space-y-3">
-              <div className="h-3 w-28 rounded bg-card" />
-              <div className="h-10 w-64 rounded bg-card sm:h-12 sm:w-80" />
-              <div className="h-4 w-full max-w-xl rounded bg-card" />
-            </div>
+        <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
+          <div className="animate-pulse">
+            <div className="h-4 w-28 rounded bg-card" />
 
-            <div className="overflow-hidden rounded-2xl border border-border bg-card">
-              <div className="h-52 bg-background-secondary sm:h-64" />
+            <div className="mt-6 h-10 w-64 rounded-lg bg-card sm:h-12 sm:w-80" />
 
-              <div className="space-y-6 p-5 sm:p-8">
+            <div className="mt-3 h-4 w-full max-w-2xl rounded bg-card" />
+
+            <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-card">
+              <div className="h-48 bg-background-secondary sm:h-60" />
+
+              <div className="space-y-7 p-5 sm:p-8">
                 {[1, 2, 3, 4, 5].map((item) => (
                   <div key={item} className="space-y-3">
                     <div className="h-3 w-28 rounded bg-background-secondary" />
-                    <div className="h-11 rounded-xl bg-background-secondary" />
+                    <div className="h-12 rounded-xl bg-background-secondary" />
                   </div>
                 ))}
               </div>
@@ -271,17 +282,13 @@ export default function EditEventPage() {
     );
   }
 
-  /* ---------------------------------
-     ERROR STATE
-  ---------------------------------- */
-
   if (error && !event) {
     return (
       <main className="w-full bg-background text-foreground">
         <div className="mx-auto flex min-h-[70vh] w-full max-w-4xl items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
-          <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 text-center sm:p-8">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-xl font-bold text-red-400">
-              !
+          <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 text-center shadow-sm sm:p-8">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/20 bg-red-500/10">
+              <XCircleIcon className="h-7 w-7 text-red-400" />
             </div>
 
             <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-red-400">
@@ -296,14 +303,13 @@ export default function EditEventPage() {
               {error}
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
-              <Link
-                href="/dashboard/events"
-                className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover sm:w-auto"
-              >
-                Back to My Events
-              </Link>
-            </div>
+            <Link
+              href="/dashboard/events"
+              className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover sm:w-auto"
+            >
+              <ArrowLeftIcon className="h-4 w-4" />
+              Back to My Events
+            </Link>
           </div>
         </div>
       </main>
@@ -312,13 +318,11 @@ export default function EditEventPage() {
 
   return (
     <main className="w-full bg-background text-foreground">
-      <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
-        {/* ---------------------------------
-            HEADER
-        ---------------------------------- */}
+      <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
+        {/* HEADER */}
 
         <section>
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 text-xs text-foreground-muted">
                 <Link
@@ -330,22 +334,17 @@ export default function EditEventPage() {
 
                 <span>/</span>
 
-                <Link
-                  href={`/dashboard/events/${id}`}
-                  className="max-w-[180px] truncate transition hover:text-foreground"
-                >
+                <span className="max-w-[220px] truncate text-foreground-secondary">
                   {event?.title || "Event"}
-                </Link>
+                </span>
 
                 <span>/</span>
 
-                <span className="text-foreground-secondary">
-                  Edit
-                </span>
+                <span>Edit</span>
               </div>
 
               <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                <PencilSquareIcon className="h-3.5 w-3.5 text-accent" />
 
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent sm:text-xs">
                   Organizer Workspace
@@ -364,43 +363,50 @@ export default function EditEventPage() {
 
             <Link
               href={`/dashboard/events/${id}`}
-              className="inline-flex w-full shrink-0 items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:border-accent/50 hover:bg-card sm:w-auto"
+              className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:border-accent/50 hover:bg-card sm:w-auto"
             >
               View Event
+              <ArrowLeftIcon className="h-4 w-4 rotate-180" />
             </Link>
           </div>
         </section>
 
-        {/* ---------------------------------
-            FORM
-        ---------------------------------- */}
+        {/* FORM */}
 
         <section className="mt-8">
           <form
             onSubmit={handleSubmit}
-            className="overflow-hidden rounded-2xl border border-border bg-card"
+            className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
           >
             {/* FORM HEADER */}
 
-            <div className="border-b border-border p-5 sm:p-6 lg:p-8">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent">
-                Event Details
-              </p>
+            <div className="border-b border-border bg-background-secondary/30 p-5 sm:p-6 lg:p-8">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10">
+                  <PencilSquareIcon className="h-5 w-5 text-accent" />
+                </div>
 
-              <h2 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
-                Update your event
-              </h2>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent">
+                    Event Details
+                  </p>
 
-              <p className="mt-1 text-sm leading-6 text-foreground-secondary">
-                Keep your event information accurate so attendees
-                always see the latest details.
-              </p>
+                  <h2 className="mt-1.5 text-xl font-semibold tracking-tight sm:text-2xl">
+                    Update your event
+                  </h2>
+
+                  <p className="mt-1.5 max-w-2xl text-sm leading-6 text-foreground-secondary">
+                    Keep your event information accurate so attendees
+                    always see the latest details.
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* FORM CONTENT */}
 
-            <div className="space-y-7 p-5 sm:p-6 lg:p-8">
-              {/* EVENT TITLE */}
+            <div className="space-y-8 p-5 sm:p-6 lg:p-8">
+              {/* TITLE */}
 
               <div>
                 <FormLabel
@@ -422,8 +428,7 @@ export default function EditEventPage() {
                 />
 
                 <p className="mt-2 text-xs text-foreground-muted">
-                  Use a clear title that attendees can easily
-                  recognize.
+                  Use a clear title that attendees can easily recognize.
                 </p>
               </div>
 
@@ -450,11 +455,11 @@ export default function EditEventPage() {
 
                 <div className="mt-2 flex justify-between gap-3 text-xs text-foreground-muted">
                   <span>
-                    Give attendees enough information to understand
-                    the event.
+                    Give attendees enough information to understand the
+                    event.
                   </span>
 
-                  <span className="shrink-0">
+                  <span className="shrink-0 font-medium">
                     {form.description.length}/3000
                   </span>
                 </div>
@@ -465,36 +470,48 @@ export default function EditEventPage() {
               <div>
                 <FormLabel
                   htmlFor="image"
-                  label="Event image URL"
+                  label="Event image"
                   required
                 />
 
-                <input
-                  id="image"
-                  name="image"
-                  type="url"
-                  value={form.image}
-                  onChange={handleChange}
-                  required
-                  placeholder="https://example.com/event-image.jpg"
-                  className="form-input"
-                />
+                <div className="relative">
+                  <PhotoIcon className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground-muted" />
+
+                  <input
+                    id="image"
+                    name="image"
+                    type="url"
+                    value={form.image}
+                    onChange={handleChange}
+                    required
+                    placeholder="https://example.com/event-image.jpg"
+                    className="form-input pl-12"
+                  />
+                </div>
 
                 <p className="mt-2 text-xs leading-5 text-foreground-muted">
-                  Use a publicly accessible image URL. This image
-                  will appear on your event listing and event page.
+                  Use a publicly accessible image URL. This image will
+                  appear on your event listing and event page.
                 </p>
 
                 {form.image && (
-                  <div className="mt-4 overflow-hidden rounded-xl border border-border bg-background-secondary">
-                    <img
-                      src={form.image}
-                      alt="Event preview"
-                      className="h-48 w-full object-cover sm:h-56"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
+                  <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-background-secondary">
+                    <div className="relative">
+                      <img
+                        src={form.image}
+                        alt="Event preview"
+                        className="h-48 w-full object-cover sm:h-60"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 pt-12">
+                        <p className="text-xs font-medium text-white/80">
+                          Event image preview
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -508,22 +525,26 @@ export default function EditEventPage() {
                   required
                 />
 
-                <input
-                  id="location"
-                  name="location"
-                  type="text"
-                  value={form.location}
-                  onChange={handleChange}
-                  required
-                  maxLength={200}
-                  placeholder="e.g. Juja, Kiambu"
-                  className="form-input"
-                />
+                <div className="relative">
+                  <MapPinIcon className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground-muted" />
+
+                  <input
+                    id="location"
+                    name="location"
+                    type="text"
+                    value={form.location}
+                    onChange={handleChange}
+                    required
+                    maxLength={200}
+                    placeholder="e.g. Juja, Kiambu"
+                    className="form-input pl-12"
+                  />
+                </div>
               </div>
 
               {/* DATE / TIME */}
 
-              <div className="grid gap-7 md:grid-cols-2">
+              <div className="grid gap-6 md:grid-cols-2">
                 <div>
                   <FormLabel
                     htmlFor="date"
@@ -531,15 +552,19 @@ export default function EditEventPage() {
                     required
                   />
 
-                  <input
-                    id="date"
-                    name="date"
-                    type="date"
-                    value={form.date}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  />
+                  <div className="relative">
+                    <CalendarDaysIcon className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground-muted" />
+
+                    <input
+                      id="date"
+                      name="date"
+                      type="date"
+                      value={form.date}
+                      onChange={handleChange}
+                      required
+                      className="form-input pl-12"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -549,15 +574,19 @@ export default function EditEventPage() {
                     required
                   />
 
-                  <input
-                    id="time"
-                    name="time"
-                    type="time"
-                    value={form.time}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  />
+                  <div className="relative">
+                    <ClockIcon className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground-muted" />
+
+                    <input
+                      id="time"
+                      name="time"
+                      type="time"
+                      value={form.time}
+                      onChange={handleChange}
+                      required
+                      className="form-input pl-12"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -570,28 +599,29 @@ export default function EditEventPage() {
                   required
                 />
 
-                <select
-                  id="category"
-                  name="category"
-                  value={form.category}
-                  onChange={handleChange}
-                  required
-                  className="form-input"
-                >
-                  {categories.map((category) => (
-                    <option
-                      key={category}
-                      value={category}
-                    >
-                      {category}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <TagIcon className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground-muted" />
+
+                  <select
+                    id="category"
+                    name="category"
+                    value={form.category}
+                    onChange={handleChange}
+                    required
+                    className="form-input cursor-pointer pl-12"
+                  >
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               {/* PRICE / CAPACITY */}
 
-              <div className="grid gap-7 md:grid-cols-2">
+              <div className="grid gap-6 md:grid-cols-2">
                 <div>
                   <FormLabel
                     htmlFor="price"
@@ -600,7 +630,7 @@ export default function EditEventPage() {
                   />
 
                   <div className="relative">
-                    <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-foreground-muted">
+                    <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-foreground-muted">
                       KES
                     </span>
 
@@ -630,18 +660,22 @@ export default function EditEventPage() {
                     required
                   />
 
-                  <input
-                    id="capacity"
-                    name="capacity"
-                    type="number"
-                    min="1"
-                    step="1"
-                    value={form.capacity}
-                    onChange={handleChange}
-                    required
-                    placeholder="100"
-                    className="form-input"
-                  />
+                  <div className="relative">
+                    <UserGroupIcon className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground-muted" />
+
+                    <input
+                      id="capacity"
+                      name="capacity"
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={form.capacity}
+                      onChange={handleChange}
+                      required
+                      placeholder="100"
+                      className="form-input pl-12"
+                    />
+                  </div>
 
                   <p className="mt-2 text-xs text-foreground-muted">
                     Maximum number of attendees allowed.
@@ -654,11 +688,11 @@ export default function EditEventPage() {
               {error && (
                 <div
                   role="alert"
-                  className="rounded-xl border border-red-900/60 bg-red-950/30 p-4"
+                  className="rounded-xl border border-red-500/20 bg-red-500/5 p-4"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-sm font-bold text-red-400">
-                      !
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-500/10">
+                      <XCircleIcon className="h-5 w-5 text-red-400" />
                     </div>
 
                     <div className="min-w-0">
@@ -677,11 +711,11 @@ export default function EditEventPage() {
               {success && (
                 <div
                   role="status"
-                  className="rounded-xl border border-emerald-900/60 bg-emerald-950/30 p-4"
+                  className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-sm font-bold text-emerald-400">
-                      ✓
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10">
+                      <CheckCircleIcon className="h-5 w-5 text-emerald-400" />
                     </div>
 
                     <div className="min-w-0">
@@ -704,25 +738,26 @@ export default function EditEventPage() {
             <div className="flex flex-col-reverse gap-3 border-t border-border bg-background-secondary/30 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6 lg:px-8">
               <Link
                 href="/dashboard/events"
-                className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-card sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-card sm:w-auto"
               >
+                <ArrowLeftIcon className="h-4 w-4" />
                 Cancel
               </Link>
 
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover hover:shadow-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
               >
                 {saving ? (
                   <>
-                    <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    <ArrowPathIcon className="h-4 w-4 animate-spin" />
                     Saving Changes...
                   </>
                 ) : (
                   <>
+                    <CheckCircleIcon className="h-4 w-4" />
                     Save Changes
-                    <span className="ml-2">→</span>
                   </>
                 )}
               </button>
@@ -730,15 +765,13 @@ export default function EditEventPage() {
           </form>
         </section>
 
-        {/* ---------------------------------
-            INFORMATION PANEL
-        ---------------------------------- */}
+        {/* INFORMATION PANEL */}
 
         <section className="mt-6">
           <div className="rounded-2xl border border-border bg-card p-5 sm:p-6">
             <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-sm font-bold text-accent">
-                i
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+                <InformationCircleIcon className="h-5 w-5 text-accent" />
               </div>
 
               <div className="min-w-0">
@@ -760,6 +793,7 @@ export default function EditEventPage() {
       <style jsx>{`
         .form-input {
           width: 100%;
+          min-height: 48px;
           border: 1px solid var(--border);
           border-radius: 0.75rem;
           background: var(--background);
@@ -780,7 +814,7 @@ export default function EditEventPage() {
 
         .form-input:focus {
           border-color: var(--accent);
-          box-shadow: 0 0 0 1px var(--accent);
+          box-shadow: 0 0 0 3px var(--accent-soft);
         }
 
         .form-input::placeholder {
@@ -801,10 +835,6 @@ export default function EditEventPage() {
     </main>
   );
 }
-
-/* ---------------------------------
-   FORM LABEL
----------------------------------- */
 
 function FormLabel({
   htmlFor,

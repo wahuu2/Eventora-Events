@@ -3,6 +3,19 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import {
+  ArrowLeftIcon,
+  ArrowPathIcon,
+  CalendarDaysIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  CurrencyDollarIcon,
+  InformationCircleIcon,
+  MapPinIcon,
+  PhotoIcon,
+  TicketIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/outline";
 
 const categories = [
   "Music",
@@ -160,14 +173,14 @@ export default function CreateEventPage() {
     "mb-2 block text-sm font-semibold text-foreground";
 
   return (
-    <main className="w-full">
-      <section className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
-        {/* Breadcrumb */}
+    <main className="w-full bg-background text-foreground">
+      <section className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
         <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-foreground-muted">
           <Link
             href="/dashboard/events"
-            className="transition-colors hover:text-foreground"
+            className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
           >
+            <ArrowLeftIcon className="h-3.5 w-3.5" />
             My Events
           </Link>
 
@@ -178,10 +191,10 @@ export default function CreateEventPage() {
           </span>
         </div>
 
-        {/* Header */}
         <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0">
-            <div className="mb-3 inline-flex items-center rounded-full border border-accent/20 bg-accent-soft px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               Organizer Workspace
             </div>
 
@@ -197,31 +210,38 @@ export default function CreateEventPage() {
 
           <Link
             href="/dashboard/events"
-            className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-card sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-card sm:w-auto"
           >
+            <ArrowLeftIcon className="h-4 w-4" />
             Back to My Events
           </Link>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-          {/* Main form */}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <form
             onSubmit={handleSubmit}
-            className="min-w-0 rounded-2xl border border-border bg-card shadow-xl shadow-black/10"
+            className="min-w-0 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/10"
           >
             <div className="border-b border-border px-5 py-5 sm:px-7">
-              <h2 className="text-lg font-semibold text-foreground">
-                Event Details
-              </h2>
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                  <CalendarDaysIcon className="h-5 w-5" />
+                </div>
 
-              <p className="mt-1 text-sm text-foreground-muted">
-                Provide clear information so attendees know what
-                to expect.
-              </p>
+                <div>
+                  <h2 className="text-lg font-semibold text-foreground">
+                    Event Details
+                  </h2>
+
+                  <p className="mt-1 text-sm text-foreground-muted">
+                    Provide clear information so attendees know what
+                    to expect.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-7 p-5 sm:p-7">
-              {/* Title */}
               <div>
                 <label htmlFor="title" className={labelClass}>
                   Event title
@@ -240,16 +260,24 @@ export default function CreateEventPage() {
                   className={inputClass}
                 />
 
-                <p className="mt-2 text-xs text-foreground-muted">
-                  Use a short, recognizable title that attendees
-                  can easily understand.
-                </p>
+                <div className="mt-2 flex justify-between gap-3">
+                  <p className="text-xs text-foreground-muted">
+                    Use a short, recognizable title that attendees
+                    can easily understand.
+                  </p>
+
+                  <span className="shrink-0 text-xs text-foreground-muted">
+                    {form.title.length}/120
+                  </span>
+                </div>
               </div>
 
-              {/* Description */}
               <div>
                 <div className="mb-2 flex items-center justify-between gap-3">
-                  <label htmlFor="description" className={labelClass}>
+                  <label
+                    htmlFor="description"
+                    className={labelClass}
+                  >
                     Description
                     <span className="ml-1 text-danger">*</span>
                   </label>
@@ -277,31 +305,33 @@ export default function CreateEventPage() {
                 </p>
               </div>
 
-              {/* Image */}
               <div>
                 <label htmlFor="image" className={labelClass}>
                   Event image URL
                   <span className="ml-1 text-danger">*</span>
                 </label>
 
-                <input
-                  id="image"
-                  name="image"
-                  type="url"
-                  value={form.image}
-                  onChange={handleChange}
-                  required
-                  autoComplete="url"
-                  placeholder="https://example.com/event-image.jpg"
-                  className={inputClass}
-                />
+                <div className="relative">
+                  <PhotoIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted" />
+
+                  <input
+                    id="image"
+                    name="image"
+                    type="url"
+                    value={form.image}
+                    onChange={handleChange}
+                    required
+                    autoComplete="url"
+                    placeholder="https://example.com/event-image.jpg"
+                    className={`${inputClass} pl-11`}
+                  />
+                </div>
 
                 <p className="mt-2 text-xs text-foreground-muted">
                   Use a publicly accessible image URL. A strong
                   landscape image works best for event cards.
                 </p>
 
-                {/* Image preview */}
                 {form.image && !imageError && (
                   <div className="mt-4 overflow-hidden rounded-xl border border-border bg-background">
                     <div className="relative aspect-video w-full">
@@ -312,7 +342,8 @@ export default function CreateEventPage() {
                         onError={() => setImageError(true)}
                       />
 
-                      <div className="absolute left-3 top-3 rounded-full border border-white/10 bg-black/70 px-3 py-1 text-xs font-medium text-white backdrop-blur">
+                      <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/70 px-3 py-1.5 text-xs font-medium text-white backdrop-blur">
+                        <PhotoIcon className="h-3.5 w-3.5" />
                         Image Preview
                       </div>
                     </div>
@@ -320,30 +351,37 @@ export default function CreateEventPage() {
                 )}
 
                 {form.image && imageError && (
-                  <div className="mt-4 rounded-xl border border-danger/20 bg-danger/5 p-4 text-sm text-danger">
-                    This image could not be loaded. Check the URL
-                    and make sure the image is publicly accessible.
+                  <div className="mt-4 flex gap-3 rounded-xl border border-danger/20 bg-danger/5 p-4">
+                    <InformationCircleIcon className="h-5 w-5 shrink-0 text-danger" />
+
+                    <p className="text-sm leading-5 text-danger">
+                      This image could not be loaded. Check the URL
+                      and make sure the image is publicly accessible.
+                    </p>
                   </div>
                 )}
               </div>
 
-              {/* Location */}
               <div>
                 <label htmlFor="location" className={labelClass}>
                   Location
                   <span className="ml-1 text-danger">*</span>
                 </label>
 
-                <input
-                  id="location"
-                  name="location"
-                  value={form.location}
-                  onChange={handleChange}
-                  required
-                  autoComplete="street-address"
-                  placeholder="e.g. Nairobi, Kenya"
-                  className={inputClass}
-                />
+                <div className="relative">
+                  <MapPinIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted" />
+
+                  <input
+                    id="location"
+                    name="location"
+                    value={form.location}
+                    onChange={handleChange}
+                    required
+                    autoComplete="street-address"
+                    placeholder="e.g. Nairobi, Kenya"
+                    className={`${inputClass} pl-11`}
+                  />
+                </div>
 
                 <p className="mt-2 text-xs text-foreground-muted">
                   Enter the venue, building, city, or other useful
@@ -351,7 +389,6 @@ export default function CreateEventPage() {
                 </p>
               </div>
 
-              {/* Date + Time */}
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <label htmlFor="date" className={labelClass}>
@@ -359,15 +396,19 @@ export default function CreateEventPage() {
                     <span className="ml-1 text-danger">*</span>
                   </label>
 
-                  <input
-                    id="date"
-                    name="date"
-                    type="date"
-                    value={form.date}
-                    onChange={handleChange}
-                    required
-                    className={inputClass}
-                  />
+                  <div className="relative">
+                    <CalendarDaysIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted" />
+
+                    <input
+                      id="date"
+                      name="date"
+                      type="date"
+                      value={form.date}
+                      onChange={handleChange}
+                      required
+                      className={`${inputClass} pl-11`}
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -376,19 +417,22 @@ export default function CreateEventPage() {
                     <span className="ml-1 text-danger">*</span>
                   </label>
 
-                  <input
-                    id="time"
-                    name="time"
-                    type="time"
-                    value={form.time}
-                    onChange={handleChange}
-                    required
-                    className={inputClass}
-                  />
+                  <div className="relative">
+                    <ClockIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted" />
+
+                    <input
+                      id="time"
+                      name="time"
+                      type="time"
+                      value={form.time}
+                      onChange={handleChange}
+                      required
+                      className={`${inputClass} pl-11`}
+                    />
+                  </div>
                 </div>
               </div>
 
-              {/* Category */}
               <div>
                 <label htmlFor="category" className={labelClass}>
                   Category
@@ -418,7 +462,6 @@ export default function CreateEventPage() {
                 </p>
               </div>
 
-              {/* Price + Capacity */}
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <label htmlFor="price" className={labelClass}>
@@ -427,7 +470,9 @@ export default function CreateEventPage() {
                   </label>
 
                   <div className="relative">
-                    <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium text-foreground-muted">
+                    <CurrencyDollarIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted" />
+
+                    <span className="pointer-events-none absolute left-10 top-1/2 -translate-y-1/2 text-xs font-semibold text-foreground-muted">
                       KES
                     </span>
 
@@ -442,7 +487,7 @@ export default function CreateEventPage() {
                       required
                       inputMode="numeric"
                       placeholder="0"
-                      className={`${inputClass} pl-14`}
+                      className={`${inputClass} pl-20`}
                     />
                   </div>
 
@@ -457,19 +502,23 @@ export default function CreateEventPage() {
                     <span className="ml-1 text-danger">*</span>
                   </label>
 
-                  <input
-                    id="capacity"
-                    name="capacity"
-                    type="number"
-                    min="1"
-                    step="1"
-                    value={form.capacity}
-                    onChange={handleChange}
-                    required
-                    inputMode="numeric"
-                    placeholder="100"
-                    className={inputClass}
-                  />
+                  <div className="relative">
+                    <UserGroupIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted" />
+
+                    <input
+                      id="capacity"
+                      name="capacity"
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={form.capacity}
+                      onChange={handleChange}
+                      required
+                      inputMode="numeric"
+                      placeholder="100"
+                      className={`${inputClass} pl-11`}
+                    />
+                  </div>
 
                   <p className="mt-2 text-xs text-foreground-muted">
                     Maximum number of attendees your event can
@@ -478,20 +527,23 @@ export default function CreateEventPage() {
                 </div>
               </div>
 
-              {/* Alerts */}
               {error && (
                 <div
                   role="alert"
                   aria-live="assertive"
-                  className="rounded-xl border border-danger/30 bg-danger/10 p-4"
+                  className="flex gap-3 rounded-xl border border-danger/30 bg-danger/10 p-4"
                 >
-                  <p className="text-sm font-semibold text-danger">
-                    Unable to create event
-                  </p>
+                  <InformationCircleIcon className="h-5 w-5 shrink-0 text-danger" />
 
-                  <p className="mt-1 text-sm text-danger/90">
-                    {error}
-                  </p>
+                  <div>
+                    <p className="text-sm font-semibold text-danger">
+                      Unable to create event
+                    </p>
+
+                    <p className="mt-1 text-sm text-danger/90">
+                      {error}
+                    </p>
+                  </div>
                 </div>
               )}
 
@@ -499,15 +551,16 @@ export default function CreateEventPage() {
                 <div
                   role="status"
                   aria-live="polite"
-                  className="rounded-xl border border-success/30 bg-success/10 p-4"
+                  className="flex gap-3 rounded-xl border border-success/30 bg-success/10 p-4"
                 >
+                  <CheckCircleIcon className="h-5 w-5 shrink-0 text-success" />
+
                   <p className="text-sm font-semibold text-success">
                     {success}
                   </p>
                 </div>
               )}
 
-              {/* Actions */}
               <div className="flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:justify-end">
                 <Link
                   href="/dashboard/events"
@@ -519,30 +572,32 @@ export default function CreateEventPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow-lg shadow-blue-500/15 transition-all hover:bg-accent-hover hover:shadow-blue-500/25 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow-lg shadow-blue-500/15 transition-all hover:bg-accent-hover hover:shadow-blue-500/25 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
                 >
                   {saving ? (
                     <>
-                      <span
-                        className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+                      <ArrowPathIcon
+                        className="h-4 w-4 animate-spin"
                         aria-hidden="true"
                       />
                       Creating Event...
                     </>
                   ) : (
-                    "Create Event"
+                    <>
+                      <CheckCircleIcon className="h-4 w-4" />
+                      Create Event
+                    </>
                   )}
                 </button>
               </div>
             </div>
           </form>
 
-          {/* Sidebar */}
           <aside className="h-fit space-y-5 lg:sticky lg:top-24">
-            <div className="rounded-2xl border border-border bg-card p-5">
+            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-sm font-bold text-accent">
-                  E
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                  <CheckCircleIcon className="h-5 w-5" />
                 </div>
 
                 <div className="min-w-0">
@@ -557,79 +612,42 @@ export default function CreateEventPage() {
               </div>
 
               <div className="mt-5 space-y-4">
-                <div className="flex gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-soft text-[11px] font-bold text-accent">
-                    1
-                  </span>
+                <ChecklistItem
+                  number="1"
+                  title="Clear title"
+                  description="Make your event immediately recognizable."
+                />
 
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      Clear title
-                    </p>
+                <ChecklistItem
+                  number="2"
+                  title="Useful description"
+                  description="Explain what attendees can expect."
+                />
 
-                    <p className="mt-1 text-xs leading-5 text-foreground-muted">
-                      Make your event immediately recognizable.
-                    </p>
-                  </div>
-                </div>
+                <ChecklistItem
+                  number="3"
+                  title="Strong image"
+                  description="Use a high-quality publicly accessible image."
+                />
 
-                <div className="flex gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-soft text-[11px] font-bold text-accent">
-                    2
-                  </span>
-
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      Useful description
-                    </p>
-
-                    <p className="mt-1 text-xs leading-5 text-foreground-muted">
-                      Explain what attendees can expect.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-soft text-[11px] font-bold text-accent">
-                    3
-                  </span>
-
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      Strong image
-                    </p>
-
-                    <p className="mt-1 text-xs leading-5 text-foreground-muted">
-                      Use a high-quality publicly accessible image.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-soft text-[11px] font-bold text-accent">
-                    4
-                  </span>
-
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      Accurate details
-                    </p>
-
-                    <p className="mt-1 text-xs leading-5 text-foreground-muted">
-                      Double-check date, time, location, price, and
-                      capacity.
-                    </p>
-                  </div>
-                </div>
+                <ChecklistItem
+                  number="4"
+                  title="Accurate details"
+                  description="Double-check date, time, location, price, and capacity."
+                />
               </div>
             </div>
 
-            <div className="rounded-2xl border border-accent/20 bg-accent-soft p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
-                Eventora
-              </p>
+            <div className="rounded-2xl border border-accent/20 bg-accent/5 p-5">
+              <div className="flex items-center gap-2 text-accent">
+                <InformationCircleIcon className="h-5 w-5" />
 
-              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em]">
+                  Eventora
+                </p>
+              </div>
+
+              <p className="mt-3 text-sm leading-6 text-foreground-secondary">
                 Your event will become available through the public
                 events experience after it is created.
               </p>
@@ -638,5 +656,33 @@ export default function CreateEventPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function ChecklistItem({
+  number,
+  title,
+  description,
+}: {
+  number: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex gap-3">
+      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-[11px] font-bold text-accent">
+        {number}
+      </span>
+
+      <div>
+        <p className="text-sm font-medium text-foreground">
+          {title}
+        </p>
+
+        <p className="mt-1 text-xs leading-5 text-foreground-muted">
+          {description}
+        </p>
+      </div>
+    </div>
   );
 }

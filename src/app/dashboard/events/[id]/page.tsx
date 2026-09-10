@@ -3,6 +3,26 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import {
+  ArrowLeftIcon,
+  ArrowPathIcon,
+  ArrowRightIcon,
+  CalendarDaysIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  CurrencyDollarIcon,
+  EnvelopeIcon,
+  EyeIcon,
+  InformationCircleIcon,
+  MagnifyingGlassIcon,
+  MapPinIcon,
+  PencilSquareIcon,
+  QrCodeIcon,
+  TicketIcon,
+  UserGroupIcon,
+  UsersIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
 
 type Organizer = {
   firstName?: string;
@@ -209,10 +229,6 @@ export default function OrganizerEventDetailsPage() {
       .toUpperCase();
   }
 
-  /* ---------------------------------
-     Loading State
-  ---------------------------------- */
-
   if (loading) {
     return (
       <main className="w-full bg-background text-foreground">
@@ -274,17 +290,13 @@ export default function OrganizerEventDetailsPage() {
     );
   }
 
-  /* ---------------------------------
-     Error State
-  ---------------------------------- */
-
   if (error || !event || !statistics) {
     return (
       <main className="w-full bg-background text-foreground">
         <div className="mx-auto flex min-h-[70vh] w-full max-w-7xl items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
-          <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 text-center sm:p-8">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-xl font-bold text-red-400">
-              !
+          <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 text-center shadow-sm sm:p-8">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/20 bg-red-500/10 text-red-400">
+              <InformationCircleIcon className="h-7 w-7" />
             </div>
 
             <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-red-400">
@@ -303,15 +315,17 @@ export default function OrganizerEventDetailsPage() {
               <button
                 type="button"
                 onClick={fetchEventAnalytics}
-                className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover sm:w-auto"
               >
+                <ArrowPathIcon className="h-4 w-4" />
                 Try Again
               </button>
 
               <Link
                 href="/dashboard/events"
-                className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-background-secondary sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-background-secondary sm:w-auto"
               >
+                <ArrowLeftIcon className="h-4 w-4" />
                 Back to My Events
               </Link>
             </div>
@@ -336,10 +350,6 @@ export default function OrganizerEventDetailsPage() {
   return (
     <main className="w-full bg-background text-foreground">
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
-        {/* ---------------------------------
-            PAGE HEADER
-        ---------------------------------- */}
-
         <section>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="min-w-0">
@@ -379,28 +389,26 @@ export default function OrganizerEventDetailsPage() {
             <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
               <Link
                 href={`/dashboard/events/${event._id}/edit`}
-                className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/50 hover:bg-card sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/50 hover:bg-card sm:w-auto"
               >
+                <PencilSquareIcon className="h-4 w-4" />
                 Edit Event
               </Link>
 
               <Link
                 href={`/events/${event._id}`}
-                className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all duration-200 hover:bg-accent-hover sm:w-auto"
               >
+                <EyeIcon className="h-4 w-4" />
                 View Public Event
-                <span className="ml-2">→</span>
+                <ArrowRightIcon className="h-4 w-4" />
               </Link>
             </div>
           </div>
         </section>
 
-        {/* ---------------------------------
-            EVENT HERO
-        ---------------------------------- */}
-
         <section className="mt-8">
-          <div className="overflow-hidden rounded-2xl border border-border bg-card">
+          <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
             <div className="relative h-64 overflow-hidden bg-background-secondary sm:h-80 lg:h-[26rem]">
               {event.image ? (
                 <img
@@ -413,9 +421,9 @@ export default function OrganizerEventDetailsPage() {
                 />
               ) : (
                 <div className="flex h-full items-center justify-center">
-                  <span className="text-6xl font-bold text-foreground-muted">
-                    E
-                  </span>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-accent/10 text-accent">
+                    <TicketIcon className="h-10 w-10" />
+                  </div>
                 </div>
               )}
 
@@ -436,16 +444,25 @@ export default function OrganizerEventDetailsPage() {
                   {event.title}
                 </h2>
 
-                <div className="mt-3 flex flex-col gap-1.5 text-sm text-gray-200 sm:flex-row sm:flex-wrap sm:gap-x-5 sm:gap-y-2">
-                  <span>{event.location || "Location unavailable"}</span>
+                <div className="mt-4 flex flex-col gap-2 text-sm text-gray-200 sm:flex-row sm:flex-wrap sm:gap-x-5 sm:gap-y-2">
+                  <span className="inline-flex items-center gap-2">
+                    <MapPinIcon className="h-4 w-4 shrink-0" />
+                    <span>{event.location || "Location unavailable"}</span>
+                  </span>
 
                   <span className="hidden sm:inline">•</span>
 
-                  <span>{eventDate}</span>
+                  <span className="inline-flex items-center gap-2">
+                    <CalendarDaysIcon className="h-4 w-4 shrink-0" />
+                    <span>{eventDate}</span>
+                  </span>
 
                   <span className="hidden sm:inline">•</span>
 
-                  <span>{event.time || "Time unavailable"}</span>
+                  <span className="inline-flex items-center gap-2">
+                    <ClockIcon className="h-4 w-4 shrink-0" />
+                    <span>{event.time || "Time unavailable"}</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -453,31 +470,30 @@ export default function OrganizerEventDetailsPage() {
             <div className="flex flex-col gap-3 border-t border-border p-4 sm:flex-row sm:flex-wrap sm:p-5">
               <Link
                 href={`/dashboard/events/${event._id}/edit`}
-                className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover sm:w-auto"
               >
+                <PencilSquareIcon className="h-4 w-4" />
                 Edit Event
               </Link>
 
               <Link
                 href={`/events/${event._id}`}
-                className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-background-secondary sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-background-secondary sm:w-auto"
               >
+                <EyeIcon className="h-4 w-4" />
                 View Public Event
               </Link>
 
               <Link
                 href="/dashboard/organizer/tickets"
-                className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-background-secondary sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-background-secondary sm:w-auto"
               >
+                <QrCodeIcon className="h-4 w-4" />
                 Verify Tickets
               </Link>
             </div>
           </div>
         </section>
-
-        {/* ---------------------------------
-            KEY STATISTICS
-        ---------------------------------- */}
 
         <section className="mt-8 sm:mt-10">
           <div className="mb-5">
@@ -497,7 +513,7 @@ export default function OrganizerEventDetailsPage() {
               description={`of ${statistics.capacity.toLocaleString(
                 "en-KE"
               )} capacity`}
-              icon="T"
+              icon={<TicketIcon className="h-5 w-5" />}
             />
 
             <StatCard
@@ -506,14 +522,14 @@ export default function OrganizerEventDetailsPage() {
                 "en-KE"
               )}
               description="Available tickets"
-              icon="R"
+              icon={<UsersIcon className="h-5 w-5" />}
             />
 
             <StatCard
               label="Total Revenue"
               value={formatCurrency(statistics.totalRevenue)}
               description="From confirmed bookings"
-              icon="K"
+              icon={<CurrencyDollarIcon className="h-5 w-5" />}
             />
 
             <StatCard
@@ -522,16 +538,12 @@ export default function OrganizerEventDetailsPage() {
                 "en-KE"
               )}
               description={`${checkInPercentage}% of tickets sold`}
-              icon="✓"
+              icon={<CheckCircleIcon className="h-5 w-5" />}
             />
           </div>
         </section>
 
-        {/* ---------------------------------
-            SALES PERFORMANCE
-        ---------------------------------- */}
-
-        <section className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6 lg:p-8">
+        <section className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6 lg:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
@@ -590,10 +602,6 @@ export default function OrganizerEventDetailsPage() {
           </div>
         </section>
 
-        {/* ---------------------------------
-            ATTENDANCE
-        ---------------------------------- */}
-
         <section className="mt-8">
           <div className="mb-5">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-foreground-muted">
@@ -614,25 +622,25 @@ export default function OrganizerEventDetailsPage() {
               label="Valid Tickets"
               value={statistics.validTickets}
               description="Ready for entry"
-              icon="V"
+              icon={<TicketIcon className="h-5 w-5" />}
             />
 
             <AttendanceCard
               label="Checked In"
               value={statistics.checkedInTickets}
               description={`${checkInPercentage}% attendance rate`}
-              icon="✓"
+              icon={<CheckCircleIcon className="h-5 w-5" />}
             />
 
             <AttendanceCard
               label="Cancelled"
               value={statistics.cancelledTickets}
               description="Cancelled or invalidated"
-              icon="C"
+              icon={<XCircleIcon className="h-5 w-5" />}
             />
           </div>
 
-          <div className="mt-4 rounded-2xl border border-border bg-card p-5 sm:p-6">
+          <div className="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm font-semibold">
@@ -668,11 +676,7 @@ export default function OrganizerEventDetailsPage() {
           </div>
         </section>
 
-        {/* ---------------------------------
-            ATTENDEE MANAGEMENT
-        ---------------------------------- */}
-
-        <section className="mt-8 overflow-hidden rounded-2xl border border-border bg-card">
+        <section className="mt-8 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
           <div className="border-b border-border p-5 sm:p-6 lg:p-8">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div className="min-w-0">
@@ -685,9 +689,9 @@ export default function OrganizerEventDetailsPage() {
                 </h2>
 
                 <p className="mt-1 text-sm leading-6 text-foreground-secondary">
-                  Showing {filteredTickets.length.toLocaleString(
-                    "en-KE"
-                  )} of {tickets.length.toLocaleString("en-KE")}{" "}
+                  Showing{" "}
+                  {filteredTickets.length.toLocaleString("en-KE")}{" "}
+                  of {tickets.length.toLocaleString("en-KE")}{" "}
                   ticket{tickets.length !== 1 ? "s" : ""}.
                 </p>
               </div>
@@ -697,23 +701,28 @@ export default function OrganizerEventDetailsPage() {
                   <StatusSummary
                     label="Valid"
                     value={statistics.validTickets}
+                    icon={
+                      <CheckCircleIcon className="h-3.5 w-3.5" />
+                    }
                   />
 
                   <StatusSummary
                     label="Checked In"
                     value={statistics.checkedInTickets}
+                    icon={
+                      <CheckCircleIcon className="h-3.5 w-3.5" />
+                    }
                   />
 
                   <StatusSummary
                     label="Cancelled"
                     value={statistics.cancelledTickets}
+                    icon={<XCircleIcon className="h-3.5 w-3.5" />}
                   />
                 </div>
               )}
             </div>
           </div>
-
-          {/* SEARCH / FILTERS */}
 
           <div className="border-b border-border bg-background-secondary/40 p-5 sm:p-6">
             <div className="grid gap-4 lg:grid-cols-[1fr_220px]">
@@ -726,9 +735,7 @@ export default function OrganizerEventDetailsPage() {
                 </label>
 
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-foreground-muted">
-                    /
-                  </span>
+                  <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted" />
 
                   <input
                     id="attendee-search"
@@ -738,7 +745,7 @@ export default function OrganizerEventDetailsPage() {
                       setSearch(e.target.value)
                     }
                     placeholder="Name, email, ticket number or booking reference..."
-                    className="w-full rounded-xl border border-border bg-background py-3 pl-9 pr-4 text-sm text-foreground outline-none transition placeholder:text-foreground-muted focus:border-accent focus:ring-1 focus:ring-accent"
+                    className="w-full rounded-xl border border-border bg-background py-3 pl-11 pr-4 text-sm text-foreground outline-none transition placeholder:text-foreground-muted focus:border-accent focus:ring-1 focus:ring-accent"
                   />
                 </div>
               </div>
@@ -751,21 +758,38 @@ export default function OrganizerEventDetailsPage() {
                   Ticket status
                 </label>
 
-                <select
-                  id="status-filter"
-                  value={statusFilter}
-                  onChange={(e) =>
-                    setStatusFilter(
-                      e.target.value as TicketStatus
-                    )
-                  }
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-1 focus:ring-accent"
-                >
-                  <option value="all">All Tickets</option>
-                  <option value="valid">Valid</option>
-                  <option value="used">Checked In</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
+                <div className="relative">
+                  <select
+                    id="status-filter"
+                    value={statusFilter}
+                    onChange={(e) =>
+                      setStatusFilter(
+                        e.target.value as TicketStatus
+                      )
+                    }
+                    className="w-full appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm text-foreground outline-none transition focus:border-accent focus:ring-1 focus:ring-accent"
+                  >
+                    <option value="all">All Tickets</option>
+                    <option value="valid">Valid</option>
+                    <option value="used">Checked In</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+
+                  <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-foreground-muted">
+                    <svg
+                      className="h-4 w-4"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -776,13 +800,15 @@ export default function OrganizerEventDetailsPage() {
                 </span>
 
                 {search && (
-                  <span className="max-w-full truncate rounded-full border border-border bg-card px-3 py-1.5 text-xs text-foreground-secondary">
+                  <span className="inline-flex max-w-full items-center gap-1.5 truncate rounded-full border border-border bg-card px-3 py-1.5 text-xs text-foreground-secondary">
+                    <MagnifyingGlassIcon className="h-3.5 w-3.5 shrink-0" />
                     Search: &quot;{search}&quot;
                   </span>
                 )}
 
                 {statusFilter !== "all" && (
-                  <span className="rounded-full border border-border bg-card px-3 py-1.5 text-xs text-foreground-secondary">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs text-foreground-secondary">
+                    <TicketIcon className="h-3.5 w-3.5" />
                     Status:{" "}
                     {statusFilter === "used"
                       ? "Checked In"
@@ -804,12 +830,10 @@ export default function OrganizerEventDetailsPage() {
             )}
           </div>
 
-          {/* EMPTY STATE */}
-
           {tickets.length === 0 ? (
             <div className="px-6 py-16 text-center sm:py-20">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-xl font-bold text-accent">
-                T
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent">
+                <TicketIcon className="h-7 w-7" />
               </div>
 
               <h3 className="mt-5 text-lg font-semibold">
@@ -823,8 +847,8 @@ export default function OrganizerEventDetailsPage() {
             </div>
           ) : filteredTickets.length === 0 ? (
             <div className="px-6 py-16 text-center sm:py-20">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-background-secondary text-xl font-bold text-foreground-muted">
-                ?
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-background-secondary text-foreground-muted">
+                <MagnifyingGlassIcon className="h-7 w-7" />
               </div>
 
               <h3 className="mt-5 text-lg font-semibold">
@@ -842,15 +866,14 @@ export default function OrganizerEventDetailsPage() {
                   setSearch("");
                   setStatusFilter("all");
                 }}
-                className="mt-5 inline-flex rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover"
+                className="mt-5 inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover"
               >
+                <ArrowPathIcon className="h-4 w-4" />
                 Clear Filters
               </button>
             </div>
           ) : (
             <>
-              {/* MOBILE / TABLET CARDS */}
-
               <div className="divide-y divide-border lg:hidden">
                 {filteredTickets.map((ticket) => {
                   const attendeeName =
@@ -859,7 +882,7 @@ export default function OrganizerEventDetailsPage() {
                   return (
                     <div
                       key={ticket._id}
-                      className="p-5 sm:p-6"
+                      className="p-5 transition hover:bg-background-secondary/30 sm:p-6"
                     >
                       <div className="flex items-start gap-4">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-accent/10 text-xs font-bold text-accent">
@@ -882,8 +905,11 @@ export default function OrganizerEventDetailsPage() {
                               </p>
 
                               {ticket.user?.email && (
-                                <p className="mt-1 truncate text-xs text-foreground-muted">
-                                  {ticket.user.email}
+                                <p className="mt-1 flex items-center gap-1.5 truncate text-xs text-foreground-muted">
+                                  <EnvelopeIcon className="h-3.5 w-3.5 shrink-0" />
+                                  <span className="truncate">
+                                    {ticket.user.email}
+                                  </span>
                                 </p>
                               )}
                             </div>
@@ -900,6 +926,7 @@ export default function OrganizerEventDetailsPage() {
                           label="Ticket"
                           value={ticket.ticketNumber}
                           mono
+                          icon={<TicketIcon className="h-3.5 w-3.5" />}
                         />
 
                         <InfoItem
@@ -909,6 +936,7 @@ export default function OrganizerEventDetailsPage() {
                               ?.bookingReference || "N/A"
                           }
                           mono
+                          icon={<QrCodeIcon className="h-3.5 w-3.5" />}
                         />
 
                         <InfoItem
@@ -916,6 +944,9 @@ export default function OrganizerEventDetailsPage() {
                           value={formatShortDate(
                             ticket.createdAt
                           )}
+                          icon={
+                            <CalendarDaysIcon className="h-3.5 w-3.5" />
+                          }
                         />
                       </div>
                     </div>
@@ -923,31 +954,15 @@ export default function OrganizerEventDetailsPage() {
                 })}
               </div>
 
-              {/* DESKTOP TABLE */}
-
               <div className="hidden overflow-x-auto lg:block">
                 <table className="w-full min-w-[950px]">
                   <thead className="border-b border-border bg-background-secondary/50">
                     <tr>
-                      <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-[0.15em] text-foreground-muted">
-                        Attendee
-                      </th>
-
-                      <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-[0.15em] text-foreground-muted">
-                        Ticket Number
-                      </th>
-
-                      <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-[0.15em] text-foreground-muted">
-                        Booking Reference
-                      </th>
-
-                      <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-[0.15em] text-foreground-muted">
-                        Status
-                      </th>
-
-                      <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-[0.15em] text-foreground-muted">
-                        Issued
-                      </th>
+                      <TableHeading>Attendee</TableHeading>
+                      <TableHeading>Ticket Number</TableHeading>
+                      <TableHeading>Booking Reference</TableHeading>
+                      <TableHeading>Status</TableHeading>
+                      <TableHeading>Issued</TableHeading>
                     </tr>
                   </thead>
 
@@ -983,8 +998,11 @@ export default function OrganizerEventDetailsPage() {
                                 </p>
 
                                 {ticket.user?.email && (
-                                  <p className="mt-1 max-w-[240px] truncate text-xs text-foreground-muted">
-                                    {ticket.user.email}
+                                  <p className="mt-1 flex max-w-[240px] items-center gap-1.5 truncate text-xs text-foreground-muted">
+                                    <EnvelopeIcon className="h-3.5 w-3.5 shrink-0" />
+                                    <span className="truncate">
+                                      {ticket.user.email}
+                                    </span>
                                   </p>
                                 )}
                               </div>
@@ -992,13 +1010,15 @@ export default function OrganizerEventDetailsPage() {
                           </td>
 
                           <td className="px-6 py-5">
-                            <span className="rounded-lg bg-background-secondary px-2.5 py-1.5 font-mono text-xs text-foreground-secondary">
+                            <span className="inline-flex items-center gap-1.5 rounded-lg bg-background-secondary px-2.5 py-1.5 font-mono text-xs text-foreground-secondary">
+                              <TicketIcon className="h-3.5 w-3.5 text-foreground-muted" />
                               {ticket.ticketNumber}
                             </span>
                           </td>
 
                           <td className="px-6 py-5">
-                            <span className="font-mono text-xs text-foreground-secondary">
+                            <span className="inline-flex items-center gap-1.5 font-mono text-xs text-foreground-secondary">
+                              <QrCodeIcon className="h-3.5 w-3.5 text-foreground-muted" />
                               {ticket.booking
                                 ?.bookingReference || "N/A"}
                             </span>
@@ -1010,10 +1030,13 @@ export default function OrganizerEventDetailsPage() {
                             />
                           </td>
 
-                          <td className="px-6 py-5 text-sm text-foreground-secondary">
-                            {formatShortDate(
-                              ticket.createdAt
-                            )}
+                          <td className="px-6 py-5">
+                            <span className="inline-flex items-center gap-2 text-sm text-foreground-secondary">
+                              <CalendarDaysIcon className="h-4 w-4 text-foreground-muted" />
+                              {formatShortDate(
+                                ticket.createdAt
+                              )}
+                            </span>
                           </td>
                         </tr>
                       );
@@ -1024,10 +1047,6 @@ export default function OrganizerEventDetailsPage() {
             </>
           )}
         </section>
-
-        {/* ---------------------------------
-            BOTTOM ACTIONS
-        ---------------------------------- */}
 
         <section className="mt-8">
           <div className="relative overflow-hidden rounded-2xl border border-accent/20 bg-accent/5 p-6 sm:p-8">
@@ -1052,15 +1071,17 @@ export default function OrganizerEventDetailsPage() {
               <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
                 <Link
                   href="/dashboard/events"
-                  className="inline-flex w-full items-center justify-center rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-card sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-card sm:w-auto"
                 >
+                  <ArrowLeftIcon className="h-4 w-4" />
                   My Events
                 </Link>
 
                 <Link
                   href="/dashboard/organizer/tickets"
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent-hover sm:w-auto"
                 >
+                  <QrCodeIcon className="h-4 w-4" />
                   Verify Tickets
                 </Link>
               </div>
@@ -1072,10 +1093,6 @@ export default function OrganizerEventDetailsPage() {
   );
 }
 
-/* ---------------------------------
-   STATISTICS CARD
----------------------------------- */
-
 function StatCard({
   label,
   value,
@@ -1085,12 +1102,12 @@ function StatCard({
   label: string;
   value: string;
   description: string;
-  icon: string;
+  icon: React.ReactNode;
 }) {
   return (
-    <div className="group min-w-0 rounded-2xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-hover sm:p-6">
+    <div className="group min-w-0 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-border-hover hover:shadow-md sm:p-6">
       <div className="flex items-start justify-between gap-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-sm font-bold text-accent">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent transition-transform duration-200 group-hover:scale-105">
           {icon}
         </div>
       </div>
@@ -1110,10 +1127,6 @@ function StatCard({
   );
 }
 
-/* ---------------------------------
-   ATTENDANCE CARD
----------------------------------- */
-
 function AttendanceCard({
   label,
   value,
@@ -1123,16 +1136,16 @@ function AttendanceCard({
   label: string;
   value: number;
   description: string;
-  icon: string;
+  icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+    <div className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-border-hover hover:shadow-md sm:p-6">
       <div className="flex items-start justify-between gap-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-background-secondary text-sm font-bold text-foreground-secondary">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-background-secondary text-foreground-secondary transition-transform duration-200 group-hover:scale-105">
           {icon}
         </div>
 
-        <span className="text-xs text-foreground-muted">
+        <span className="rounded-full border border-border bg-background-secondary px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-foreground-muted">
           Current
         </span>
       </div>
@@ -1152,43 +1165,41 @@ function AttendanceCard({
   );
 }
 
-/* ---------------------------------
-   STATUS SUMMARY
----------------------------------- */
-
 function StatusSummary({
   label,
   value,
+  icon,
 }: {
   label: string;
   value: number;
+  icon: React.ReactNode;
 }) {
   return (
-    <span className="rounded-full border border-border bg-background-secondary px-3 py-1.5 text-xs text-foreground-secondary">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background-secondary px-3 py-1.5 text-xs text-foreground-secondary">
+      <span className="text-foreground-muted">{icon}</span>
       <span className="font-semibold text-foreground">
         {value.toLocaleString("en-KE")}
-      </span>{" "}
+      </span>
       {label}
     </span>
   );
 }
 
-/* ---------------------------------
-   INFO ITEM
----------------------------------- */
-
 function InfoItem({
   label,
   value,
   mono = false,
+  icon,
 }: {
   label: string;
   value: string;
   mono?: boolean;
+  icon?: React.ReactNode;
 }) {
   return (
     <div className="min-w-0 rounded-xl bg-background-secondary p-3">
-      <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-foreground-muted">
+      <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-foreground-muted">
+        {icon}
         {label}
       </p>
 
@@ -1202,10 +1213,6 @@ function InfoItem({
     </div>
   );
 }
-
-/* ---------------------------------
-   TICKET STATUS BADGE
----------------------------------- */
 
 function StatusBadge({
   status,
@@ -1227,11 +1234,30 @@ function StatusBadge({
     cancelled: "Cancelled",
   };
 
+  const icons = {
+    valid: <CheckCircleIcon className="h-3.5 w-3.5" />,
+    used: <CheckCircleIcon className="h-3.5 w-3.5" />,
+    cancelled: <XCircleIcon className="h-3.5 w-3.5" />,
+  };
+
   return (
     <span
-      className={`inline-flex whitespace-nowrap rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide sm:text-xs ${styles[status]}`}
+      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide sm:text-xs ${styles[status]}`}
     >
+      {icons[status]}
       {labels[status]}
     </span>
+  );
+}
+
+function TableHeading({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-[0.15em] text-foreground-muted">
+      {children}
+    </th>
   );
 }
