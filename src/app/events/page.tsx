@@ -206,6 +206,7 @@ export default function EventsPage() {
         console.error("Failed to fetch events:", error);
 
         setEvents([]);
+
         setFetchError(
           error instanceof Error
             ? error.message
@@ -253,6 +254,7 @@ export default function EventsPage() {
 
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
+
       url.searchParams.delete("category");
 
       window.history.replaceState(
@@ -299,13 +301,8 @@ export default function EventsPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      {/* FIXED NAVBAR */}
-      <div className="fixed inset-x-0 top-0 z-[100]">
-        <Navbar />
-      </div>
-
-      {/* FIXED NAVBAR SPACER */}
-      <div className="h-[72px] sm:h-[80px]" />
+      {/* NAVBAR */}
+      <Navbar />
 
       {/* DISCOVER + CATEGORIES + FILTERS */}
       <section className="relative overflow-hidden bg-background">
@@ -324,27 +321,28 @@ export default function EventsPage() {
 
         <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* DISCOVER + CATEGORIES */}
-          <div className="border-b border-border py-10 sm:py-14 lg:py-20">
+          <div className="border-b border-border py-8 sm:py-14 lg:py-20">
             <div>
               <div className="flex flex-col gap-5 border-b border-border pb-7 sm:gap-6 sm:pb-8 lg:flex-row lg:items-end lg:justify-between">
                 <div className="max-w-3xl">
-                  <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-border bg-background-secondary px-3 py-2 text-[10px] font-semibold text-foreground-secondary sm:px-3.5 sm:text-xs">
+                  <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-border bg-background-secondary px-3 py-1.5 text-[9px] font-semibold text-foreground-secondary sm:px-3.5 sm:py-2 sm:text-xs">
                     <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+
                     <span className="truncate">
                       Discover events across Kenya
                     </span>
                   </div>
 
-                  <div className="mt-6 sm:mt-7">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent sm:text-[11px]">
+                  <div className="mt-5 sm:mt-7">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent sm:text-[11px]">
                       Explore by category
                     </p>
 
-                    <h1 className="mt-2 max-w-3xl text-[2rem] font-black leading-[1.05] tracking-[-0.035em] text-foreground xs:text-[2.2rem] sm:text-4xl md:text-5xl">
+                    <h1 className="mt-2 max-w-3xl text-[1.85rem] font-black leading-[1.06] tracking-[-0.035em] text-foreground xs:text-[2.1rem] sm:text-4xl md:text-5xl">
                       Find something worth experiencing.
                     </h1>
 
-                    <p className="mt-4 max-w-xl text-sm leading-6 text-foreground-secondary sm:text-base sm:leading-7">
+                    <p className="mt-3 max-w-xl text-xs leading-5 text-foreground-secondary sm:mt-4 sm:text-base sm:leading-7">
                       From live music and sports to technology,
                       business, culture, and entertainment, discover
                       experiences happening around Kenya.
@@ -367,10 +365,11 @@ export default function EventsPage() {
               </div>
 
               {/* CATEGORY CARDS */}
-              <div className="mt-7 grid grid-cols-2 gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+              <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-5">
                 {categories.map((categoryName) => {
                   const details =
                     categoryDetails[categoryName];
+
                   const active =
                     category === categoryName;
 
@@ -382,14 +381,14 @@ export default function EventsPage() {
                         selectCategory(categoryName)
                       }
                       aria-pressed={active}
-                      className={`group relative flex min-h-[145px] min-w-0 flex-col overflow-hidden rounded-xl border p-4 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 sm:min-h-[165px] sm:rounded-2xl sm:p-5 ${
+                      className={`group relative flex min-h-[126px] min-w-0 flex-col overflow-hidden rounded-xl border p-3.5 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 sm:min-h-[165px] sm:rounded-2xl sm:p-5 ${
                         active
                           ? "border-accent/50 bg-accent/10 shadow-lg shadow-accent/5"
                           : "border-border bg-card/70 hover:border-accent/40 hover:bg-card-hover"
                       }`}
                     >
                       <span
-                        className={`absolute right-3 top-3 text-[9px] font-bold tracking-[0.16em] transition-colors duration-200 sm:right-4 sm:top-4 sm:text-[10px] ${
+                        className={`absolute right-3 top-3 text-[8px] font-bold tracking-[0.16em] transition-colors duration-200 sm:right-4 sm:top-4 sm:text-[10px] ${
                           active
                             ? "text-accent"
                             : "text-foreground-muted group-hover:text-accent"
@@ -399,7 +398,7 @@ export default function EventsPage() {
                       </span>
 
                       <div
-                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-base transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 sm:text-lg ${
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border text-sm transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 sm:rounded-xl sm:text-lg ${
                           active
                             ? "border-accent/40 bg-accent/15 text-accent"
                             : "border-accent/20 bg-accent/10 text-accent"
@@ -409,7 +408,7 @@ export default function EventsPage() {
                       </div>
 
                       <p
-                        className={`mt-4 text-xs font-bold leading-5 transition-colors duration-200 sm:mt-5 sm:text-sm ${
+                        className={`mt-3 text-[11px] font-bold leading-4 transition-colors duration-200 sm:mt-5 sm:text-sm sm:leading-5 ${
                           active
                             ? "text-accent"
                             : "text-foreground group-hover:text-accent"
@@ -418,12 +417,12 @@ export default function EventsPage() {
                         {categoryName}
                       </p>
 
-                      <p className="mt-1.5 line-clamp-2 text-[10px] leading-4 text-foreground-muted sm:text-[11px] sm:leading-5">
+                      <p className="mt-1 line-clamp-2 text-[9px] leading-3.5 text-foreground-muted sm:mt-1.5 sm:text-[11px] sm:leading-5">
                         {details.description}
                       </p>
 
                       <div
-                        className={`mt-auto flex items-center gap-1 pt-3 text-[9px] font-bold transition-colors duration-200 sm:pt-4 sm:text-[10px] ${
+                        className={`mt-auto flex items-center gap-1 pt-2 text-[8px] font-bold transition-colors duration-200 sm:pt-4 sm:text-[10px] ${
                           active
                             ? "text-accent"
                             : "text-foreground-secondary group-hover:text-accent"
@@ -447,7 +446,7 @@ export default function EventsPage() {
 
           {/* SEARCH + FILTERS */}
           <div className="border-b border-border py-5 sm:py-7 lg:py-8">
-            <div className="rounded-2xl border border-border bg-background-secondary p-3.5 shadow-sm sm:p-5 lg:p-6">
+            <div className="rounded-2xl border border-border bg-background-secondary p-3 shadow-sm sm:p-5 lg:p-6">
               {/* SEARCH */}
               <div className="relative">
                 <div className="pointer-events-none absolute left-3.5 top-1/2 flex -translate-y-1/2 items-center text-foreground-muted sm:left-4">
@@ -470,7 +469,7 @@ export default function EventsPage() {
                   }
                   placeholder="Search events, locations, or descriptions..."
                   autoComplete="off"
-                  className="h-12 w-full rounded-xl border border-border bg-card pl-11 pr-11 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:h-14 sm:pl-12 sm:text-base"
+                  className="h-11 w-full rounded-xl border border-border bg-card pl-11 pr-11 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:h-14 sm:pl-12 sm:text-base"
                 />
 
                 {search && (
@@ -488,8 +487,8 @@ export default function EventsPage() {
               </div>
 
               {/* PRIMARY FILTERS */}
-              <div className="mt-4 sm:mt-5">
-                <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
+              <div className="mt-3.5 sm:mt-5">
+                <div className="grid gap-2.5 sm:grid-cols-3 sm:gap-4">
                   <FilterSelectGroup
                     title="Location"
                     value={location}
@@ -528,7 +527,7 @@ export default function EventsPage() {
                         (current) => !current
                       )
                     }
-                    className={`flex min-h-11 items-center justify-between rounded-xl border px-4 py-3 text-left transition-all ${
+                    className={`flex min-h-11 items-center justify-between rounded-xl border px-3.5 py-2.5 text-left transition-all sm:px-4 sm:py-3 ${
                       showMoreFilters ||
                       hasSecondaryFilters
                         ? "border-accent/40 bg-accent/10"
@@ -536,11 +535,11 @@ export default function EventsPage() {
                     }`}
                   >
                     <span className="min-w-0">
-                      <span className="block text-[9px] font-bold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
+                      <span className="block text-[8px] font-bold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
                         More Filters
                       </span>
 
-                      <span className="mt-0.5 block truncate text-sm font-semibold text-foreground">
+                      <span className="mt-0.5 block truncate text-xs font-semibold text-foreground sm:text-sm">
                         {hasSecondaryFilters
                           ? "Filters applied"
                           : "Price & sorting"}
@@ -562,7 +561,7 @@ export default function EventsPage() {
 
               {/* SECONDARY FILTERS */}
               {showMoreFilters && (
-                <div className="mt-5 grid gap-6 border-t border-border pt-5 sm:grid-cols-2">
+                <div className="mt-5 grid gap-5 border-t border-border pt-5 sm:grid-cols-2 sm:gap-6">
                   <FilterGroup title="Price">
                     <FilterButtons
                       items={priceFilters.map(
@@ -619,8 +618,8 @@ export default function EventsPage() {
               {/* ACTIVE FILTERS */}
               {hasActiveFilters && (
                 <div className="mt-5 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-semibold text-foreground-muted">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <span className="mr-0.5 text-[10px] font-semibold text-foreground-muted sm:text-xs">
                       Active:
                     </span>
 
@@ -695,7 +694,7 @@ export default function EventsPage() {
                   <button
                     type="button"
                     onClick={clearFilters}
-                    className="shrink-0 text-xs font-bold text-accent transition-colors hover:text-foreground"
+                    className="self-start text-xs font-bold text-accent transition-colors hover:text-foreground sm:self-auto"
                   >
                     Clear all
                   </button>
@@ -708,20 +707,20 @@ export default function EventsPage() {
 
       {/* EVENTS */}
       <section className="bg-background">
-        <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
-          <div className="mb-7 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
+          <div className="mb-6 flex flex-col gap-3 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent sm:text-[11px]">
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent sm:text-[11px]">
                 Discover
               </p>
 
-              <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+              <h2 className="mt-1.5 text-xl font-bold tracking-tight sm:mt-2 sm:text-3xl md:text-4xl">
                 {category !== "All"
                   ? `${category} Events`
                   : "Upcoming Events"}
               </h2>
 
-              <p className="mt-2 max-w-xl text-sm leading-6 text-foreground-muted">
+              <p className="mt-2 max-w-xl text-xs leading-5 text-foreground-muted sm:text-sm sm:leading-6">
                 {category !== "All"
                   ? `Explore upcoming ${category.toLowerCase()} events and find something worth attending.`
                   : "Explore experiences happening soon and find something worth attending."}
@@ -729,8 +728,8 @@ export default function EventsPage() {
             </div>
 
             {!loading && !fetchError && (
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-foreground-muted sm:text-sm">
+              <div className="flex items-center justify-between gap-3 sm:justify-end">
+                <span className="text-[11px] text-foreground-muted sm:text-sm">
                   {events.length}{" "}
                   {events.length === 1
                     ? "event"
@@ -738,7 +737,7 @@ export default function EventsPage() {
                 </span>
 
                 {hasActiveFilters && (
-                  <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-[10px] font-semibold text-accent sm:text-xs">
+                  <span className="rounded-full border border-accent/20 bg-accent/10 px-2.5 py-1 text-[9px] font-semibold text-accent sm:px-3 sm:py-1.5 sm:text-xs">
                     Filtered
                   </span>
                 )}
@@ -746,17 +745,18 @@ export default function EventsPage() {
             )}
           </div>
 
+          {/* LOADING */}
           {loading ? (
-            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+            <div className="grid gap-3.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
               {[1, 2, 3, 4, 5, 6].map(
                 (item) => (
                   <div
                     key={item}
                     className="overflow-hidden rounded-2xl border border-border bg-card"
                   >
-                    <div className="aspect-[16/10] animate-pulse bg-background-secondary" />
+                    <div className="aspect-[16/9] animate-pulse bg-background-secondary sm:aspect-[16/10]" />
 
-                    <div className="space-y-4 p-4 sm:p-6">
+                    <div className="space-y-3.5 p-3.5 sm:space-y-4 sm:p-6">
                       <div className="h-3 w-20 animate-pulse rounded bg-border" />
 
                       <div className="h-5 w-4/5 animate-pulse rounded bg-border" />
@@ -765,13 +765,13 @@ export default function EventsPage() {
 
                       <div className="h-3 w-2/3 animate-pulse rounded bg-border" />
 
-                      <div className="border-t border-border pt-4">
+                      <div className="border-t border-border pt-3.5 sm:pt-4">
                         <div className="h-3 w-1/2 animate-pulse rounded bg-border" />
 
                         <div className="mt-3 h-3 w-2/5 animate-pulse rounded bg-border" />
                       </div>
 
-                      <div className="flex items-center justify-between pt-2">
+                      <div className="flex items-center justify-between pt-1">
                         <div className="h-5 w-20 animate-pulse rounded bg-border" />
 
                         <div className="h-4 w-24 animate-pulse rounded bg-border" />
@@ -782,48 +782,48 @@ export default function EventsPage() {
               )}
             </div>
           ) : fetchError ? (
-            <div className="rounded-2xl border border-danger/30 bg-card px-5 py-14 text-center sm:px-8 sm:py-20">
+            <div className="rounded-2xl border border-danger/30 bg-card px-5 py-12 text-center sm:px-8 sm:py-20">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-danger/20 bg-danger/10 text-danger">
                 <span className="text-xl font-bold">
                   !
                 </span>
               </div>
 
-              <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.18em] text-danger sm:text-[11px]">
+              <p className="mt-5 text-[9px] font-bold uppercase tracking-[0.18em] text-danger sm:mt-6 sm:text-[11px]">
                 Something went wrong
               </p>
 
-              <h3 className="mt-2 text-xl font-bold sm:text-2xl">
+              <h3 className="mt-2 text-lg font-bold sm:text-2xl">
                 We couldn't load the events
               </h3>
 
-              <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-foreground-secondary">
+              <p className="mx-auto mt-3 max-w-md text-xs leading-6 text-foreground-secondary sm:text-sm sm:leading-7">
                 {fetchError}
               </p>
 
               <button
                 type="button"
                 onClick={retryEvents}
-                className="mt-7 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
+                className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:mt-7 sm:w-auto"
               >
                 Try Again
               </button>
             </div>
           ) : events.length === 0 ? (
-            <div className="rounded-2xl border border-border bg-card px-5 py-14 text-center sm:px-8 sm:py-20">
+            <div className="rounded-2xl border border-border bg-card px-5 py-12 text-center sm:px-8 sm:py-20">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-border-hover bg-background-secondary text-accent">
                 <SearchIcon className="h-6 w-6" />
               </div>
 
-              <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.18em] text-accent sm:text-[11px]">
+              <p className="mt-5 text-[9px] font-bold uppercase tracking-[0.18em] text-accent sm:mt-6 sm:text-[11px]">
                 No results
               </p>
 
-              <h3 className="mt-2 text-xl font-bold sm:text-2xl">
+              <h3 className="mt-2 text-lg font-bold sm:text-2xl">
                 No events found
               </h3>
 
-              <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-foreground-secondary">
+              <p className="mx-auto mt-3 max-w-md text-xs leading-6 text-foreground-secondary sm:text-sm sm:leading-7">
                 We couldn't find any events matching
                 your current search and filters. Try
                 changing your criteria or clearing the
@@ -834,14 +834,14 @@ export default function EventsPage() {
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="mt-7 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
+                  className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:mt-7 sm:w-auto"
                 >
                   Clear Filters
                 </button>
               )}
             </div>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+            <div className="grid gap-3.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
               {events.map((event) => (
                 <EventCard
                   key={event._id}
@@ -893,7 +893,8 @@ function EventCard({ event }: { event: Event }) {
       href={`/events/${event._id}`}
       className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-border-hover hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-background-secondary">
+      {/* EVENT IMAGE */}
+      <div className="relative aspect-[16/9] overflow-hidden bg-background-secondary sm:aspect-[16/10]">
         {!imageError && event.image ? (
           <img
             src={event.image}
@@ -905,11 +906,11 @@ function EventCard({ event }: { event: Event }) {
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-background-secondary">
             <div className="text-center">
-              <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-background text-base font-bold text-accent sm:h-12 sm:w-12 sm:text-lg">
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background text-sm font-bold text-accent sm:h-12 sm:w-12 sm:text-lg">
                 E
               </div>
 
-              <p className="mt-3 text-xs font-medium text-foreground-muted">
+              <p className="mt-2.5 text-[11px] font-medium text-foreground-muted sm:mt-3 sm:text-xs">
                 Eventora
               </p>
             </div>
@@ -918,26 +919,29 @@ function EventCard({ event }: { event: Event }) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
 
-        <div className="absolute left-3 top-3 overflow-hidden rounded-xl border border-white/15 bg-black/70 text-center backdrop-blur-md sm:left-4 sm:top-4">
-          <div className="min-w-[48px] px-2 py-2 sm:min-w-[52px] sm:px-2.5">
-            <p className="text-base font-bold leading-none text-white sm:text-lg">
+        {/* DATE */}
+        <div className="absolute left-3 top-3 overflow-hidden rounded-lg border border-white/15 bg-black/70 text-center backdrop-blur-md sm:left-4 sm:top-4 sm:rounded-xl">
+          <div className="min-w-[45px] px-2 py-1.5 sm:min-w-[52px] sm:px-2.5 sm:py-2">
+            <p className="text-sm font-bold leading-none text-white sm:text-lg">
               {dateParts.day}
             </p>
 
-            <p className="mt-1 text-[8px] font-bold uppercase tracking-wider text-accent sm:text-[9px]">
+            <p className="mt-1 text-[7px] font-bold uppercase tracking-wider text-accent sm:text-[9px]">
               {dateParts.month}
             </p>
           </div>
         </div>
 
+        {/* CATEGORY */}
         <div className="absolute right-3 top-3 max-w-[58%] sm:right-4 sm:top-4">
-          <span className="inline-flex max-w-full truncate rounded-lg border border-white/10 bg-black/65 px-2.5 py-1.5 text-[9px] font-semibold uppercase tracking-wider text-white backdrop-blur-md sm:px-3 sm:text-[10px]">
+          <span className="inline-flex max-w-full truncate rounded-lg border border-white/10 bg-black/65 px-2 py-1 text-[8px] font-semibold uppercase tracking-wider text-white backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-[10px]">
             {event.category}
           </span>
         </div>
 
+        {/* PRICE */}
         <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4">
-          <span className="rounded-lg border border-white/10 bg-black/70 px-2.5 py-1.5 text-[11px] font-bold text-white backdrop-blur-md sm:px-3 sm:text-xs">
+          <span className="rounded-lg border border-white/10 bg-black/70 px-2.5 py-1.5 text-[10px] font-bold text-white backdrop-blur-md sm:px-3 sm:text-xs">
             {event.price === 0
               ? "FREE"
               : `KES ${event.price.toLocaleString()}`}
@@ -945,16 +949,18 @@ function EventCard({ event }: { event: Event }) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-4 sm:p-6">
-        <h3 className="line-clamp-2 text-base font-bold leading-tight tracking-tight transition-colors group-hover:text-accent sm:text-xl">
+      {/* EVENT CONTENT */}
+      <div className="flex flex-1 flex-col p-3.5 sm:p-6">
+        <h3 className="line-clamp-2 text-[15px] font-bold leading-tight tracking-tight transition-colors group-hover:text-accent sm:text-xl">
           {event.title}
         </h3>
 
-        <p className="mt-3 line-clamp-2 text-xs leading-5 text-foreground-secondary sm:text-sm sm:leading-6">
+        <p className="mt-2.5 line-clamp-2 text-[11px] leading-5 text-foreground-secondary sm:mt-3 sm:text-sm sm:leading-6">
           {event.description}
         </p>
 
-        <div className="mt-5 space-y-3">
+        {/* EVENT META */}
+        <div className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
           <EventMeta
             icon={<LocationIcon />}
             label="Location"
@@ -962,7 +968,7 @@ function EventCard({ event }: { event: Event }) {
             truncate
           />
 
-          <div className="grid grid-cols-1 gap-3 xs:grid-cols-2">
+          <div className="grid grid-cols-1 gap-2.5 xs:grid-cols-2 sm:gap-3">
             <EventMeta
               icon={<CalendarIcon />}
               label="Date"
@@ -981,20 +987,21 @@ function EventCard({ event }: { event: Event }) {
           </div>
         </div>
 
-        <div className="mt-5 flex flex-col gap-3 border-t border-border pt-4 sm:mt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:pt-5">
+        {/* CARD ACTION */}
+        <div className="mt-4 flex flex-col gap-2.5 border-t border-border pt-3.5 sm:mt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:pt-5">
           <div className="min-w-0">
-            <p className="text-[9px] font-semibold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
+            <p className="text-[8px] font-semibold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
               Admission
             </p>
 
-            <p className="mt-1 truncate text-sm font-bold text-foreground">
+            <p className="mt-1 truncate text-xs font-bold text-foreground sm:text-sm">
               {event.price === 0
                 ? "Free entry"
                 : `KES ${event.price.toLocaleString()}`}
             </p>
           </div>
 
-          <span className="inline-flex w-full shrink-0 items-center justify-center gap-1 rounded-lg border border-border bg-background-secondary px-3 py-2 text-xs font-bold text-accent transition-all group-hover:border-accent/30 group-hover:bg-accent group-hover:text-white sm:w-auto sm:text-sm">
+          <span className="inline-flex w-full shrink-0 items-center justify-center gap-1 rounded-lg border border-border bg-background-secondary px-3 py-2 text-[11px] font-bold text-accent transition-all group-hover:border-accent/30 group-hover:bg-accent group-hover:text-white sm:w-auto sm:text-sm">
             View Event
 
             <span
@@ -1022,18 +1029,18 @@ function EventMeta({
   truncate?: boolean;
 }) {
   return (
-    <div className="flex min-w-0 items-start gap-3">
+    <div className="flex min-w-0 items-start gap-2.5 sm:gap-3">
       <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
         {icon}
       </span>
 
       <div className="min-w-0">
-        <p className="text-[9px] font-semibold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
+        <p className="text-[8px] font-semibold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
           {label}
         </p>
 
         <p
-          className={`mt-0.5 text-xs font-medium text-foreground-secondary sm:text-sm ${
+          className={`mt-0.5 text-[11px] font-medium text-foreground-secondary sm:text-sm ${
             truncate ? "truncate" : ""
           }`}
         >
@@ -1053,7 +1060,7 @@ function FilterGroup({
 }) {
   return (
     <div className="min-w-0">
-      <h3 className="mb-3 text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted sm:text-[11px]">
+      <h3 className="mb-3 text-[9px] font-bold uppercase tracking-[0.16em] text-foreground-muted sm:text-[11px]">
         {title}
       </h3>
 
@@ -1073,7 +1080,7 @@ function FilterButtons({
 }) {
   return (
     <div className="-mx-1 overflow-x-auto px-1 pb-1">
-      <div className="flex w-max min-w-full gap-2">
+      <div className="flex w-max min-w-full gap-1.5 sm:gap-2">
         {items.map((item) => {
           const active = activeValue === item;
 
@@ -1083,7 +1090,7 @@ function FilterButtons({
               type="button"
               onClick={() => onSelect(item)}
               aria-pressed={active}
-              className={`shrink-0 rounded-lg border px-3.5 py-2 text-xs font-semibold transition-all duration-200 sm:px-4 sm:py-2.5 sm:text-sm ${
+              className={`shrink-0 rounded-lg border px-3 py-2 text-[11px] font-semibold transition-all duration-200 sm:px-4 sm:py-2.5 sm:text-sm ${
                 active
                   ? "border-accent bg-accent text-white shadow-lg shadow-blue-500/10"
                   : "border-border bg-background text-foreground-secondary hover:border-border-hover hover:bg-card hover:text-foreground"
@@ -1111,7 +1118,7 @@ function FilterSelectGroup({
 }) {
   return (
     <div className="min-w-0">
-      <label className="mb-2 block text-[9px] font-bold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
+      <label className="mb-1.5 block text-[8px] font-bold uppercase tracking-wider text-foreground-muted sm:mb-2 sm:text-[10px]">
         {title}
       </label>
 
@@ -1121,10 +1128,13 @@ function FilterSelectGroup({
           onChange={(e) =>
             onChange(e.target.value)
           }
-          className="h-11 w-full appearance-none rounded-xl border border-border bg-card px-3.5 pr-10 text-sm font-semibold text-foreground outline-none transition-all hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:px-4"
+          className="h-11 w-full appearance-none rounded-xl border border-border bg-card px-3 pr-10 text-xs font-semibold text-foreground outline-none transition-all hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:px-4 sm:text-sm"
         >
           {options.map((option) => (
-            <option key={option} value={option}>
+            <option
+              key={option}
+              value={option}
+            >
               {option}
             </option>
           ))}
@@ -1149,9 +1159,9 @@ function FilterTag({
     <button
       type="button"
       onClick={onRemove}
-      className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent transition-colors hover:border-accent/40 hover:bg-accent/15"
+      className="inline-flex max-w-full items-center gap-1 rounded-full border border-accent/20 bg-accent/10 px-2.5 py-1 text-[10px] font-semibold text-accent transition-colors hover:border-accent/40 hover:bg-accent/15 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs"
     >
-      <span className="max-w-[180px] truncate">
+      <span className="max-w-[140px] truncate sm:max-w-[180px]">
         {label}
       </span>
 
