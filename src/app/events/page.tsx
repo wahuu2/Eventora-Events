@@ -206,7 +206,6 @@ export default function EventsPage() {
         console.error("Failed to fetch events:", error);
 
         setEvents([]);
-
         setFetchError(
           error instanceof Error
             ? error.message
@@ -251,6 +250,17 @@ export default function EventsPage() {
     setDateFilter("All");
     setPriceFilter("All");
     setSort("soonest");
+
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("category");
+
+      window.history.replaceState(
+        {},
+        "",
+        url.toString()
+      );
+    }
   }
 
   function selectCategory(selectedCategory: string) {
@@ -294,13 +304,10 @@ export default function EventsPage() {
         <Navbar />
       </div>
 
-      {/* TOP SPACING FOR FIXED NAVBAR */}
+      {/* FIXED NAVBAR SPACER */}
       <div className="h-[72px] sm:h-[80px]" />
 
-      {/* =====================================================
-          DISCOVER + CATEGORIES + SEARCH + FILTERS
-      ====================================================== */}
-
+      {/* DISCOVER + CATEGORIES + FILTERS */}
       <section className="relative overflow-hidden bg-background">
         <div className="pointer-events-none absolute inset-0 opacity-[0.025]">
           <div
@@ -313,30 +320,31 @@ export default function EventsPage() {
           />
         </div>
 
-        <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-accent/10 blur-3xl sm:h-96 sm:w-96" />
+        <div className="pointer-events-none absolute -right-32 -top-32 h-72 w-72 rounded-full bg-accent/10 blur-3xl sm:h-96 sm:w-96" />
 
         <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* DISCOVER + CATEGORIES */}
-
-          <div className="border-b border-border py-12 sm:py-16 lg:py-20">
+          <div className="border-b border-border py-10 sm:py-14 lg:py-20">
             <div>
-              <div className="flex flex-col gap-4 border-b border-border pb-8 sm:flex-row sm:items-end sm:justify-between">
+              <div className="flex flex-col gap-5 border-b border-border pb-7 sm:gap-6 sm:pb-8 lg:flex-row lg:items-end lg:justify-between">
                 <div className="max-w-3xl">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background-secondary px-3.5 py-2 text-xs font-semibold text-foreground-secondary">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    Discover events across Kenya
+                  <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-border bg-background-secondary px-3 py-2 text-[10px] font-semibold text-foreground-secondary sm:px-3.5 sm:text-xs">
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    <span className="truncate">
+                      Discover events across Kenya
+                    </span>
                   </div>
 
-                  <div className="mt-7">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+                  <div className="mt-6 sm:mt-7">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent sm:text-[11px]">
                       Explore by category
                     </p>
 
-                    <h1 className="mt-2 text-3xl font-black leading-tight tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
+                    <h1 className="mt-2 max-w-3xl text-[2rem] font-black leading-[1.05] tracking-[-0.035em] text-foreground xs:text-[2.2rem] sm:text-4xl md:text-5xl">
                       Find something worth experiencing.
                     </h1>
 
-                    <p className="mt-4 max-w-xl text-sm leading-7 text-foreground-secondary sm:text-base">
+                    <p className="mt-4 max-w-xl text-sm leading-6 text-foreground-secondary sm:text-base sm:leading-7">
                       From live music and sports to technology,
                       business, culture, and entertainment, discover
                       experiences happening around Kenya.
@@ -347,7 +355,7 @@ export default function EventsPage() {
                 <button
                   type="button"
                   onClick={() => selectCategory("All")}
-                  className={`inline-flex w-fit shrink-0 items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-bold transition-all duration-200 ${
+                  className={`inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-bold transition-all duration-200 sm:w-fit ${
                     category === "All"
                       ? "border-accent/30 bg-accent/10 text-accent"
                       : "border-border bg-card text-foreground-secondary hover:border-border-hover hover:bg-card-hover hover:text-foreground"
@@ -359,8 +367,7 @@ export default function EventsPage() {
               </div>
 
               {/* CATEGORY CARDS */}
-
-              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+              <div className="mt-7 grid grid-cols-2 gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
                 {categories.map((categoryName) => {
                   const details =
                     categoryDetails[categoryName];
@@ -375,14 +382,14 @@ export default function EventsPage() {
                         selectCategory(categoryName)
                       }
                       aria-pressed={active}
-                      className={`group relative flex min-h-[155px] min-w-0 flex-col overflow-hidden rounded-2xl border p-5 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 sm:min-h-[165px] ${
+                      className={`group relative flex min-h-[145px] min-w-0 flex-col overflow-hidden rounded-xl border p-4 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 sm:min-h-[165px] sm:rounded-2xl sm:p-5 ${
                         active
                           ? "border-accent/50 bg-accent/10 shadow-lg shadow-accent/5"
                           : "border-border bg-card/70 hover:border-accent/40 hover:bg-card-hover"
                       }`}
                     >
                       <span
-                        className={`absolute right-4 top-4 text-[10px] font-bold tracking-[0.16em] transition-colors duration-200 ${
+                        className={`absolute right-3 top-3 text-[9px] font-bold tracking-[0.16em] transition-colors duration-200 sm:right-4 sm:top-4 sm:text-[10px] ${
                           active
                             ? "text-accent"
                             : "text-foreground-muted group-hover:text-accent"
@@ -392,7 +399,7 @@ export default function EventsPage() {
                       </span>
 
                       <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-lg transition-all duration-300 group-hover:scale-105 ${
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-base transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 sm:text-lg ${
                           active
                             ? "border-accent/40 bg-accent/15 text-accent"
                             : "border-accent/20 bg-accent/10 text-accent"
@@ -402,7 +409,7 @@ export default function EventsPage() {
                       </div>
 
                       <p
-                        className={`mt-5 text-sm font-bold transition-colors duration-200 ${
+                        className={`mt-4 text-xs font-bold leading-5 transition-colors duration-200 sm:mt-5 sm:text-sm ${
                           active
                             ? "text-accent"
                             : "text-foreground group-hover:text-accent"
@@ -411,12 +418,12 @@ export default function EventsPage() {
                         {categoryName}
                       </p>
 
-                      <p className="mt-1.5 line-clamp-2 text-[11px] leading-5 text-foreground-muted">
+                      <p className="mt-1.5 line-clamp-2 text-[10px] leading-4 text-foreground-muted sm:text-[11px] sm:leading-5">
                         {details.description}
                       </p>
 
                       <div
-                        className={`mt-auto flex items-center gap-1 pt-4 text-[10px] font-bold transition-colors duration-200 ${
+                        className={`mt-auto flex items-center gap-1 pt-3 text-[9px] font-bold transition-colors duration-200 sm:pt-4 sm:text-[10px] ${
                           active
                             ? "text-accent"
                             : "text-foreground-secondary group-hover:text-accent"
@@ -439,11 +446,11 @@ export default function EventsPage() {
           </div>
 
           {/* SEARCH + FILTERS */}
-
-          <div className="border-b border-border py-6 sm:py-8">
-            <div className="rounded-2xl border border-border bg-background-secondary p-4 shadow-sm sm:p-5 lg:p-6">
+          <div className="border-b border-border py-5 sm:py-7 lg:py-8">
+            <div className="rounded-2xl border border-border bg-background-secondary p-3.5 shadow-sm sm:p-5 lg:p-6">
+              {/* SEARCH */}
               <div className="relative">
-                <div className="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center text-foreground-muted">
+                <div className="pointer-events-none absolute left-3.5 top-1/2 flex -translate-y-1/2 items-center text-foreground-muted sm:left-4">
                   <SearchIcon className="h-5 w-5" />
                 </div>
 
@@ -463,14 +470,14 @@ export default function EventsPage() {
                   }
                   placeholder="Search events, locations, or descriptions..."
                   autoComplete="off"
-                  className="h-12 w-full rounded-xl border border-border bg-card pl-12 pr-12 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:h-14 sm:text-base"
+                  className="h-12 w-full rounded-xl border border-border bg-card pl-11 pr-11 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:h-14 sm:pl-12 sm:text-base"
                 />
 
                 {search && (
                   <button
                     type="button"
                     onClick={() => setSearch("")}
-                    className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-foreground-muted transition-colors hover:bg-background-secondary hover:text-foreground"
+                    className="absolute right-2.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-foreground-muted transition-colors hover:bg-background-secondary hover:text-foreground sm:right-3"
                     aria-label="Clear search"
                   >
                     <span className="text-lg leading-none">
@@ -480,8 +487,9 @@ export default function EventsPage() {
                 )}
               </div>
 
-              <div className="mt-5">
-                <div className="grid gap-5 sm:grid-cols-3">
+              {/* PRIMARY FILTERS */}
+              <div className="mt-4 sm:mt-5">
+                <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
                   <FilterSelectGroup
                     title="Location"
                     value={location}
@@ -527,12 +535,12 @@ export default function EventsPage() {
                         : "border-border bg-card hover:border-border-hover hover:bg-card-hover"
                     }`}
                   >
-                    <span>
-                      <span className="block text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                    <span className="min-w-0">
+                      <span className="block text-[9px] font-bold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
                         More Filters
                       </span>
 
-                      <span className="mt-0.5 block text-sm font-semibold text-foreground">
+                      <span className="mt-0.5 block truncate text-sm font-semibold text-foreground">
                         {hasSecondaryFilters
                           ? "Filters applied"
                           : "Price & sorting"}
@@ -540,7 +548,7 @@ export default function EventsPage() {
                     </span>
 
                     <span
-                      className={`flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background text-foreground-secondary transition-transform duration-200 ${
+                      className={`ml-3 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-foreground-secondary transition-transform duration-200 ${
                         showMoreFilters
                           ? "rotate-180"
                           : ""
@@ -552,6 +560,7 @@ export default function EventsPage() {
                 </div>
               </div>
 
+              {/* SECONDARY FILTERS */}
               {showMoreFilters && (
                 <div className="mt-5 grid gap-6 border-t border-border pt-5 sm:grid-cols-2">
                   <FilterGroup title="Price">
@@ -607,6 +616,7 @@ export default function EventsPage() {
                 </div>
               )}
 
+              {/* ACTIVE FILTERS */}
               {hasActiveFilters && (
                 <div className="mt-5 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex flex-wrap items-center gap-2">
@@ -696,15 +706,12 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* =====================================================
-          EVENTS
-      ====================================================== */}
-
+      {/* EVENTS */}
       <section className="bg-background">
-        <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <div className="mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+        <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
+          <div className="mb-7 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent sm:text-[11px]">
                 Discover
               </p>
 
@@ -723,7 +730,7 @@ export default function EventsPage() {
 
             {!loading && !fetchError && (
               <div className="flex items-center gap-3">
-                <span className="text-sm text-foreground-muted">
+                <span className="text-xs text-foreground-muted sm:text-sm">
                   {events.length}{" "}
                   {events.length === 1
                     ? "event"
@@ -731,7 +738,7 @@ export default function EventsPage() {
                 </span>
 
                 {hasActiveFilters && (
-                  <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent">
+                  <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-[10px] font-semibold text-accent sm:text-xs">
                     Filtered
                   </span>
                 )}
@@ -740,7 +747,7 @@ export default function EventsPage() {
           </div>
 
           {loading ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
               {[1, 2, 3, 4, 5, 6].map(
                 (item) => (
                   <div
@@ -749,7 +756,7 @@ export default function EventsPage() {
                   >
                     <div className="aspect-[16/10] animate-pulse bg-background-secondary" />
 
-                    <div className="space-y-4 p-5 sm:p-6">
+                    <div className="space-y-4 p-4 sm:p-6">
                       <div className="h-3 w-20 animate-pulse rounded bg-border" />
 
                       <div className="h-5 w-4/5 animate-pulse rounded bg-border" />
@@ -775,14 +782,14 @@ export default function EventsPage() {
               )}
             </div>
           ) : fetchError ? (
-            <div className="rounded-2xl border border-danger/30 bg-card px-5 py-16 text-center sm:px-8 sm:py-20">
+            <div className="rounded-2xl border border-danger/30 bg-card px-5 py-14 text-center sm:px-8 sm:py-20">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-danger/20 bg-danger/10 text-danger">
                 <span className="text-xl font-bold">
                   !
                 </span>
               </div>
 
-              <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-danger">
+              <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.18em] text-danger sm:text-[11px]">
                 Something went wrong
               </p>
 
@@ -797,18 +804,18 @@ export default function EventsPage() {
               <button
                 type="button"
                 onClick={retryEvents}
-                className="mt-7 inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
+                className="mt-7 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
               >
                 Try Again
               </button>
             </div>
           ) : events.length === 0 ? (
-            <div className="rounded-2xl border border-border bg-card px-5 py-16 text-center sm:px-8 sm:py-20">
+            <div className="rounded-2xl border border-border bg-card px-5 py-14 text-center sm:px-8 sm:py-20">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-border-hover bg-background-secondary text-accent">
                 <SearchIcon className="h-6 w-6" />
               </div>
 
-              <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-accent">
+              <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.18em] text-accent sm:text-[11px]">
                 No results
               </p>
 
@@ -827,14 +834,14 @@ export default function EventsPage() {
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="mt-7 inline-flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
+                  className="mt-7 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition-all hover:bg-accent-hover sm:w-auto"
                 >
                   Clear Filters
                 </button>
               )}
             </div>
           ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
               {events.map((event) => (
                 <EventCard
                   key={event._id}
@@ -870,11 +877,9 @@ function EventCard({ event }: { event: Event }) {
       day: date.toLocaleDateString("en-KE", {
         day: "2-digit",
       }),
-
       month: date.toLocaleDateString("en-KE", {
         month: "short",
       }),
-
       full: date.toLocaleDateString("en-KE", {
         day: "numeric",
         month: "short",
@@ -900,7 +905,7 @@ function EventCard({ event }: { event: Event }) {
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-background-secondary">
             <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-background text-lg font-bold text-accent">
+              <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-background text-base font-bold text-accent sm:h-12 sm:w-12 sm:text-lg">
                 E
               </div>
 
@@ -913,26 +918,26 @@ function EventCard({ event }: { event: Event }) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
 
-        <div className="absolute left-4 top-4 overflow-hidden rounded-xl border border-white/15 bg-black/70 text-center backdrop-blur-md">
-          <div className="min-w-[52px] px-2.5 py-2">
-            <p className="text-lg font-bold leading-none text-white">
+        <div className="absolute left-3 top-3 overflow-hidden rounded-xl border border-white/15 bg-black/70 text-center backdrop-blur-md sm:left-4 sm:top-4">
+          <div className="min-w-[48px] px-2 py-2 sm:min-w-[52px] sm:px-2.5">
+            <p className="text-base font-bold leading-none text-white sm:text-lg">
               {dateParts.day}
             </p>
 
-            <p className="mt-1 text-[9px] font-bold uppercase tracking-wider text-accent">
+            <p className="mt-1 text-[8px] font-bold uppercase tracking-wider text-accent sm:text-[9px]">
               {dateParts.month}
             </p>
           </div>
         </div>
 
-        <div className="absolute right-4 top-4 max-w-[55%]">
-          <span className="inline-flex max-w-full truncate rounded-lg border border-white/10 bg-black/65 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur-md">
+        <div className="absolute right-3 top-3 max-w-[58%] sm:right-4 sm:top-4">
+          <span className="inline-flex max-w-full truncate rounded-lg border border-white/10 bg-black/65 px-2.5 py-1.5 text-[9px] font-semibold uppercase tracking-wider text-white backdrop-blur-md sm:px-3 sm:text-[10px]">
             {event.category}
           </span>
         </div>
 
-        <div className="absolute bottom-4 right-4">
-          <span className="rounded-lg border border-white/10 bg-black/70 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-md">
+        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4">
+          <span className="rounded-lg border border-white/10 bg-black/70 px-2.5 py-1.5 text-[11px] font-bold text-white backdrop-blur-md sm:px-3 sm:text-xs">
             {event.price === 0
               ? "FREE"
               : `KES ${event.price.toLocaleString()}`}
@@ -940,12 +945,12 @@ function EventCard({ event }: { event: Event }) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <h3 className="line-clamp-2 text-lg font-bold leading-tight tracking-tight transition-colors group-hover:text-accent sm:text-xl">
+      <div className="flex flex-1 flex-col p-4 sm:p-6">
+        <h3 className="line-clamp-2 text-base font-bold leading-tight tracking-tight transition-colors group-hover:text-accent sm:text-xl">
           {event.title}
         </h3>
 
-        <p className="mt-3 line-clamp-2 text-sm leading-6 text-foreground-secondary">
+        <p className="mt-3 line-clamp-2 text-xs leading-5 text-foreground-secondary sm:text-sm sm:leading-6">
           {event.description}
         </p>
 
@@ -957,7 +962,7 @@ function EventCard({ event }: { event: Event }) {
             truncate
           />
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 xs:grid-cols-2">
             <EventMeta
               icon={<CalendarIcon />}
               label="Date"
@@ -976,9 +981,9 @@ function EventCard({ event }: { event: Event }) {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-between gap-3 border-t border-border pt-5">
+        <div className="mt-5 flex flex-col gap-3 border-t border-border pt-4 sm:mt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:pt-5">
           <div className="min-w-0">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground-muted">
+            <p className="text-[9px] font-semibold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
               Admission
             </p>
 
@@ -989,7 +994,7 @@ function EventCard({ event }: { event: Event }) {
             </p>
           </div>
 
-          <span className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-border bg-background-secondary px-3 py-2 text-xs font-bold text-accent transition-all group-hover:border-accent/30 group-hover:bg-accent group-hover:text-white sm:text-sm">
+          <span className="inline-flex w-full shrink-0 items-center justify-center gap-1 rounded-lg border border-border bg-background-secondary px-3 py-2 text-xs font-bold text-accent transition-all group-hover:border-accent/30 group-hover:bg-accent group-hover:text-white sm:w-auto sm:text-sm">
             View Event
 
             <span
@@ -1023,12 +1028,12 @@ function EventMeta({
       </span>
 
       <div className="min-w-0">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground-muted">
+        <p className="text-[9px] font-semibold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
           {label}
         </p>
 
         <p
-          className={`mt-0.5 text-sm font-medium text-foreground-secondary ${
+          className={`mt-0.5 text-xs font-medium text-foreground-secondary sm:text-sm ${
             truncate ? "truncate" : ""
           }`}
         >
@@ -1048,7 +1053,7 @@ function FilterGroup({
 }) {
   return (
     <div className="min-w-0">
-      <h3 className="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
+      <h3 className="mb-3 text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted sm:text-[11px]">
         {title}
       </h3>
 
@@ -1105,8 +1110,8 @@ function FilterSelectGroup({
   onChange: (value: string) => void;
 }) {
   return (
-    <div>
-      <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+    <div className="min-w-0">
+      <label className="mb-2 block text-[9px] font-bold uppercase tracking-wider text-foreground-muted sm:text-[10px]">
         {title}
       </label>
 
@@ -1116,7 +1121,7 @@ function FilterSelectGroup({
           onChange={(e) =>
             onChange(e.target.value)
           }
-          className="h-11 w-full appearance-none rounded-xl border border-border bg-card px-4 pr-10 text-sm font-semibold text-foreground outline-none transition-all hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10"
+          className="h-11 w-full appearance-none rounded-xl border border-border bg-card px-3.5 pr-10 text-sm font-semibold text-foreground outline-none transition-all hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:px-4"
         >
           {options.map((option) => (
             <option key={option} value={option}>

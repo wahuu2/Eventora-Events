@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
 import FeaturedEvents from "@/components/FeaturedEvents";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -118,33 +119,36 @@ export default async function HomePage() {
         <Navbar />
       </div>
 
+      {/* NAVBAR SPACER */}
+      <div className="h-[72px] sm:h-[80px]" />
+
       {/* HERO */}
       <section className="relative isolate overflow-hidden bg-background">
-        <div className="relative h-[650px] overflow-hidden sm:h-[700px] lg:h-[760px]">
+        <div className="relative min-h-[calc(100svh-72px)] overflow-hidden sm:min-h-[700px] lg:min-h-[760px]">
           <img
             src="/banner.jpeg"
             alt="Eventora event experience"
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/15" />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-transparent to-purple-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-950/45 via-transparent to-purple-950/45" />
 
-          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-background to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background to-transparent" />
 
-          <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6 pb-16 pt-16 lg:px-8">
-            <div className="w-full text-center">
-              <div className="mx-auto mb-7 inline-flex items-center gap-2 rounded-full border border-foreground/20 bg-foreground/10 px-4 py-2 text-xs font-semibold tracking-wide text-foreground-secondary shadow-xl backdrop-blur-md">
-                <span className="relative flex h-2 w-2">
+          <div className="relative z-10 mx-auto flex min-h-[calc(100svh-72px)] max-w-7xl items-center px-4 py-12 sm:min-h-[700px] sm:px-6 sm:py-16 lg:min-h-[760px] lg:px-8 lg:py-20">
+            <div className="mx-auto w-full max-w-5xl text-center">
+              <div className="mx-auto mb-5 inline-flex max-w-[calc(100%-1rem)] items-center justify-center gap-2 rounded-full border border-foreground/20 bg-foreground/10 px-3 py-2 text-[10px] font-semibold tracking-wide text-foreground-secondary shadow-xl backdrop-blur-md sm:mb-7 sm:px-4 sm:text-xs">
+                <span className="relative flex h-2 w-2 shrink-0">
                   <span className="absolute h-full w-full animate-ping rounded-full bg-accent opacity-60" />
                   <span className="relative h-2 w-2 rounded-full bg-accent" />
                 </span>
 
-                One platform. Every event experience.
+                <span>One platform. Every event experience.</span>
               </div>
 
-              <h1 className="mx-auto max-w-5xl text-5xl font-black leading-[0.95] tracking-[-0.05em] text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
+              <h1 className="mx-auto max-w-5xl text-[3.25rem] font-black leading-[0.92] tracking-[-0.055em] text-foreground xs:text-[3.6rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6.5rem]">
                 Discover.
                 <br />
                 <span className="text-accent">Connect.</span>
@@ -152,24 +156,27 @@ export default async function HomePage() {
                 Experience.
               </h1>
 
-              <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-foreground-secondary sm:text-lg sm:leading-8">
+              <p className="mx-auto mt-5 max-w-2xl px-2 text-sm leading-6 text-foreground-secondary sm:mt-7 sm:px-0 sm:text-base sm:leading-7 lg:text-lg lg:leading-8">
                 Discover events happening around Kenya, book your spot,
                 and access your digital ticket — all in one place.
               </p>
 
-              <div className="mx-auto mt-8 max-w-3xl">
-                <div className="flex flex-col gap-2 rounded-2xl border border-foreground/20 bg-background/35 p-2 shadow-2xl backdrop-blur-xl sm:flex-row">
-                  <div className="flex min-h-12 flex-1 items-center gap-3 rounded-xl bg-foreground/[0.08] px-4 text-left">
-                    <span className="text-lg text-foreground-muted">⌕</span>
+              {/* SEARCH BAR */}
+              <div className="mx-auto mt-6 w-full max-w-3xl sm:mt-8">
+                <div className="flex flex-col gap-2 rounded-2xl border border-foreground/20 bg-background/40 p-2 shadow-2xl backdrop-blur-xl sm:flex-row">
+                  <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 rounded-xl bg-foreground/[0.08] px-4 text-left">
+                    <span className="shrink-0 text-lg text-foreground-muted">
+                      ⌕
+                    </span>
 
-                    <p className="text-sm text-foreground-secondary">
+                    <p className="truncate text-xs text-foreground-secondary sm:text-sm">
                       Search events, artists or venues
                     </p>
                   </div>
 
                   <Link
                     href="/events"
-                    className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-7 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30"
+                    className="inline-flex min-h-12 w-full shrink-0 items-center justify-center rounded-xl bg-accent px-6 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30 sm:w-auto sm:px-7"
                   >
                     Search Events
                     <span className="ml-2">→</span>
@@ -177,7 +184,8 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-foreground-muted">
+              {/* TRUST POINTS */}
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-2 text-[10px] text-foreground-muted sm:mt-6 sm:gap-x-6 sm:text-xs">
                 <span>✓ Digital tickets</span>
                 <span>✓ Secure booking</span>
                 <span>✓ Kenyan events</span>
@@ -187,13 +195,13 @@ export default async function HomePage() {
         </div>
 
         {/* JOURNEY */}
-        <div className="relative z-20 mx-auto -mt-1 max-w-6xl px-6 lg:px-8">
-          <div className="overflow-hidden rounded-2xl border border-border bg-card/80 shadow-2xl backdrop-blur-xl">
+        <div className="relative z-20 mx-auto -mt-6 max-w-6xl px-4 sm:-mt-8 sm:px-6 lg:-mt-10 lg:px-8">
+          <div className="overflow-hidden rounded-2xl border border-border bg-card/90 shadow-2xl backdrop-blur-xl">
             <div className="grid grid-cols-1 sm:grid-cols-3">
               {journey.map((item, index) => (
                 <div
                   key={item.number}
-                  className={`relative px-6 py-7 ${
+                  className={`relative px-5 py-6 sm:px-6 sm:py-7 ${
                     index !== 0
                       ? "border-t border-border sm:border-l sm:border-t-0"
                       : ""
@@ -204,7 +212,7 @@ export default async function HomePage() {
                       {item.number}
                     </span>
 
-                    <div>
+                    <div className="min-w-0">
                       <h2 className="text-sm font-bold text-foreground">
                         {item.title}
                       </h2>
@@ -233,14 +241,14 @@ export default async function HomePage() {
 
         <div className="relative">
           {/* CATEGORIES */}
-          <section className="mx-auto max-w-7xl px-6 pt-20 lg:px-8 lg:pt-28">
+          <section className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-28">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+              <div className="max-w-2xl">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent sm:text-xs">
                   Explore by category
                 </p>
 
-                <h2 className="mt-3 text-3xl font-black tracking-tight text-foreground sm:text-4xl">
+                <h2 className="mt-3 text-2xl font-black tracking-tight text-foreground sm:text-3xl md:text-4xl">
                   Find something worth experiencing.
                 </h2>
 
@@ -252,29 +260,31 @@ export default async function HomePage() {
 
               <Link
                 href="/events"
-                className="inline-flex items-center text-sm font-bold text-accent transition-colors hover:text-foreground"
+                className="inline-flex w-fit items-center text-sm font-bold text-accent transition-colors hover:text-foreground"
               >
                 View all events
                 <span className="ml-2">→</span>
               </Link>
             </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-4 md:grid-cols-3 lg:grid-cols-6">
               {categories.map((category) => (
                 <Link
                   key={category.number}
-                  href="/events"
-                  className="group rounded-2xl border border-border bg-card/70 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-card-hover"
+                  href={`/events?category=${encodeURIComponent(
+                    category.title
+                  )}`}
+                  className="group rounded-2xl border border-border bg-card/70 p-4 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-card-hover sm:p-5"
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-lg text-accent transition-transform duration-300 group-hover:scale-105">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-base text-accent transition-transform duration-300 group-hover:scale-105 sm:h-11 sm:w-11 sm:text-lg">
                     {category.icon}
                   </div>
 
-                  <p className="mt-5 text-sm font-bold text-foreground">
+                  <p className="mt-4 text-sm font-bold text-foreground sm:mt-5">
                     {category.title}
                   </p>
 
-                  <p className="mt-1.5 text-[11px] leading-5 text-foreground-muted">
+                  <p className="mt-1.5 text-[10px] leading-5 text-foreground-muted sm:text-[11px]">
                     {category.description}
                   </p>
                 </Link>
@@ -283,14 +293,14 @@ export default async function HomePage() {
           </section>
 
           {/* FEATURED EVENTS */}
-          <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
+          <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+              <div className="max-w-2xl">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent sm:text-xs">
                   Featured events
                 </p>
 
-                <h2 className="mt-3 text-3xl font-black tracking-tight text-foreground sm:text-4xl">
+                <h2 className="mt-3 text-2xl font-black tracking-tight text-foreground sm:text-3xl md:text-4xl">
                   What&apos;s happening?
                 </h2>
 
@@ -301,26 +311,28 @@ export default async function HomePage() {
 
               <Link
                 href="/events"
-                className="inline-flex items-center text-sm font-bold text-accent transition-colors hover:text-foreground"
+                className="inline-flex w-fit items-center text-sm font-bold text-accent transition-colors hover:text-foreground"
               >
                 Browse all events
                 <span className="ml-2">→</span>
               </Link>
             </div>
 
-            <FeaturedEvents />
+            <div className="mt-8 sm:mt-10">
+              <FeaturedEvents />
+            </div>
           </section>
 
           {/* WHY EVENTORA */}
-          <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8 lg:pb-28">
-            <div className="border-t border-border pt-20 lg:pt-28">
-              <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
+            <div className="border-t border-border pt-16 sm:pt-20 lg:pt-28">
+              <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end lg:gap-14">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent sm:text-xs">
                     Why Eventora
                   </p>
 
-                  <h2 className="mt-4 max-w-xl text-3xl font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                  <h2 className="mt-4 max-w-xl text-2xl font-black tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
                     Everything you need for the event experience.
                   </h2>
 
@@ -330,23 +342,23 @@ export default async function HomePage() {
                   </p>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
                   {features.map((feature) => (
                     <article
                       key={feature.number}
-                      className="group relative overflow-hidden rounded-2xl border border-border bg-card/70 p-7 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:bg-card-hover"
+                      className="group relative overflow-hidden rounded-2xl border border-border bg-card/70 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:bg-card-hover sm:p-7"
                     >
                       <div className="absolute left-0 top-0 h-full w-0.5 bg-accent/0 transition-all duration-300 group-hover:bg-accent" />
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-xs font-black text-accent">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-[10px] font-black text-accent sm:h-10 sm:w-10 sm:text-xs">
                         {feature.number}
                       </div>
 
-                      <h3 className="mt-5 text-lg font-bold text-foreground">
+                      <h3 className="mt-4 text-base font-bold text-foreground sm:mt-5 sm:text-lg">
                         {feature.title}
                       </h3>
 
-                      <p className="mt-3 text-sm leading-6 text-foreground-secondary">
+                      <p className="mt-3 text-xs leading-6 text-foreground-secondary sm:text-sm">
                         {feature.description}
                       </p>
                     </article>
@@ -357,19 +369,19 @@ export default async function HomePage() {
           </section>
 
           {/* ORGANIZER */}
-          <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8 lg:pb-28">
+          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
             <div className="overflow-hidden rounded-3xl border border-border bg-gradient-to-r from-background-secondary via-background-tertiary to-background-secondary shadow-2xl backdrop-blur-xl">
               <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-                <div className="p-7 sm:p-10 lg:p-12">
+                <div className="p-6 sm:p-10 lg:p-12">
                   <div className="flex items-center gap-3">
-                    <span className="h-px w-8 bg-accent" />
+                    <span className="h-px w-7 bg-accent sm:w-8" />
 
-                    <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent sm:text-xs">
                       For organizers
                     </p>
                   </div>
 
-                  <h2 className="mt-5 max-w-2xl text-3xl font-black tracking-tight text-foreground sm:text-4xl">
+                  <h2 className="mt-5 max-w-2xl text-2xl font-black tracking-tight text-foreground sm:text-3xl md:text-4xl">
                     Turn your events into experiences people remember.
                   </h2>
 
@@ -380,23 +392,23 @@ export default async function HomePage() {
                     performance from your organizer dashboard.
                   </p>
 
-                  <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+                  <div className="mt-7 flex flex-col items-start gap-3 sm:mt-8 sm:flex-row sm:items-center">
                     <Link
                       href="/sign-up"
-                      className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-6 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background"
+                      className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-accent px-6 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background sm:w-auto"
                     >
                       Become an Organizer
                       <span className="ml-2">→</span>
                     </Link>
 
-                    <p className="text-xs text-foreground-muted">
+                    <p className="text-xs leading-5 text-foreground-muted">
                       Organizer access requires administrator approval.
                     </p>
                   </div>
                 </div>
 
-                <div className="border-t border-border bg-background/30 p-6 sm:p-8 lg:border-l lg:border-t-0">
-                  <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground-muted">
+                <div className="border-t border-border bg-background/30 p-5 sm:p-8 lg:border-l lg:border-t-0">
+                  <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-muted sm:text-xs">
                     Getting started
                   </p>
 
@@ -404,15 +416,15 @@ export default async function HomePage() {
                     {organizerSteps.map(([step, title, subtitle], index) => (
                       <div
                         key={step}
-                        className="rounded-2xl border border-border bg-card/70 p-5 transition-all duration-200 hover:border-accent/30 hover:bg-card-hover"
+                        className="rounded-2xl border border-border bg-card/70 p-4 transition-all duration-200 hover:border-accent/30 hover:bg-card-hover sm:p-5"
                       >
                         <div className="flex items-start gap-4">
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-[10px] font-black text-accent">
                             {index + 1}
                           </div>
 
-                          <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">
+                          <div className="min-w-0">
+                            <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-foreground-muted sm:text-[10px]">
                               {step}
                             </p>
 
@@ -434,23 +446,23 @@ export default async function HomePage() {
           </section>
 
           {/* FINAL CTA */}
-          <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8 lg:pb-28">
-            <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-r from-background-secondary via-background-tertiary to-background-secondary p-7 text-foreground shadow-2xl sm:p-10 lg:p-12">
+          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
+            <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-r from-background-secondary via-background-tertiary to-background-secondary p-6 text-foreground shadow-2xl sm:p-10 lg:p-12">
               <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
 
               <div className="pointer-events-none absolute -bottom-20 left-1/3 h-64 w-64 rounded-full bg-purple-500/10 blur-3xl" />
 
-              <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              <div className="relative flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
                 <div className="max-w-2xl">
                   <div className="flex items-center gap-3">
-                    <span className="h-px w-8 bg-accent" />
+                    <span className="h-px w-7 bg-accent sm:w-8" />
 
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent sm:text-xs">
                       Your next experience starts here
                     </p>
                   </div>
 
-                  <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                  <h2 className="mt-4 text-2xl font-black tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
                     Find your next event.
                   </h2>
 
@@ -460,10 +472,10 @@ export default async function HomePage() {
                   </p>
                 </div>
 
-                <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+                <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row">
                   <Link
                     href="/events"
-                    className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-7 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background"
+                    className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-accent px-7 text-sm font-bold text-white shadow-lg shadow-accent/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/30 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background sm:w-auto"
                   >
                     Explore Events
                     <span className="ml-2">→</span>
@@ -471,7 +483,7 @@ export default async function HomePage() {
 
                   <Link
                     href="/sign-up"
-                    className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border-hover bg-foreground/10 px-7 text-sm font-bold text-foreground backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:bg-foreground/15 focus:outline-none focus:ring-2 focus:ring-foreground/30"
+                    className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-border-hover bg-foreground/10 px-7 text-sm font-bold text-foreground backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:bg-foreground/15 focus:outline-none focus:ring-2 focus:ring-foreground/30 sm:w-auto"
                   >
                     Create Free Account
                   </Link>
