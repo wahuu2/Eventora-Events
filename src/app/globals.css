@@ -1,65 +1,216 @@
 @import "tailwindcss";
 
-/* -------------------------------- */
-/* Theme Variables                  */
-/* -------------------------------- */
+/* ========================================================= */
+/* EVENTORA — GLOBAL DESIGN SYSTEM                           */
+/* Modern event discovery / ticketing platform               */
+/* ========================================================= */
 
 :root {
-  /* Soft Light / Midnight Theme */
-  --background: #111827;
-  --background-secondary: #172033;
-  --background-tertiary: #1e293b;
+  /* ======================================================= */
+  /* CORE LIGHT THEME                                       */
+  /* ======================================================= */
 
-  --card: #1a2538;
-  --card-hover: #22304a;
+  --background: #f1efe9;
+  --background-secondary: #e6e8ed;
+  --background-tertiary: #dcdfe6;
 
-  --border: #2b3a52;
-  --border-hover: #3b4d68;
+  --card: #fbfaf6;
+  --card-hover: #fffdf8;
 
-  --foreground: #f8fafc;
-  --foreground-secondary: #cbd5e1;
-  --foreground-muted: #94a3b8;
+  --border: #d8d5cc;
+  --border-hover: #bbb7ad;
 
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --accent-soft: rgba(59, 130, 246, 0.14);
+  /* ======================================================= */
+  /* TYPOGRAPHY                                             */
+  /* ======================================================= */
 
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  --foreground: #172033;
+  --foreground-secondary: #5d6575;
+  --foreground-muted: #858c99;
+
+  /* ======================================================= */
+  /* EVENTORA BLUE                                          */
+  /* ======================================================= */
+
+  --accent: #315cf5;
+  --accent-hover: #2448d7;
+  --accent-soft: rgba(49, 92, 245, 0.10);
+
+  /* ======================================================= */
+  /* EVENTORA GOLD / SAFFRON                                */
+  /* ======================================================= */
+
+  --accent-warm: #d89b38;
+  --accent-warm-hover: #bd8125;
+  --accent-warm-soft: rgba(216, 155, 56, 0.13);
+
+  /* ======================================================= */
+  /* EVENTORA CORAL                                        */
+  /* Used sparingly for energy / nightlife / live moments  */
+  /* ======================================================= */
+
+  --accent-coral: #e56b55;
+  --accent-coral-soft: rgba(229, 107, 85, 0.11);
+
+  /* ======================================================= */
+  /* EXTRA BRAND COLORS                                     */
+  /* ======================================================= */
+
+  --accent-purple: #7657d9;
+  --accent-purple-soft: rgba(118, 87, 217, 0.10);
+
+  --accent-teal: #159a8c;
+  --accent-teal-soft: rgba(21, 154, 140, 0.10);
+
+  /* ======================================================= */
+  /* SURFACES                                               */
+  /* ======================================================= */
+
+  --surface-blue: #e4e8f0;
+  --surface-blue-strong: #d7dde8;
+
+  --surface-warm: #f0e9dc;
+  --surface-warm-strong: #e5dac8;
+
+  --surface-coral: #f3e2dc;
+  --surface-purple: #e8e2f4;
+  --surface-teal: #dfeeea;
+
+  --surface-dark: #1b2436;
+  --surface-dark-strong: #121927;
+
+  /* ======================================================= */
+  /* STATUS                                                 */
+  /* ======================================================= */
+
+  --success: #16815a;
+  --warning: #c17a17;
+  --danger: #d04d4d;
+  --info: #315cf5;
+
+  /* ======================================================= */
+  /* ATMOSPHERE                                              */
+  /* ======================================================= */
+
+  --glow-blue: rgba(49, 92, 245, 0.09);
+  --glow-warm: rgba(216, 155, 56, 0.075);
+  --glow-coral: rgba(229, 107, 85, 0.055);
+  --glow-purple: rgba(118, 87, 217, 0.045);
+
+  /* ======================================================= */
+  /* SHADOWS                                                */
+  /* ======================================================= */
+
+  --shadow-xs:
+    0 2px 8px rgba(24, 32, 51, 0.035);
+
+  --shadow-soft:
+    0 8px 24px rgba(24, 32, 51, 0.06);
+
+  --shadow-card:
+    0 12px 34px rgba(24, 32, 51, 0.085);
+
+  --shadow-card-hover:
+    0 20px 46px rgba(24, 32, 51, 0.14);
+
+  --shadow-blue:
+    0 12px 30px rgba(49, 92, 245, 0.18);
+
+  --shadow-warm:
+    0 12px 30px rgba(216, 155, 56, 0.18);
+
+  /* ======================================================= */
+  /* RADIUS SYSTEM                                          */
+  /* ======================================================= */
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
 }
 
-/* -------------------------------- */
-/* Dark Theme                       */
-/* -------------------------------- */
+/* ========================================================= */
+/* DARK THEME                                                */
+/* ========================================================= */
 
 .dark {
-  --background: #09090b;
-  --background-secondary: #111113;
-  --background-tertiary: #18181b;
+  --background: #080b12;
+  --background-secondary: #0e131d;
+  --background-tertiary: #151b28;
 
-  --card: #18181b;
-  --card-hover: #1f1f23;
+  --card: #111722;
+  --card-hover: #171f2d;
 
-  --border: #27272a;
-  --border-hover: #3f3f46;
+  --border: #222c3d;
+  --border-hover: #344158;
 
-  --foreground: #fafafa;
-  --foreground-secondary: #a1a1aa;
-  --foreground-muted: #71717a;
+  --foreground: #f7f9fc;
+  --foreground-secondary: #c4cedd;
+  --foreground-muted: #8491a5;
 
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --accent-soft: rgba(59, 130, 246, 0.12);
+  --accent: #4c7dff;
+  --accent-hover: #3262e8;
+  --accent-soft: rgba(76, 125, 255, 0.13);
+
+  --accent-warm: #f4b942;
+  --accent-warm-hover: #e0a22f;
+  --accent-warm-soft: rgba(244, 185, 66, 0.11);
+
+  --accent-coral: #f17b65;
+  --accent-coral-soft: rgba(241, 123, 101, 0.10);
+
+  --accent-purple: #9277ed;
+  --accent-purple-soft: rgba(146, 119, 237, 0.11);
+
+  --accent-teal: #32b8a7;
+  --accent-teal-soft: rgba(50, 184, 167, 0.10);
+
+  --surface-blue: #172033;
+  --surface-blue-strong: #1d283c;
+
+  --surface-warm: #201d17;
+  --surface-warm-strong: #292419;
+
+  --surface-coral: #2b1e1c;
+  --surface-purple: #211d2e;
+  --surface-teal: #182724;
+
+  --surface-dark: #0c1018;
+  --surface-dark-strong: #070a10;
 
   --success: #22c55e;
   --warning: #f59e0b;
   --danger: #ef4444;
+  --info: #4c7dff;
+
+  --glow-blue: rgba(76, 125, 255, 0.18);
+  --glow-warm: rgba(244, 185, 66, 0.09);
+  --glow-coral: rgba(241, 123, 101, 0.07);
+  --glow-purple: rgba(146, 119, 237, 0.07);
+
+  --shadow-xs:
+    0 2px 8px rgba(0, 0, 0, 0.12);
+
+  --shadow-soft:
+    0 8px 30px rgba(0, 0, 0, 0.18);
+
+  --shadow-card:
+    0 18px 50px rgba(0, 0, 0, 0.24);
+
+  --shadow-card-hover:
+    0 22px 58px rgba(0, 0, 0, 0.32);
+
+  --shadow-blue:
+    0 12px 30px rgba(76, 125, 255, 0.20);
+
+  --shadow-warm:
+    0 12px 30px rgba(244, 185, 66, 0.12);
 }
 
-/* -------------------------------- */
-/* Tailwind Theme Mapping           */
-/* -------------------------------- */
+/* ========================================================= */
+/* TAILWIND THEME MAPPING                                   */
+/* ========================================================= */
 
 @theme inline {
   --color-background: var(--background);
@@ -80,17 +231,50 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
 
+  --color-accent-warm: var(--accent-warm);
+  --color-accent-warm-hover: var(--accent-warm-hover);
+  --color-accent-warm-soft: var(--accent-warm-soft);
+
+  --color-accent-coral: var(--accent-coral);
+  --color-accent-coral-soft: var(--accent-coral-soft);
+
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-purple-soft: var(--accent-purple-soft);
+
+  --color-accent-teal: var(--accent-teal);
+  --color-accent-teal-soft: var(--accent-teal-soft);
+
+  --color-surface-blue: var(--surface-blue);
+  --color-surface-blue-strong: var(--surface-blue-strong);
+
+  --color-surface-warm: var(--surface-warm);
+  --color-surface-warm-strong: var(--surface-warm-strong);
+
+  --color-surface-coral: var(--surface-coral);
+  --color-surface-purple: var(--surface-purple);
+  --color-surface-teal: var(--surface-teal);
+
+  --color-surface-dark: var(--surface-dark);
+  --color-surface-dark-strong: var(--surface-dark-strong);
+
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+  --color-info: var(--info);
 
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: "Courier New", monospace;
+  --font-sans:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  --font-mono:
+    "Courier New",
+    monospace;
 }
 
-/* -------------------------------- */
-/* Base                             */
-/* -------------------------------- */
+/* ========================================================= */
+/* BASE                                                      */
+/* ========================================================= */
 
 * {
   box-sizing: border-box;
@@ -99,8 +283,16 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+
   background: var(--background);
+
   color-scheme: light;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    var(--border-hover)
+    var(--background-secondary);
 }
 
 html.dark {
@@ -108,23 +300,67 @@ html.dark {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
   min-height: 100vh;
+  margin: 0;
+
   overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      var(--glow-blue),
+      transparent 25rem
+    ),
+    radial-gradient(
+      circle at 100% 8%,
+      var(--glow-warm),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      var(--glow-coral),
+      transparent 28rem
+    ),
+    linear-gradient(
+      135deg,
+      var(--background) 0%,
+      var(--background) 46%,
+      var(--background-secondary) 100%
+    );
+
+  color: var(--foreground);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
   -webkit-font-smoothing: antialiased;
+
   text-rendering: optimizeLegibility;
 
   transition:
-    background-color 200ms ease,
-    color 200ms ease;
+    background 220ms ease,
+    color 220ms ease;
 }
 
-/* -------------------------------- */
-/* Theme-aware Text                 */
-/* -------------------------------- */
+/* ========================================================= */
+/* SELECTION                                                 */
+/* ========================================================= */
+
+::selection {
+  background: rgba(49, 92, 245, 0.22);
+  color: var(--foreground);
+}
+
+.dark ::selection {
+  background: rgba(76, 125, 255, 0.32);
+  color: #ffffff;
+}
+
+/* ========================================================= */
+/* TYPOGRAPHY                                                */
+/* ========================================================= */
 
 h1,
 h2,
@@ -132,24 +368,36 @@ h3,
 h4,
 h5,
 h6 {
+  margin-top: 0;
+
   color: var(--foreground);
+
   overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.03em;
 }
 
 p {
   color: inherit;
+
   overflow-wrap: break-word;
 }
 
 a {
   color: inherit;
+
   text-decoration: none;
+
   overflow-wrap: break-word;
 }
 
-/* -------------------------------- */
-/* Media                            */
-/* -------------------------------- */
+/* ========================================================= */
+/* MEDIA                                                     */
+/* ========================================================= */
 
 img,
 video,
@@ -160,19 +408,21 @@ canvas {
 
 img {
   display: block;
+
   height: auto;
 }
 
-/* -------------------------------- */
-/* Forms                            */
-/* -------------------------------- */
+/* ========================================================= */
+/* FORMS                                                     */
+/* ========================================================= */
 
 button,
 input,
 textarea,
 select {
-  font: inherit;
   max-width: 100%;
+
+  font: inherit;
 }
 
 button {
@@ -183,35 +433,119 @@ input,
 textarea,
 select {
   outline: none;
-  background: var(--card);
+
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(
+        in srgb,
+        var(--card) 92%,
+        transparent
+      ),
+      color-mix(
+        in srgb,
+        var(--surface-blue) 38%,
+        var(--card)
+      )
+    );
+
   color: var(--foreground);
-  border-color: var(--border);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  box-shadow:
+    inset 0 1px 2px rgba(24, 32, 51, 0.025);
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--border-hover);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  background: var(--card);
+
+  border-color: var(--accent);
+
+  box-shadow:
+    0 0 0 3px var(--accent-soft),
+    0 5px 14px rgba(24, 32, 51, 0.045);
 }
 
 input::placeholder,
-textarea::placeholder,
-select::placeholder {
+textarea::placeholder {
   color: var(--foreground-muted);
 }
 
-/* Better keyboard accessibility */
+select {
+  color: var(--foreground);
+}
+
+option {
+  background: var(--card);
+
+  color: var(--foreground);
+}
+
+/* ========================================================= */
+/* ACCESSIBILITY                                             */
+/* ========================================================= */
+
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+
+  outline-offset: 3px;
 }
 
-/* -------------------------------- */
-/* Responsive Container             */
-/* -------------------------------- */
+/* ========================================================= */
+/* SCROLLBAR                                                 */
+/* ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-muted);
+}
+
+/* ========================================================= */
+/* RESPONSIVE CONTAINER                                      */
+/* ========================================================= */
 
 .container-responsive {
   width: 100%;
+
   max-width: 1280px;
+
   margin-inline: auto;
+
   padding-inline: 1rem;
 }
 
@@ -227,18 +561,24 @@ select:focus-visible {
   }
 }
 
-/* -------------------------------- */
-/* Responsive Typography            */
-/* -------------------------------- */
+/* ========================================================= */
+/* RESPONSIVE TYPOGRAPHY                                     */
+/* ========================================================= */
 
 .text-responsive-xl {
   font-size: 1.875rem;
+
   line-height: 2.25rem;
+
+  letter-spacing: -0.04em;
+
+  font-weight: 800;
 }
 
 @media (min-width: 768px) {
   .text-responsive-xl {
     font-size: 2.25rem;
+
     line-height: 2.5rem;
   }
 }
@@ -246,13 +586,953 @@ select:focus-visible {
 @media (min-width: 1024px) {
   .text-responsive-xl {
     font-size: 3rem;
+
     line-height: 1;
   }
 }
 
-/* -------------------------------- */
-/* Responsive Buttons               */
-/* -------------------------------- */
+/* ========================================================= */
+/* EVENTORA ATMOSPHERE                                       */
+/* ========================================================= */
+
+.eventora-atmosphere {
+  position: relative;
+
+  isolation: isolate;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      var(--glow-blue),
+      transparent 25rem
+    ),
+    radial-gradient(
+      circle at 88% 8%,
+      var(--glow-warm),
+      transparent 22rem
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      var(--glow-purple),
+      transparent 28rem
+    ),
+    var(--background);
+}
+
+/* ========================================================= */
+/* COLORFUL SECTION SURFACES                                 */
+/* ========================================================= */
+
+.eventora-section-blue {
+  background:
+    linear-gradient(
+      135deg,
+      var(--surface-blue) 0%,
+      var(--surface-blue-strong) 100%
+    );
+}
+
+.eventora-section-warm {
+  background:
+    linear-gradient(
+      135deg,
+      var(--surface-warm) 0%,
+      var(--surface-warm-strong) 100%
+    );
+}
+
+.eventora-section-coral {
+  background:
+    linear-gradient(
+      135deg,
+      var(--surface-coral) 0%,
+      color-mix(
+        in srgb,
+        var(--surface-coral) 65%,
+        var(--background)
+      ) 100%
+    );
+}
+
+.eventora-section-purple {
+  background:
+    linear-gradient(
+      135deg,
+      var(--surface-purple) 0%,
+      var(--background) 100%
+    );
+}
+
+.eventora-section-teal {
+  background:
+    linear-gradient(
+      135deg,
+      var(--surface-teal) 0%,
+      var(--background) 100%
+    );
+}
+
+.eventora-section-dark {
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(49, 92, 245, 0.18),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 90% 100%,
+      rgba(216, 155, 56, 0.10),
+      transparent 22rem
+    ),
+    linear-gradient(
+      135deg,
+      #20293b 0%,
+      #141b29 100%
+    );
+
+  color: #ffffff;
+}
+
+/* ========================================================= */
+/* EVENTORA GRID                                             */
+/* ========================================================= */
+
+.eventora-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(
+        in srgb,
+        var(--foreground) 3%,
+        transparent
+      ) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(
+        in srgb,
+        var(--foreground) 3%,
+        transparent
+      ) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+}
+
+/* ========================================================= */
+/* DOT PATTERN                                               */
+/* ========================================================= */
+
+.eventora-dots {
+  background-image:
+    radial-gradient(
+      color-mix(
+        in srgb,
+        var(--foreground) 10%,
+        transparent
+      ) 1px,
+      transparent 1px
+    );
+
+  background-size: 18px 18px;
+}
+
+/* ========================================================= */
+/* BRAND GLOW                                                */
+/* ========================================================= */
+
+.eventora-glow {
+  position: relative;
+
+  isolation: isolate;
+}
+
+.eventora-glow::before {
+  content: "";
+
+  position: absolute;
+
+  width: 18rem;
+  height: 18rem;
+
+  top: -8rem;
+  right: -6rem;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--glow-blue),
+      transparent 68%
+    );
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+/* ========================================================= */
+/* PREMIUM GLASS                                             */
+/* ========================================================= */
+
+.eventora-glass {
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(
+        in srgb,
+        var(--card) 88%,
+        transparent
+      ),
+      color-mix(
+        in srgb,
+        var(--surface-blue) 35%,
+        transparent
+      )
+    );
+
+  border: 1px solid var(--border);
+
+  box-shadow:
+    0 10px 28px rgba(24, 32, 51, 0.06);
+
+  backdrop-filter: blur(18px);
+
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dark .eventora-glass {
+  box-shadow:
+    0 14px 38px rgba(0, 0, 0, 0.18);
+}
+
+/* ========================================================= */
+/* EVENTORA EVENT CARD                                       */
+/* ========================================================= */
+
+.eventora-card {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fcfaf5 0%,
+      #f7f3eb 50%,
+      #e9edf4 100%
+    );
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-card);
+
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+.eventora-card:hover {
+  background:
+    linear-gradient(
+      145deg,
+      #fffdf8 0%,
+      #faf6ee 48%,
+      #eef2f8 100%
+    );
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--accent) 26%,
+      var(--border)
+    );
+
+  box-shadow: var(--shadow-card-hover);
+
+  transform: translateY(-5px);
+}
+
+.dark .eventora-card {
+  background:
+    linear-gradient(
+      145deg,
+      #111722 0%,
+      #111722 52%,
+      #151d2b 100%
+    );
+}
+
+.dark .eventora-card:hover {
+  background:
+    linear-gradient(
+      145deg,
+      #171f2d 0%,
+      #121924 100%
+    );
+}
+
+/* ========================================================= */
+/* CARD TOP ACCENT                                           */
+/* ========================================================= */
+
+.eventora-card-accent {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent),
+      var(--accent-purple),
+      var(--accent-warm)
+    );
+}
+
+/* ========================================================= */
+/* FEATURED CARD                                             */
+/* ========================================================= */
+
+.eventora-card-featured {
+  position: relative;
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--accent) 28%,
+      var(--border)
+    );
+
+  box-shadow:
+    0 16px 42px
+      rgba(49, 92, 245, 0.12);
+}
+
+.eventora-card-featured::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(216, 155, 56, 0.10),
+      transparent 18rem
+    );
+
+  pointer-events: none;
+}
+
+/* ========================================================= */
+/* SHADOW                                                    */
+/* ========================================================= */
+
+.eventora-shadow {
+  box-shadow: var(--shadow-card);
+}
+
+/* ========================================================= */
+/* PRIMARY BUTTON                                            */
+/* ========================================================= */
+
+.eventora-button-primary {
+  background:
+    linear-gradient(
+      135deg,
+      #4169ff 0%,
+      #315cf5 50%,
+      #274bd7 100%
+    );
+
+  color: #ffffff;
+
+  border: 1px solid
+    rgba(36, 71, 212, 0.55);
+
+  box-shadow:
+    0 8px 18px
+      rgba(49, 92, 245, 0.22);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.eventora-button-primary:hover {
+  filter: brightness(1.06);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 13px 26px
+      rgba(49, 92, 245, 0.30);
+}
+
+.eventora-button-primary:active {
+  transform: translateY(0);
+}
+
+/* ========================================================= */
+/* SECONDARY BUTTON                                          */
+/* ========================================================= */
+
+.eventora-button-secondary {
+  background:
+    linear-gradient(
+      135deg,
+      #e7e9ef,
+      #d9dee7
+    );
+
+  color: #202b40;
+
+  border: 1px solid #c7cdd7;
+
+  box-shadow:
+    0 4px 12px
+      rgba(24, 32, 51, 0.05);
+
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.eventora-button-secondary:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #dce2ec,
+      #d2d9e4
+    );
+
+  border-color: #b7bfcc;
+
+  transform: translateY(-1px);
+}
+
+/* ========================================================= */
+/* WARM BUTTON                                               */
+/* ========================================================= */
+
+.eventora-button-warm {
+  background:
+    linear-gradient(
+      135deg,
+      #dfa951,
+      #c88928
+    );
+
+  color: #ffffff;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    0 8px 18px
+      rgba(200, 137, 40, 0.20);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.eventora-button-warm:hover {
+  filter: brightness(1.05);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 24px
+      rgba(200, 137, 40, 0.27);
+}
+
+/* ========================================================= */
+/* CORAL BUTTON                                              */
+/* ========================================================= */
+
+.eventora-button-coral {
+  background:
+    linear-gradient(
+      135deg,
+      #ef806b,
+      #d95d4b
+    );
+
+  color: #ffffff;
+
+  border: 1px solid
+    rgba(210, 77, 59, 0.45);
+
+  box-shadow:
+    0 8px 18px
+      rgba(229, 107, 85, 0.20);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.eventora-button-coral:hover {
+  filter: brightness(1.05);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 24px
+      rgba(229, 107, 85, 0.27);
+}
+
+/* ========================================================= */
+/* OUTLINE BUTTON                                            */
+/* ========================================================= */
+
+.eventora-button-outline {
+  background: transparent;
+
+  color: var(--accent);
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--accent) 35%,
+      var(--border)
+    );
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.eventora-button-outline:hover {
+  background: var(--accent-soft);
+
+  border-color: var(--accent);
+
+  transform: translateY(-1px);
+}
+
+/* ========================================================= */
+/* BADGES                                                    */
+/* ========================================================= */
+
+.eventora-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  background: var(--accent-soft);
+
+  color: var(--accent);
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--accent) 18%,
+      transparent
+    );
+}
+
+.eventora-badge-warm {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  background: var(--accent-warm-soft);
+
+  color: var(--accent-warm);
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--accent-warm) 20%,
+      transparent
+    );
+}
+
+.eventora-badge-coral {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  background: var(--accent-coral-soft);
+
+  color: var(--accent-coral);
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--accent-coral) 20%,
+      transparent
+    );
+}
+
+.eventora-badge-purple {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  background: var(--accent-purple-soft);
+
+  color: var(--accent-purple);
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--accent-purple) 20%,
+      transparent
+    );
+}
+
+.eventora-badge-teal {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  background: var(--accent-teal-soft);
+
+  color: var(--accent-teal);
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--accent-teal) 20%,
+      transparent
+    );
+}
+
+/* ========================================================= */
+/* CATEGORY COLOR HELPERS                                    */
+/* ========================================================= */
+
+.eventora-category-blue {
+  background: var(--accent-soft);
+
+  color: var(--accent);
+}
+
+.eventora-category-warm {
+  background: var(--accent-warm-soft);
+
+  color: var(--accent-warm);
+}
+
+.eventora-category-coral {
+  background: var(--accent-coral-soft);
+
+  color: var(--accent-coral);
+}
+
+.eventora-category-purple {
+  background: var(--accent-purple-soft);
+
+  color: var(--accent-purple);
+}
+
+.eventora-category-teal {
+  background: var(--accent-teal-soft);
+
+  color: var(--accent-teal);
+}
+
+/* ========================================================= */
+/* SECTION HEADING                                           */
+/* ========================================================= */
+
+.eventora-line {
+  position: relative;
+}
+
+.eventora-line::after {
+  content: "";
+
+  display: block;
+
+  width: 48px;
+
+  height: 3px;
+
+  margin-top: 0.8rem;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent),
+      var(--accent-purple),
+      var(--accent-warm)
+    );
+}
+
+/* ========================================================= */
+/* EYEBROW                                                   */
+/* ========================================================= */
+
+.eventora-eyebrow {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  color: var(--accent);
+
+  font-size: 0.75rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+}
+
+.eventora-eyebrow::before {
+  content: "";
+
+  width: 24px;
+
+  height: 2px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent),
+      var(--accent-warm)
+    );
+}
+
+/* ========================================================= */
+/* DIVIDER                                                   */
+/* ========================================================= */
+
+.eventora-divider {
+  width: 100%;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--border),
+      transparent
+    );
+}
+
+/* ========================================================= */
+/* IMAGE TREATMENT                                           */
+/* ========================================================= */
+
+.eventora-image {
+  transition:
+    transform 450ms ease,
+    filter 450ms ease;
+}
+
+.eventora-card:hover .eventora-image {
+  transform: scale(1.035);
+}
+
+/* ========================================================= */
+/* IMAGE OVERLAY                                             */
+/* ========================================================= */
+
+.eventora-image-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(15, 21, 34, 0.42),
+      rgba(15, 21, 34, 0.04) 60%,
+      transparent
+    );
+
+  pointer-events: none;
+}
+
+/* ========================================================= */
+/* IMAGE COLOR WASH                                          */
+/* ========================================================= */
+
+.eventora-image-wash {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(49, 92, 245, 0.10),
+      transparent 50%,
+      rgba(216, 155, 56, 0.10)
+    );
+
+  mix-blend-mode: multiply;
+
+  pointer-events: none;
+}
+
+/* ========================================================= */
+/* CALENDAR / DATE BLOCK                                     */
+/* ========================================================= */
+
+.eventora-date-block {
+  display: flex;
+
+  width: 58px;
+  min-width: 58px;
+
+  height: 64px;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: var(--radius-md);
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--accent),
+      var(--accent-hover)
+    );
+
+  color: #ffffff;
+
+  box-shadow: var(--shadow-blue);
+}
+
+.eventora-date-block .month {
+  font-size: 0.68rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  opacity: 0.8;
+}
+
+.eventora-date-block .day {
+  margin-top: 1px;
+
+  font-size: 1.45rem;
+
+  line-height: 1;
+
+  font-weight: 900;
+}
+
+/* ========================================================= */
+/* FEATURED LABEL                                            */
+/* ========================================================= */
+
+.eventora-featured-label {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.35rem;
+
+  padding:
+    0.35rem 0.65rem;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent-warm),
+      var(--accent-warm-hover)
+    );
+
+  color: #ffffff;
+
+  font-size: 0.7rem;
+
+  font-weight: 800;
+
+  box-shadow: var(--shadow-warm);
+}
+
+/* ========================================================= */
+/* LIVE INDICATOR                                            */
+/* ========================================================= */
+
+.eventora-live {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  color: var(--accent-coral);
+
+  font-size: 0.72rem;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.06em;
+}
+
+.eventora-live::before {
+  content: "";
+
+  width: 7px;
+
+  height: 7px;
+
+  border-radius: 999px;
+
+  background: var(--accent-coral);
+
+  box-shadow:
+    0 0 0 4px
+      var(--accent-coral-soft);
+}
+
+/* ========================================================= */
+/* RESPONSIVE BUTTONS                                        */
+/* ========================================================= */
 
 .button-responsive {
   width: 100%;
@@ -264,95 +1544,84 @@ select:focus-visible {
   }
 }
 
-/* -------------------------------- */
-/* Responsive Cards                 */
-/* -------------------------------- */
+/* ========================================================= */
+/* RESPONSIVE CARDS                                          */
+/* ========================================================= */
 
 .card-responsive {
   width: 100%;
+
   min-width: 0;
 }
 
-/* -------------------------------- */
-/* Flex / Grid Overflow Protection  */
-/* -------------------------------- */
+/* ========================================================= */
+/* FLEX / GRID OVERFLOW                                      */
+/* ========================================================= */
 
 .flex > *,
 .grid > * {
   min-width: 0;
 }
 
-/* -------------------------------- */
-/* Tables                           */
-/* -------------------------------- */
+/* ========================================================= */
+/* TABLES                                                    */
+/* ========================================================= */
 
 .table-wrapper {
   width: 100%;
+
   max-width: 100%;
+
   overflow-x: auto;
+
   overflow-y: hidden;
+
   -webkit-overflow-scrolling: touch;
+
   scrollbar-width: thin;
 }
 
 .table-wrapper table {
   width: max-content;
+
   max-width: none;
 }
 
-/* -------------------------------- */
-/* Utility: Text Truncation         */
-/* -------------------------------- */
+/* ========================================================= */
+/* TEXT UTILITIES                                            */
+/* ========================================================= */
 
 .text-truncate {
   min-width: 0;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
+
   white-space: nowrap;
 }
 
-/* -------------------------------- */
-/* Utility: Line Clamp              */
-/* -------------------------------- */
-
 .line-clamp-2 {
   display: -webkit-box;
+
   overflow: hidden;
+
   -webkit-box-orient: vertical;
+
   -webkit-line-clamp: 2;
 }
 
-/* -------------------------------- */
-/* Scrollbar                        */
-/* -------------------------------- */
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-hover);
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--foreground-muted);
-}
-
-/* -------------------------------- */
-/* Small Screen Improvements        */
-/* -------------------------------- */
+/* ========================================================= */
+/* MOBILE                                                    */
+/* ========================================================= */
 
 @media (max-width: 639px) {
   input,
   textarea,
   select {
     width: 100%;
+
+    font-size: 16px;
   }
 
   button {
@@ -360,14 +1629,43 @@ select:focus-visible {
   }
 
   .table-wrapper {
-    margin-inline: 0;
     width: 100%;
+
+    margin-inline: 0;
+  }
+
+  .eventora-card {
+    border-radius: var(--radius-lg);
+
+    box-shadow:
+      0 7px 22px
+        rgba(24, 32, 51, 0.065);
+  }
+
+  .eventora-card:hover {
+    transform: none;
+  }
+
+  .eventora-grid {
+    background-size: 36px 36px;
+  }
+
+  .eventora-dots {
+    background-size: 15px 15px;
+  }
+
+  .eventora-date-block {
+    width: 52px;
+
+    min-width: 52px;
+
+    height: 58px;
   }
 }
 
-/* -------------------------------- */
-/* Reduced Motion                   */
-/* -------------------------------- */
+/* ========================================================= */
+/* REDUCED MOTION                                            */
+/* ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -378,20 +1676,26 @@ select:focus-visible {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+
     animation-iteration-count: 1 !important;
+
     transition-duration: 0.01ms !important;
+
+    scroll-behavior: auto !important;
   }
 }
 
-/* -------------------------------- */
-/* Print                            */
-/* -------------------------------- */
+/* ========================================================= */
+/* PRINT                                                     */
+/* ========================================================= */
 
 @media print {
   html,
   body {
     background: #ffffff;
+
     color: #000000;
+
     overflow: visible;
   }
 
@@ -402,4 +1706,46 @@ select:focus-visible {
   .ticket-card {
     break-inside: avoid;
   }
+
+  .eventora-card,
+  .eventora-glass {
+    box-shadow: none;
+
+    background: #ffffff;
+  }
+}
+/* =========================================
+   EVENTORA DATE BADGE
+   Same appearance in light + dark mode
+   ========================================= */
+
+.eventora-date-badge {
+  background: #f4e7c8 !important;
+  color: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15) !important;
+}
+
+.eventora-date-badge .day {
+  color: #000000 !important;
+}
+
+.eventora-date-badge .month {
+  color: #b87916 !important;
+}
+
+/* Prevent dark mode from changing the badge */
+.dark .eventora-date-badge {
+  background: #f4e7c8 !important;
+  color: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15) !important;
+}
+
+.dark .eventora-date-badge .day {
+  color: #000000 !important;
+}
+
+.dark .eventora-date-badge .month {
+  color: #b87916 !important;
 }

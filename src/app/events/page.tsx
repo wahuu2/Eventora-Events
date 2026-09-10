@@ -919,19 +919,18 @@ function EventCard({ event }: { event: Event }) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
 
-        {/* DATE */}
-        <div className="absolute left-3 top-3 overflow-hidden rounded-lg border border-white/15 bg-black/70 text-center backdrop-blur-md sm:left-4 sm:top-4 sm:rounded-xl">
-          <div className="min-w-[45px] px-2 py-1.5 sm:min-w-[52px] sm:px-2.5 sm:py-2">
-            <p className="text-sm font-bold leading-none text-white sm:text-lg">
-              {dateParts.day}
-            </p>
+{/* DATE */}
+<div className="eventora-date-badge absolute left-3 top-3 z-10 overflow-hidden rounded-lg text-center sm:left-4 sm:top-4 sm:rounded-xl">
+  <div className="min-w-[45px] px-2 py-1.5 sm:min-w-[52px] sm:px-2.5 sm:py-2">
+    <p className="day text-sm font-black leading-none sm:text-lg">
+      {dateParts.day}
+    </p>
 
-            <p className="mt-1 text-[7px] font-bold uppercase tracking-wider text-accent sm:text-[9px]">
-              {dateParts.month}
-            </p>
-          </div>
-        </div>
-
+    <p className="month mt-1 text-[7px] font-extrabold uppercase tracking-wider sm:text-[9px]">
+      {dateParts.month}
+    </p>
+  </div>
+</div>
         {/* CATEGORY */}
         <div className="absolute right-3 top-3 max-w-[58%] sm:right-4 sm:top-4">
           <span className="inline-flex max-w-full truncate rounded-lg border border-white/10 bg-black/65 px-2 py-1 text-[8px] font-semibold uppercase tracking-wider text-white backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-[10px]">
