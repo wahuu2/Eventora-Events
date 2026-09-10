@@ -113,7 +113,10 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground transition-colors duration-200">
-      <Navbar />
+      {/* FIXED NAVBAR */}
+      <div className="fixed inset-x-0 top-0 z-[100]">
+        <Navbar />
+      </div>
 
       {/* HERO */}
       <section className="relative isolate overflow-hidden bg-background">

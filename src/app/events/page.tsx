@@ -125,9 +125,9 @@ export default function EventsPage() {
       return "All";
     }
 
-    const urlCategory = new URLSearchParams(window.location.search).get(
-      "category"
-    );
+    const urlCategory = new URLSearchParams(
+      window.location.search
+    ).get("category");
 
     return urlCategory && categories.includes(urlCategory)
       ? urlCategory
@@ -187,10 +187,14 @@ export default function EventsPage() {
         const data = await response.json();
 
         if (!response.ok || !data.success) {
-          throw new Error(data.message || "Failed to load events.");
+          throw new Error(
+            data.message || "Failed to load events."
+          );
         }
 
-        setEvents(Array.isArray(data.events) ? data.events : []);
+        setEvents(
+          Array.isArray(data.events) ? data.events : []
+        );
       } catch (error) {
         if (
           error instanceof DOMException &&
@@ -258,10 +262,17 @@ export default function EventsPage() {
       if (selectedCategory === "All") {
         url.searchParams.delete("category");
       } else {
-        url.searchParams.set("category", selectedCategory);
+        url.searchParams.set(
+          "category",
+          selectedCategory
+        );
       }
 
-      window.history.replaceState({}, "", url.toString());
+      window.history.replaceState(
+        {},
+        "",
+        url.toString()
+      );
     }
   }
 
@@ -278,7 +289,13 @@ export default function EventsPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      <Navbar />
+      {/* FIXED NAVBAR */}
+      <div className="fixed inset-x-0 top-0 z-[100]">
+        <Navbar />
+      </div>
+
+      {/* TOP SPACING FOR FIXED NAVBAR */}
+      <div className="h-[72px] sm:h-[80px]" />
 
       {/* =====================================================
           DISCOVER + CATEGORIES + SEARCH + FILTERS
@@ -299,9 +316,7 @@ export default function EventsPage() {
         <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-accent/10 blur-3xl sm:h-96 sm:w-96" />
 
         <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* =====================================================
-              DISCOVER + CATEGORIES
-          ====================================================== */}
+          {/* DISCOVER + CATEGORIES */}
 
           <div className="border-b border-border py-12 sm:py-16 lg:py-20">
             <div>
@@ -322,9 +337,9 @@ export default function EventsPage() {
                     </h1>
 
                     <p className="mt-4 max-w-xl text-sm leading-7 text-foreground-secondary sm:text-base">
-                      From live music and sports to technology, business,
-                      culture, and entertainment, discover experiences
-                      happening around Kenya.
+                      From live music and sports to technology,
+                      business, culture, and entertainment, discover
+                      experiences happening around Kenya.
                     </p>
                   </div>
                 </div>
@@ -347,14 +362,18 @@ export default function EventsPage() {
 
               <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                 {categories.map((categoryName) => {
-                  const details = categoryDetails[categoryName];
-                  const active = category === categoryName;
+                  const details =
+                    categoryDetails[categoryName];
+                  const active =
+                    category === categoryName;
 
                   return (
                     <button
                       key={categoryName}
                       type="button"
-                      onClick={() => selectCategory(categoryName)}
+                      onClick={() =>
+                        selectCategory(categoryName)
+                      }
                       aria-pressed={active}
                       className={`group relative flex min-h-[155px] min-w-0 flex-col overflow-hidden rounded-2xl border p-5 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 sm:min-h-[165px] ${
                         active
@@ -362,8 +381,6 @@ export default function EventsPage() {
                           : "border-border bg-card/70 hover:border-accent/40 hover:bg-card-hover"
                       }`}
                     >
-                      {/* NUMBER */}
-
                       <span
                         className={`absolute right-4 top-4 text-[10px] font-bold tracking-[0.16em] transition-colors duration-200 ${
                           active
@@ -373,8 +390,6 @@ export default function EventsPage() {
                       >
                         {details.number}
                       </span>
-
-                      {/* ICON */}
 
                       <div
                         className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-lg transition-all duration-300 group-hover:scale-105 ${
@@ -386,8 +401,6 @@ export default function EventsPage() {
                         {details.icon}
                       </div>
 
-                      {/* CATEGORY NAME */}
-
                       <p
                         className={`mt-5 text-sm font-bold transition-colors duration-200 ${
                           active
@@ -398,13 +411,9 @@ export default function EventsPage() {
                         {categoryName}
                       </p>
 
-                      {/* DESCRIPTION */}
-
                       <p className="mt-1.5 line-clamp-2 text-[11px] leading-5 text-foreground-muted">
                         {details.description}
                       </p>
-
-                      {/* ACTIVE / EXPLORE */}
 
                       <div
                         className={`mt-auto flex items-center gap-1 pt-4 text-[10px] font-bold transition-colors duration-200 ${
@@ -429,20 +438,19 @@ export default function EventsPage() {
             </div>
           </div>
 
-          {/* =====================================================
-              SEARCH + FILTERS
-          ====================================================== */}
+          {/* SEARCH + FILTERS */}
 
           <div className="border-b border-border py-6 sm:py-8">
             <div className="rounded-2xl border border-border bg-background-secondary p-4 shadow-sm sm:p-5 lg:p-6">
-              {/* SEARCH */}
-
               <div className="relative">
                 <div className="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center text-foreground-muted">
                   <SearchIcon className="h-5 w-5" />
                 </div>
 
-                <label htmlFor="event-search" className="sr-only">
+                <label
+                  htmlFor="event-search"
+                  className="sr-only"
+                >
                   Search events
                 </label>
 
@@ -450,7 +458,9 @@ export default function EventsPage() {
                   id="event-search"
                   type="search"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) =>
+                    setSearch(e.target.value)
+                  }
                   placeholder="Search events, locations, or descriptions..."
                   autoComplete="off"
                   className="h-12 w-full rounded-xl border border-border bg-card pl-12 pr-12 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10 sm:h-14 sm:text-base"
@@ -463,12 +473,12 @@ export default function EventsPage() {
                     className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-foreground-muted transition-colors hover:bg-background-secondary hover:text-foreground"
                     aria-label="Clear search"
                   >
-                    <span className="text-lg leading-none">×</span>
+                    <span className="text-lg leading-none">
+                      ×
+                    </span>
                   </button>
                 )}
               </div>
-
-              {/* LOCATION + DATE + MORE FILTERS */}
 
               <div className="mt-5">
                 <div className="grid gap-5 sm:grid-cols-3">
@@ -483,14 +493,19 @@ export default function EventsPage() {
                     title="Date"
                     value={
                       dateFilters.find(
-                        (item) => item.value === dateFilter
+                        (item) =>
+                          item.value === dateFilter
                       )?.label ?? "All Dates"
                     }
-                    options={dateFilters.map((item) => item.label)}
+                    options={dateFilters.map(
+                      (item) => item.label
+                    )}
                     onChange={(label) => {
-                      const selected = dateFilters.find(
-                        (item) => item.label === label
-                      );
+                      const selected =
+                        dateFilters.find(
+                          (item) =>
+                            item.label === label
+                        );
 
                       if (selected) {
                         setDateFilter(selected.value);
@@ -501,10 +516,13 @@ export default function EventsPage() {
                   <button
                     type="button"
                     onClick={() =>
-                      setShowMoreFilters((current) => !current)
+                      setShowMoreFilters(
+                        (current) => !current
+                      )
                     }
                     className={`flex min-h-11 items-center justify-between rounded-xl border px-4 py-3 text-left transition-all ${
-                      showMoreFilters || hasSecondaryFilters
+                      showMoreFilters ||
+                      hasSecondaryFilters
                         ? "border-accent/40 bg-accent/10"
                         : "border-border bg-card hover:border-border-hover hover:bg-card-hover"
                     }`}
@@ -523,7 +541,9 @@ export default function EventsPage() {
 
                     <span
                       className={`flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background text-foreground-secondary transition-transform duration-200 ${
-                        showMoreFilters ? "rotate-180" : ""
+                        showMoreFilters
+                          ? "rotate-180"
+                          : ""
                       }`}
                     >
                       <ChevronDownIcon />
@@ -532,25 +552,30 @@ export default function EventsPage() {
                 </div>
               </div>
 
-              {/* MORE FILTERS */}
-
               {showMoreFilters && (
                 <div className="mt-5 grid gap-6 border-t border-border pt-5 sm:grid-cols-2">
                   <FilterGroup title="Price">
                     <FilterButtons
-                      items={priceFilters.map((item) => item.label)}
+                      items={priceFilters.map(
+                        (item) => item.label
+                      )}
                       activeValue={
                         priceFilters.find(
-                          (item) => item.value === priceFilter
+                          (item) =>
+                            item.value === priceFilter
                         )?.label ?? "All Prices"
                       }
                       onSelect={(label) => {
-                        const selected = priceFilters.find(
-                          (item) => item.label === label
-                        );
+                        const selected =
+                          priceFilters.find(
+                            (item) =>
+                              item.label === label
+                          );
 
                         if (selected) {
-                          setPriceFilter(selected.value);
+                          setPriceFilter(
+                            selected.value
+                          );
                         }
                       }}
                     />
@@ -558,16 +583,20 @@ export default function EventsPage() {
 
                   <FilterGroup title="Sort by">
                     <FilterButtons
-                      items={sortOptions.map((item) => item.label)}
+                      items={sortOptions.map(
+                        (item) => item.label
+                      )}
                       activeValue={
                         sortOptions.find(
                           (item) => item.value === sort
                         )?.label ?? "Soonest"
                       }
                       onSelect={(label) => {
-                        const selected = sortOptions.find(
-                          (item) => item.label === label
-                        );
+                        const selected =
+                          sortOptions.find(
+                            (item) =>
+                              item.label === label
+                          );
 
                         if (selected) {
                           setSort(selected.value);
@@ -577,8 +606,6 @@ export default function EventsPage() {
                   </FilterGroup>
                 </div>
               )}
-
-              {/* ACTIVE FILTERS */}
 
               {hasActiveFilters && (
                 <div className="mt-5 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
@@ -597,14 +624,18 @@ export default function EventsPage() {
                     {category !== "All" && (
                       <FilterTag
                         label={category}
-                        onRemove={() => selectCategory("All")}
+                        onRemove={() =>
+                          selectCategory("All")
+                        }
                       />
                     )}
 
                     {location !== "All" && (
                       <FilterTag
                         label={location}
-                        onRemove={() => setLocation("All")}
+                        onRemove={() =>
+                          setLocation("All")
+                        }
                       />
                     )}
 
@@ -612,10 +643,13 @@ export default function EventsPage() {
                       <FilterTag
                         label={
                           dateFilters.find(
-                            (item) => item.value === dateFilter
+                            (item) =>
+                              item.value === dateFilter
                           )?.label ?? dateFilter
                         }
-                        onRemove={() => setDateFilter("All")}
+                        onRemove={() =>
+                          setDateFilter("All")
+                        }
                       />
                     )}
 
@@ -623,10 +657,13 @@ export default function EventsPage() {
                       <FilterTag
                         label={
                           priceFilters.find(
-                            (item) => item.value === priceFilter
+                            (item) =>
+                              item.value === priceFilter
                           )?.label ?? priceFilter
                         }
-                        onRemove={() => setPriceFilter("All")}
+                        onRemove={() =>
+                          setPriceFilter("All")
+                        }
                       />
                     )}
 
@@ -634,10 +671,13 @@ export default function EventsPage() {
                       <FilterTag
                         label={
                           sortOptions.find(
-                            (item) => item.value === sort
+                            (item) =>
+                              item.value === sort
                           )?.label ?? sort
                         }
-                        onRemove={() => setSort("soonest")}
+                        onRemove={() =>
+                          setSort("soonest")
+                        }
                       />
                     )}
                   </div>
@@ -685,7 +725,9 @@ export default function EventsPage() {
               <div className="flex items-center gap-3">
                 <span className="text-sm text-foreground-muted">
                   {events.length}{" "}
-                  {events.length === 1 ? "event" : "events"}
+                  {events.length === 1
+                    ? "event"
+                    : "events"}
                 </span>
 
                 {hasActiveFilters && (
@@ -697,45 +739,47 @@ export default function EventsPage() {
             )}
           </div>
 
-          {/* LOADING */}
-
           {loading ? (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <div
-                  key={item}
-                  className="overflow-hidden rounded-2xl border border-border bg-card"
-                >
-                  <div className="aspect-[16/10] animate-pulse bg-background-secondary" />
+              {[1, 2, 3, 4, 5, 6].map(
+                (item) => (
+                  <div
+                    key={item}
+                    className="overflow-hidden rounded-2xl border border-border bg-card"
+                  >
+                    <div className="aspect-[16/10] animate-pulse bg-background-secondary" />
 
-                  <div className="space-y-4 p-5 sm:p-6">
-                    <div className="h-3 w-20 animate-pulse rounded bg-border" />
+                    <div className="space-y-4 p-5 sm:p-6">
+                      <div className="h-3 w-20 animate-pulse rounded bg-border" />
 
-                    <div className="h-5 w-4/5 animate-pulse rounded bg-border" />
+                      <div className="h-5 w-4/5 animate-pulse rounded bg-border" />
 
-                    <div className="h-3 w-full animate-pulse rounded bg-border" />
+                      <div className="h-3 w-full animate-pulse rounded bg-border" />
 
-                    <div className="h-3 w-2/3 animate-pulse rounded bg-border" />
+                      <div className="h-3 w-2/3 animate-pulse rounded bg-border" />
 
-                    <div className="border-t border-border pt-4">
-                      <div className="h-3 w-1/2 animate-pulse rounded bg-border" />
+                      <div className="border-t border-border pt-4">
+                        <div className="h-3 w-1/2 animate-pulse rounded bg-border" />
 
-                      <div className="mt-3 h-3 w-2/5 animate-pulse rounded bg-border" />
-                    </div>
+                        <div className="mt-3 h-3 w-2/5 animate-pulse rounded bg-border" />
+                      </div>
 
-                    <div className="flex items-center justify-between pt-2">
-                      <div className="h-5 w-20 animate-pulse rounded bg-border" />
+                      <div className="flex items-center justify-between pt-2">
+                        <div className="h-5 w-20 animate-pulse rounded bg-border" />
 
-                      <div className="h-4 w-24 animate-pulse rounded bg-border" />
+                        <div className="h-4 w-24 animate-pulse rounded bg-border" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           ) : fetchError ? (
             <div className="rounded-2xl border border-danger/30 bg-card px-5 py-16 text-center sm:px-8 sm:py-20">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-danger/20 bg-danger/10 text-danger">
-                <span className="text-xl font-bold">!</span>
+                <span className="text-xl font-bold">
+                  !
+                </span>
               </div>
 
               <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-danger">
@@ -773,9 +817,10 @@ export default function EventsPage() {
               </h3>
 
               <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-foreground-secondary">
-                We couldn't find any events matching your current
-                search and filters. Try changing your criteria or
-                clearing the filters.
+                We couldn't find any events matching
+                your current search and filters. Try
+                changing your criteria or clearing the
+                filters.
               </p>
 
               {hasActiveFilters && (
@@ -791,7 +836,10 @@ export default function EventsPage() {
           ) : (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
               {events.map((event) => (
-                <EventCard key={event._id} event={event} />
+                <EventCard
+                  key={event._id}
+                  event={event}
+                />
               ))}
             </div>
           )}
@@ -804,7 +852,8 @@ export default function EventsPage() {
 }
 
 function EventCard({ event }: { event: Event }) {
-  const [imageError, setImageError] = useState(false);
+  const [imageError, setImageError] =
+    useState(false);
 
   const dateParts = (() => {
     const date = new Date(event.date);
@@ -1064,7 +1113,9 @@ function FilterSelectGroup({
       <div className="relative">
         <select
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) =>
+            onChange(e.target.value)
+          }
           className="h-11 w-full appearance-none rounded-xl border border-border bg-card px-4 pr-10 text-sm font-semibold text-foreground outline-none transition-all hover:border-border-hover focus:border-accent focus:ring-2 focus:ring-accent/10"
         >
           {options.map((option) => (
@@ -1095,7 +1146,9 @@ function FilterTag({
       onClick={onRemove}
       className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent transition-colors hover:border-accent/40 hover:bg-accent/15"
     >
-      <span className="max-w-[180px] truncate">{label}</span>
+      <span className="max-w-[180px] truncate">
+        {label}
+      </span>
 
       <span
         aria-hidden="true"

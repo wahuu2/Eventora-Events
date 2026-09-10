@@ -190,7 +190,7 @@ export default function OrganizerBookingsPage() {
                     className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-border-hover px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/40 hover:bg-background-secondary sm:w-auto"
                   >
                     <ArrowRightIcon className="h-4 w-4 rotate-180" />
-                    Dashboard
+                    Organizer Dashboard
                   </Link>
 
                   <Link
