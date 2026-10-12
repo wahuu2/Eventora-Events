@@ -1749,3 +1749,32 @@ select:focus-visible {
 .dark .eventora-date-badge .month {
   color: #b87916 !important;
 }
+
+/* Eventora homepage: vertical scroll snapping */
+html.eventora-snap-active {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+/* Apply snapping only to sections marked on the homepage */
+.eventora-home [data-snap-section] {
+  min-height: 100vh;
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Keep smaller screens usable */
+@media (max-width: 768px) {
+  .eventora-home [data-snap-section] {
+    min-height: 100svh;
+  }
+}
+
+/* Respect visitors who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html.eventora-snap-active {
+    scroll-behavior: auto;
+    scroll-snap-type: y proximity;
+  }
+}
