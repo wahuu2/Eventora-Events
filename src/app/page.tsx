@@ -114,7 +114,7 @@ export default async function HomePage() {
 
   return (
     <HomeScrollSnap>
-    <main className="min-h-screen overflow-x-hidden bg-background text-foreground transition-colors duration-200">
+    <main className="min-h-screen overflow-x-clip bg-background text-foreground transition-colors duration-200">
       {/* FIXED NAVBAR */}
       <div className="fixed inset-x-0 top-0 z-[100]">
         <Navbar />
@@ -124,7 +124,7 @@ export default async function HomePage() {
       <div className="h-[68px] sm:h-[80px]" />
 
       {/* HERO */}
-<section className="relative isolate overflow-hidden bg-background">
+<section id="hero" data-snap-section className="relative isolate overflow-hidden bg-background">
   <div className="relative min-h-[560px] overflow-hidden sm:min-h-[680px] lg:min-h-[760px]">
 
     {/* HERO IMAGE */}
@@ -252,7 +252,7 @@ export default async function HomePage() {
 </section>
 
       {/* MAIN CONTENT */}
-      <section className="relative overflow-hidden bg-background">
+      <section className="relative bg-background">
         <div className="absolute inset-0 bg-gradient-to-b from-background-secondary via-background-tertiary to-background" />
 
         <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" />
@@ -263,7 +263,7 @@ export default async function HomePage() {
 
         <div className="relative">
           {/* CATEGORIES */}
-          <section className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 sm:pt-20 lg:px-8 lg:pt-28">
+          <section data-snap-section className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 sm:pt-20 lg:px-8 lg:pt-28">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-5">
               <div className="max-w-2xl">
                 <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-accent sm:text-xs">
@@ -315,7 +315,7 @@ export default async function HomePage() {
           </section>
 
           {/* FEATURED EVENTS */}
-          <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
+          <section data-snap-section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-5">
               <div className="max-w-2xl">
                 <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-accent sm:text-xs">
@@ -346,7 +346,7 @@ export default async function HomePage() {
           </section>
 
           {/* WHY EVENTORA */}
-          <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
+          <section data-snap-section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
             <div className="border-t border-border pt-12 sm:pt-20 lg:pt-28">
               <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end lg:gap-14">
                 <div>
@@ -391,7 +391,7 @@ export default async function HomePage() {
           </section>
 
           {/* ORGANIZER */}
-          <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
+          <section data-snap-section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
             <div className="overflow-hidden rounded-2xl border border-border bg-gradient-to-r from-background-secondary via-background-tertiary to-background-secondary shadow-2xl backdrop-blur-xl sm:rounded-3xl">
               <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
                 <div className="p-5 sm:p-10 lg:p-12">
@@ -468,7 +468,7 @@ export default async function HomePage() {
           </section>
 
           {/* FINAL CTA */}
-          <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
+          <section data-snap-section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-20 lg:px-8 lg:pb-28">
             <div className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-r from-background-secondary via-background-tertiary to-background-secondary p-5 text-foreground shadow-2xl sm:rounded-3xl sm:p-10 lg:p-12">
               <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
 

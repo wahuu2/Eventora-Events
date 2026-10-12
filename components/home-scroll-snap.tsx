@@ -11,12 +11,10 @@ export default function HomeScrollSnap({
   children,
 }: HomeScrollSnapProps) {
   useEffect(() => {
-    const root = document.documentElement;
-
-    root.classList.add("eventora-snap-active");
+    document.documentElement.classList.add("eventora-snap-active");
 
     return () => {
-      root.classList.remove("eventora-snap-active");
+      document.documentElement.classList.remove("eventora-snap-active");
     };
   }, []);
 

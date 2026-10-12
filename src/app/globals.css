@@ -282,7 +282,7 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow-x: clip;
 
   background: var(--background);
 
@@ -303,7 +303,7 @@ body {
   min-height: 100vh;
   margin: 0;
 
-  overflow-x: hidden;
+  overflow-x: clip;
 
   background:
     radial-gradient(
@@ -1750,31 +1750,22 @@ select:focus-visible {
   color: #b87916 !important;
 }
 
-/* Eventora homepage: vertical scroll snapping */
+
+
+/* EVENTORA HOMEPAGE — DOCUMENT SCROLL SNAP */
+
 html.eventora-snap-active {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   scroll-behavior: smooth;
 }
 
-/* Apply snapping only to sections marked on the homepage */
 .eventora-home [data-snap-section] {
-  min-height: 100vh;
-  min-height: 100svh;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
 }
 
-/* Keep smaller screens usable */
-@media (max-width: 768px) {
-  .eventora-home [data-snap-section] {
-    min-height: 100svh;
-  }
-}
-
-/* Respect visitors who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html.eventora-snap-active {
     scroll-behavior: auto;
-    scroll-snap-type: y proximity;
   }
 }

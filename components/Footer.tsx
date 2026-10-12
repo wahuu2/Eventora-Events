@@ -15,7 +15,7 @@ const categories = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border bg-background text-foreground transition-colors duration-200">
+    <footer data-snap-section className="border-t border-border bg-background text-foreground transition-colors duration-200">
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8">
         {/* =========================================================
             MAIN FOOTER
