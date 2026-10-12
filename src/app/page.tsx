@@ -5,7 +5,7 @@ import FeaturedEvents from "@/components/FeaturedEvents";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getCurrentUser } from "@/lib/auth";
-
+import HomeScrollSnap from "@/components/home-scroll-snap";
 const categories = [
   {
     number: "01",
@@ -113,6 +113,7 @@ export default async function HomePage() {
   }
 
   return (
+    <HomeScrollSnap>
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground transition-colors duration-200">
       {/* FIXED NAVBAR */}
       <div className="fixed inset-x-0 top-0 z-[100]">
@@ -517,5 +518,6 @@ export default async function HomePage() {
 
       <Footer />
     </main>
+    </HomeScrollSnap>
   );
 }
